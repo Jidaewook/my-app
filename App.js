@@ -4,7 +4,10 @@ import * as Font from "expo-font";
 import {Text, Image, View} from 'react-native';
 import {Asset} from 'expo-asset';
 import {Ionicons} from '@expo/vector-icons';
+import {Provider} from "react-redux";
+import {PersistGate} from "redux-persist/integration/react";
 import Gate from './components/Gate';
+import store, {persistor} from './redux/store';
 
 export default function App() {
 
@@ -34,7 +37,11 @@ export default function App() {
   const onFinish = () => setIsReady(true);
 
   return isReady ? (
-        <Gate />
+        <Provider store={store}>
+            <PersistGate persistor={persistor}>
+                <Gate />
+            </PersistGate>
+        </Provider>
     ) : (
         <AppLoading 
           startAsync={loadAsset}
