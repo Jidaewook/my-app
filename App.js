@@ -4,7 +4,8 @@ import * as Font from "expo-font";
 import {Text, Image, View} from 'react-native';
 import {Asset} from 'expo-asset';
 import {Ionicons} from '@expo/vector-icons';
- 
+import Gate from './components/Gate';
+
 export default function App() {
 
   const cacheImage = images => 
@@ -33,16 +34,13 @@ export default function App() {
   const onFinish = () => setIsReady(true);
 
   return isReady ? (
-    <View>
-      <Text>Ready!</Text>
-    </View>
-
+        <Gate />
     ) : (
-    <AppLoading 
-      startAsync={loadAsset}
-      onFinish={onFinish}
-      onError={console.error}
-    />
+        <AppLoading 
+          startAsync={loadAsset}
+          onFinish={onFinish}
+          onError={console.error}
+        />
   );
 };
 
