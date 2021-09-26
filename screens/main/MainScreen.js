@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
-import {View, Text, Button, Alert, StyleSheet, TextInput, Modal, Dimensions} from 'react-native';
+import {View, Text, Button, Alert, StyleSheet, TouchableOpacity, ScrollView, TextInput, Modal, Dimensions} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import {colors} from '../../consts'
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {colors, sizes, fonts} from '../../consts'
 
 const {width, height} = Dimensions.get("screen")
 
@@ -56,7 +55,7 @@ const MainScreen = () => {
                     >
                         <View style={styles.centerModal}>
                             <View style={styles.modalView}>
-                                <Text>
+                                <Text style={{color: "black"}}>
                                     서치 모달
                                 </Text>
                                 <TouchableOpacity
@@ -72,7 +71,7 @@ const MainScreen = () => {
                     </Modal>
                     <TouchableOpacity 
                         style={styles.inputContainer}
-                        onPress={() => navigation.navigate("Notification")}
+                        onPress={() => setSearchModal(true)}
                     >
                         <MaterialIcons name="search" size={28} />
                         <TextInput 
@@ -82,6 +81,31 @@ const MainScreen = () => {
                     </TouchableOpacity>
                 </View>
             </View>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={styles.group}>
+                    <View style={{display: 'flex'}}>
+                        <View>
+                            <Text>
+                                NCS 슬라이드 영역
+                            </Text>
+                        </View>
+                    </View>
+                    <View>
+                        <View>
+                            <Text>
+                                PSAT 슬라이드 영역
+                            </Text>
+                        </View>
+                    </View>
+                    <View>
+                        <View>
+                            <Text>
+                                인적성검사 슬라이드 영역
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+            </ScrollView>
         </View>
     );
 };
@@ -152,10 +176,10 @@ const styles = StyleSheet.create({
     //   overflow: 'hidden',
     //   padding: 10,
     // },
-    // group: {
-    //   paddingTop: themes.sizes.base,
-    //   paddingHorizontal: 20
-    // },
+    group: {
+      paddingTop: sizes.base,
+      paddingHorizontal: 20,
+    },
     centerModal: {
       flex: 1,
       justifyContent: 'center',
