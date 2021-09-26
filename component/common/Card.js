@@ -3,7 +3,7 @@ import { withNavigation } from '@react-navigation/compat';
 import PropTypes from 'prop-types';
 import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Block, Text } from 'galio-framework';
-import {COLORS, theme} from '../../consts';
+import {colors, sizes, fonts} from '../../consts';
 
 class Card extends React.Component {
     render() {
@@ -46,8 +46,8 @@ Card.propTypes = {
   
 const styles = StyleSheet.create({
     card: {
-    backgroundColor: COLORS.white,
-    marginVertical: theme.sizes.base,
+    backgroundColor: colors.white,
+    marginVertical: sizes.base,
     borderWidth: 0,
     minHeight: 114,
     marginBottom: 16,
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     paddingBottom: 6
     },
     cardDescription: {
-        padding: theme.sizes.base
+        padding: sizes.base
     },
     imageContainer: {
         borderRadius: 3,

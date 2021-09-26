@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import { MainScreen, Notification } from '../screens';
+import { MainScreen, Notification, Detail } from '../screens';
 
 const HStack = createStackNavigator();
 
@@ -21,6 +21,10 @@ export default () => {
                 options={{
                     headerShown: true
                 }}
+            />
+            <HStack.Screen 
+                name="Detail" 
+                component={Detail} 
             />
         </HStack.Navigator>
     )
