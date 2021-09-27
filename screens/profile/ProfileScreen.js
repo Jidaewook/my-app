@@ -190,14 +190,15 @@ const ProfileScreen = () => {
                                 </ScrollView>
                             </View>
                         </View>
+                            <Button 
+                                onPress={() => logOutHandler()}
+                                title={"로그아웃"}
+                            />
                     </ScrollView>
 
                 </ImageBackground>
             </View>
-            <Button 
-                onPress={() => logOutHandler()}
-                title={"로그아웃"}
-            />
+            
         </View>
     );
 };

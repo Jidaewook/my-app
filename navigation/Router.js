@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import {useSelector, useDispatch} from 'react-redux';
 
 import Tabs from './Tabs';
-import Auth from '../screens/auth/Auth';
+import AuthStack from './AuthStack';
 
 export default () => {
     const dispatch = useDispatch();
@@ -11,7 +11,7 @@ export default () => {
 
     return (
         <NavigationContainer>
-            {isLoggedIn ? <Tabs /> : <Auth />}
+            {isLoggedIn ? <Tabs /> : <AuthStack />}
         </NavigationContainer>
     );
 };

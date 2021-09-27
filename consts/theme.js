@@ -19,7 +19,8 @@ const sizes = {
   
   const fonts = {
     h1: {
-      fontSize: sizes.h1
+      fontSize: sizes.h1,
+      fontWeight: 'bold'
     },
     h2: {
       fontSize: sizes.h2

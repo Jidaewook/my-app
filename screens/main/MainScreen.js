@@ -118,6 +118,7 @@ const MainScreen = () => {
                         <Section title={"주목! NCS"}>
                             {ncs.map(i => (
                                 <Card 
+                                    key={i._id}
                                     item={i}
                                     full
                                     style={{marginRight: sizes.base, width: 250}}

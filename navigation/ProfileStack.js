@@ -12,28 +12,28 @@ export default () => {
                 name="Profile" 
                 component={ProfileScreen} 
                 options={{
-                    headerShown: true
+                    headerShown: false
                 }}
             />
             <PStack.Screen 
                 name="ProfileEdit" 
                 component={ProfileEdit} 
                 options={{
-                    headerShown: true
+                    headerShown: false
                 }}
             />
             <PStack.Screen 
                 name="Setting" 
                 component={Setting} 
                 options={{
-                    headerShown: true
+                    headerShown: false
                 }}
             />
             <PStack.Screen 
                 name="Detail" 
                 component={Detail} 
                 options={{
-                    headerShown: true
+                    headerShown: false
                 }}
             />
 
