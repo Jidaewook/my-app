@@ -17,7 +17,7 @@ const Section = ({title, horizontal=true, children, show=true}) => {
                 {/* 상황값 필요 */}
                 {title==="주목! NCS" ? 
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("Detail")}
+                        onPress={() => navigation.navigate("Notification")}
                     >
                         <Text size={12} color={colors.gray3} style={styles.more}>
                             {show === true ? ("더보기") : (null)}

@@ -4,6 +4,9 @@ import Notification from "./main/Notification";
 import PostScreen from "./post/PostScreen";
 import WorkbookScreen from "./workbook/WorkbookScreen";
 import ProfileScreen from "./profile/ProfileScreen";
-import Detail from './Detail';
+import ProfileEdit from "./profile/ProfileEdit";
 
-export {MainScreen, Notification, PostScreen, WorkbookScreen, ProfileScreen, Detail}
+import Detail from './Detail';
+import Setting from "./Setting";
+
+export {MainScreen, Notification, PostScreen, WorkbookScreen, ProfileScreen, ProfileEdit, Detail, Setting}

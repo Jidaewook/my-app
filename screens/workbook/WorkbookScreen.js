@@ -15,17 +15,17 @@ const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
 const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 const BACKDROP_HEIGHT = height * 0.65;
 
-const Lodaing = () => {
+const Loading = () => (
     <View
         style={styles.loadingContainer}
     >
         <Text style={styles.paragraph}>Loading...</Text>
     </View>
-}
+)
 
 const Backdrop = ({workbooks, scrollX}) => {
     return (
-        <View>
+        <View style={{height: BACKDROP_HEIGHT, width, position: 'absolute' }} >
             <FlatList 
                 data={workbooks.reverse()}
                 keyExtractor={(item) => item.key + '-backdrop'}
@@ -94,21 +94,21 @@ export default function App() {
         }
     }, [workbooks])
 
-    if (workbooks.length === 0) {
-        return <Loaging />
-    }
+    // if (workbooks.length === 0) {
+    //     return <Loading />
+    // }
 
     return (
-        <View>
-            <Backdrop />
-            <StatusBar />
+        <View style={styles.container}>
+            <Backdrop workbooks={workbooks} scrollX={scrollX} />
+            <StatusBar hidden />
             <Animated.FlatList 
                 showsHorizontalScrollIndicator={false}
                 data={workbooks}
                 keyExtractor={(item) => item.key}
                 horizontal
                 bounces={false}
-                decelerationRate={Platform.OS === ios ? 0 : 0.98}
+                decelerationRate={Platform.OS === 'ios' ? 0 : 0.98}
                 renderToHardwareTextureAndroid
                 contentContainerStyle={{alignItems: 'center'}}
                 snapToInterval={ITEM_SIZE}
@@ -156,13 +156,13 @@ export default function App() {
                                 </Text>
                                 {/* <Genres /> */}
                                 <Text style={{fontSize: 12}} numberOfLines={3}>
-                                    {item.desc}
+                                    {item.description}
                                 </Text>
                                 <TouchableOpacity onPress={() => goToDetail(item.key)}>
                                     <View style={styles.button}>
-                                        <View style={styles.buttonText}>
+                                        <Text style={styles.buttonText}>
                                             자세히 보기
-                                        </View>
+                                        </Text>
                                     </View>
                                 </TouchableOpacity>
                             </Animated.View>
@@ -181,6 +181,7 @@ const styles = StyleSheet.create({
     },
     container: {
       flex: 1,
+    //   backgroundColor: 'b'
     },
     paragraph: {
       margin: 24,
