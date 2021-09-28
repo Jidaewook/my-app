@@ -10,11 +10,20 @@ const sizes = {
     h2: 20,
     h3: 18,
     h4: 16,
-    h5: 12,
+    h5: 14,
+    h6: 12,
     title: 18,
     header: 16,
     body: 14,
-    caption: 12
+    caption: 12,
+
+    // blank Height
+    headerTop: 40,
+    sideLine: 20,
+    Input: 60,
+    d1: 15,
+
+
   };
   
   const fonts = {
@@ -34,11 +43,16 @@ const sizes = {
     h5: {
         fontSize: sizes.h5
     },
+    h6: {
+      fontSize: sizes.h6,
+
+    },
     header: {
       fontSize: sizes.header
     },
     title: {
-      fontSize: sizes.title
+      fontSize: sizes.title,
+      fontWeight: 'bold'
     },
     body: {
       fontSize: sizes.body

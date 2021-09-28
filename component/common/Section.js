@@ -10,8 +10,8 @@ const Section = ({title, horizontal=true, children, show=true}) => {
     
     return (
         <View style={styles.container}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text size={18} bold color={colors.black} style={styles.title}>
+            <View style={styles.viewBox}>
+                <Text style={styles.title}>
                     {title}
                 </Text>
                 {/* 상황값 필요 */}
@@ -19,14 +19,14 @@ const Section = ({title, horizontal=true, children, show=true}) => {
                     <TouchableOpacity
                         onPress={() => navigation.navigate("Notification")}
                     >
-                        <Text size={12} color={colors.gray3} style={styles.more}>
+                        <Text style={styles.more}>
                             {show === true ? ("더보기") : (null)}
                         </Text>
                     </TouchableOpacity> 
                 :   <TouchableOpacity
                         onPress={() => navigation.navigate("Notification")}
                     >
-                        <Text size={12} color={colors.gray3} style={styles.more}>
+                        <Text style={styles.more}>
                             {show === true ? ("더보기") : (null)}
                         </Text>
                     </TouchableOpacity>
@@ -57,18 +57,24 @@ export default Section;
 
 const styles = StyleSheet.create({
     container: {
-        marginVertical: 5,
 
     },
+    viewBox: {
+        flexDirection: 'row', 
+        alignItems: 'center'
+    },
     title: {
-        paddingLeft: 10,
-        marginBottom: 0,
-        width: '80%',
-        color: colors.black
+        paddingLeft: sizes.sideLine,
+        width: '90%',
+        color: colors.black,
+        ...fonts.title,
+        marginLeft: -20
     },
     more: {
-        paddingLeft: 15,
-        marginBottom: 0,
-        justifyContent: 'space-between'
+        paddingLeft: sizes.sideLine,
+        justifyContent: 'space-between',
+        ...fonts.h6,
+        color: colors.gray2
+
     }
 })

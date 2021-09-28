@@ -45,7 +45,7 @@ const MainScreen = () => {
     }, [])
 
     return (
-        <View style={{flex: 1, backgroundColor: colors.white }}>
+        <View style={styles.container}>
             <StatusBar 
                 backgroundColor='black'
                 barStyle={'light-content'}
@@ -65,13 +65,9 @@ const MainScreen = () => {
                 </TouchableOpacity>
             </View>
             <View
-                style={{
-                    backgroundColor: colors.main4,
-                    height: 120,
-                    paddingHorizontal: 20
-                }}
+                style={styles.headerView}
             >
-                <View style={{flex: 1}}>
+                <View style={styles.headerView}>
                     <Text style={styles.headerTitle}>PASSME</Text>
                     <Text style={styles.headerTitle}>Explorer Wisdom</Text>
                     <Modal
@@ -85,14 +81,14 @@ const MainScreen = () => {
                     >
                         <View style={styles.centerModal}>
                             <View style={styles.modalView}>
-                                <Text style={{color: "black"}}>
+                                <Text style={styles.ModalTitle}>
                                     서치 모달
                                 </Text>
                                 <TouchableOpacity
-                                    style={[styles.sectionTitle]}
+                                    style={[styles.ModalBtn]}
                                     onPress={() => setSearchModal(!searchModal)}
                                 >
-                                    <Text>
+                                    <Text style={styles.ModalBtnText}>
                                         모달 닫기
                                     </Text>
                                 </TouchableOpacity>
@@ -121,7 +117,7 @@ const MainScreen = () => {
                                     key={i._id}
                                     item={i}
                                     full
-                                    style={{marginRight: sizes.base, width: 250}}
+                                    style={styles.cardView}
                                     goTo={() => navigation.navigate("Detail", {id: i._id, isNcs: true})}
                                 />    
                             ))}
@@ -133,7 +129,7 @@ const MainScreen = () => {
                                 <Card 
                                     item={i}
                                     full
-                                    style={{marginRight: sizes.base, width: 250}}
+                                    style={styles.cardView}
                                     goTo={() => navigation.navigate("Detail", {id: i._id, isNcs: false})}
                                 />    
                             ))}
@@ -148,87 +144,69 @@ const MainScreen = () => {
 export default MainScreen;
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1, 
+        backgroundColor: colors.white
+    },
     header: {
-      paddingVertical: 20,
-      paddingTop: 50,
-      paddingHorizontal: 20,
+      paddingVertical: sizes.d1,
+      paddingTop: sizes.headerTop,
+      paddingHorizontal: sizes.sideLine,
       flexDirection: 'row',
       justifyContent: 'space-between',
       backgroundColor: colors.main4,
     },
+    headerView: {
+        backgroundColor: colors.main4,
+        height: height/7,
+        paddingHorizontal: sizes.sideLine
+    },
     headerTitle: {
       color: 'white',
       fontWeight: 'bold',
-      fontSize: 23,
+      fontSize: sizes.h1,
     },
     inputContainer: {
-      height: 60,
+      height: sizes.Input,
       width: '100%',
       backgroundColor: 'white',
       borderRadius: 10,
       position: 'absolute',
       top: 90,
       flexDirection: 'row',
-      paddingHorizontal: 20,
+      paddingHorizontal: sizes.sideLine,
       alignItems: 'center',
       elevation: 12,
       shadowOpacity: 0.3,
       shadowRadius: 15,
     },
-    // categoryContainer: {
-    //   marginTop: 60,
-    //   marginHorizontal: 20,
-    //   flexDirection: 'row',
-    //   justifyContent: 'space-between',
-    // },
-    // iconContainer: {
-    //   height: 60,
-    //   width: 60,
-    //   // backgroundColor: COLORS.secondary,
-    //   justifyContent: 'center',
-    //   alignItems: 'center',
-    //   borderRadius: 10,
-    // },
-    sectionTitle: {
-      marginHorizontal: 20,
-      marginVertical: 20,
-      fontWeight: 'bold',
-      fontSize: 20,
+    ModalTitle: {
+        ...fonts.h1
     },
-    // cardImage: {
-    //   height: 220,
-    //   width: width / 2,
-    //   marginRight: 20,
-    //   padding: 10,
-    //   overflow: 'hidden',
-    //   borderRadius: 10,
-    // },
-    // rmCardImage: {
-    //   width: width - 40,
-    //   height: 200,
-    //   marginRight: 20,
-    //   borderRadius: 10,
-    //   overflow: 'hidden',
-    //   padding: 10,
-    // },
+    ModalBtn: {
+      marginHorizontal: sizes.sideLine,
+      marginVertical: sizes.sideLine,
+    },
+    ModalBtnText: {
+        ...fonts.h2
+    },
     group: {
       paddingTop: sizes.base,
-      paddingHorizontal: 20,
-      marginTop: 50
+      paddingHorizontal: sizes.sideLine,
+      marginTop: sizes.headerTop
     },
     centerModal: {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: 20
+      marginTop: sizes.headerTop
     },
     modalView: {
       width: width/6 * 5,
       height: height/5 * 4,
-      margin: 20,
       backgroundColor: colors.white,
       borderRadius: 20,
-      padding: 35,
+      padding: sizes.headerTop,
       alignItems: 'center',
       shadowColor: colors.black,
       shadowOffset: {
@@ -238,5 +216,9 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.25,
       shadowRadius: 4,
       elevation: 5
+    },
+    cardView: {
+        marginRight: sizes.sideLine,
+        width: width/1.5
     }
 })
