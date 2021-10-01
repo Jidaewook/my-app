@@ -1,5 +1,6 @@
 const sizes = {
     // global sizes
+    zero: 0,
     base: 16,
     font: 14,
     radius: 6,
@@ -12,15 +13,21 @@ const sizes = {
     h4: 16,
     h5: 14,
     h6: 12,
-    title: 18,
+    title: 22,
+    subTitle: 18,
     header: 16,
     body: 14,
     caption: 12,
+    bottom: 10,
+    profilePic: 80,
+    profileCir: 130,
 
     // blank Height
     headerTop: 40,
     sideLine: 20,
     Input: 60,
+    buttonWidth: 100,
+    buttonHeight: 30,
     d1: 15,
 
 
@@ -59,7 +66,11 @@ const sizes = {
     },
     caption: {
       fontSize: sizes.caption
-    }
+    },
+    subTitle: {
+      fontSize: sizes.subTitle, 
+    },
+    
   };
 
   const colors = {

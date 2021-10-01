@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 
-import { colors } from '../../consts';
+import { colors, fonts, sizes } from '../../consts';
 import { getWorkbook } from '../../api/workbookApi';
 import { StatusBar } from 'expo-status-bar';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -110,7 +110,7 @@ export default function App() {
                 bounces={false}
                 decelerationRate={Platform.OS === 'ios' ? 0 : 0.98}
                 renderToHardwareTextureAndroid
-                contentContainerStyle={{alignItems: 'center'}}
+                contentContainerStyle={styles.containerList}
                 snapToInterval={ITEM_SIZE}
                 snapToAlignment='start'
                 onScroll={Animated.event(
@@ -120,7 +120,7 @@ export default function App() {
                 scrollEventThrottle={16}
                 renderItem={({item, index}) => {
                     if (!item.poster) {
-                        return <View style={{width: EMPTY_ITEM_SIZE}} />
+                        return <View style={styles.unItemView} />
                     }
 
                     const inputRange = [
@@ -131,12 +131,12 @@ export default function App() {
 
                     const translateY = scrollX.interpolate({
                         inputRange,
-                        outputRange: [100, 50, 100],
+                        outputRange: [120, 50, 120],
                         extrapolate: 'clamp'
                     });
 
                     return (
-                        <View style={{width: ITEM_SIZE}}>
+                        <View style={styles.itemView}>
                             <Animated.View 
                                 style={{
                                     marginHorizontal: SPACING,
@@ -151,11 +151,11 @@ export default function App() {
                                     source={{uri: item.poster}}
                                     style={styles.posterImage}
                                 />
-                                <Text style={{fontSize: 24}} numberOfLines={1}>
+                                <Text style={styles.title} numberOfLines={1}>
                                     {item.title}
                                 </Text>
                                 {/* <Genres /> */}
-                                <Text style={{fontSize: 12}} numberOfLines={3}>
+                                <Text style={styles.body} numberOfLines={3}>
                                     {item.description}
                                 </Text>
                                 <TouchableOpacity onPress={() => goToDetail(item.key)}>
@@ -175,48 +175,61 @@ export default function App() {
 
 const styles = StyleSheet.create({
     loadingContainer: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     container: {
       flex: 1,
-    //   backgroundColor: 'b'
+    },
+    containerList: {
+        alignItems: 'center'
+    },  
+    unItemView: {
+        width: EMPTY_ITEM_SIZE
+    },
+    itemView: {
+        width: ITEM_SIZE
     },
     paragraph: {
-      margin: 24,
-      fontSize: 18,
-      fontWeight: 'bold',
-      textAlign: 'center',
+        margin: sizes.sideLine,
+        ...fonts.h4,
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
     posterImage: {
-      width: '100%',
-      height: ITEM_SIZE * 1,
-      resizeMode: 'cover',
-      borderRadius: 24,
-      margin: 0,
-      marginBottom: 10,
+        width: '100%',
+        height: ITEM_SIZE * 1,
+        resizeMode: 'cover',
+        borderRadius: 24,
+        marginBottom: sizes.bottom,
     },
     badgePill: {
-     fontSize: 10, 
-     letterSpacing: -0.6, 
-     color: colors.gray2, 
-     opacity: .5
- },
-   button: {
-     width: 120,
-     height: 30,
-     marginTop: 15,
-     borderRadius: 24,
-     backgroundColor: colors.main4,
-     justifyContent: 'center'
-   },
-   buttonText: {
-     fontSize: 14,
-     color: colors.white,
-     textAlign: 'center',
-     fontWeight: 'bold'
- 
-   }
+        ...fonts.h5, 
+        letterSpacing: -0.6, 
+        color: colors.gray2, 
+        opacity: .5
+    },
+    button: {
+        width: sizes.buttonWidth,
+        height: sizes.buttonHeight,
+        marginTop: sizes.body,
+        borderRadius: 24,
+        backgroundColor: colors.main4,
+        justifyContent: 'center'
+    },
+    buttonText: {
+        ...fonts.h5,
+        color: colors.white,
+        textAlign: 'center',
+        fontWeight: 'bold'
+    },
+    title: {
+        ...fonts.title
+    },
+    body: {
+        ...fonts.body,
+        marginTop: sizes.bottom
+    }
 });
   

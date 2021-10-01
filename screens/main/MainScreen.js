@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
       height: sizes.Input,
-      width: '100%',
+      width: '113%',
       backgroundColor: 'white',
       borderRadius: 10,
       position: 'absolute',

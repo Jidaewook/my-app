@@ -81,7 +81,7 @@ const ProfileScreen = () => {
                     </View>
                     <ScrollView
                         showsVerticalScrollIndicator={false}
-                        style={{width: '100%', marginTop: '20%'}}
+                        style={styles.profileScroll}
                     >
                         <View style={styles.profileCard}>
                             <View style={styles.avatarContainer}>
@@ -91,72 +91,72 @@ const ProfileScreen = () => {
                                 />
                             </View>
                             <View style={styles.info}>
-                                <View style={{marginTop: 20, paddingBottom: 24, flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <View style={{alignItems: 'center'}}>
+                                <View style={styles.status}>
+                                    <View style={styles.statusView}>
                                         <Text style={styles.activeInfo}>
                                             LH
                                         </Text>
-                                        <Text style={{fontSize: 12, color: colors.gray5}}>
+                                        <Text style={styles.infoDetail}>
                                             희망 기관
                                         </Text>
                                     </View>
-                                    <View style={{alignItems: 'center'}}>
+                                    <View style={styles.statusView}>
                                         <Text style={styles.activeInfo}>
                                             137
                                         </Text>
-                                        <Text style={{fontSize: 12, color: colors.gray5}}>
+                                        <Text style={styles.infoDetail}>
                                             좋아요
                                         </Text>
                                     </View>
-                                    <View style={{alignItems: 'center'}}>
+                                    <View style={styles.statusView}>
                                         <Text style={styles.activeInfo}>
                                             37
                                         </Text>
-                                        <Text style={{fontSize: 12, color: colors.gray5}}>
+                                        <Text style={styles.infoDetail}>
                                             즐겨찾기
                                         </Text>
                                     </View>
                                 </View>
                             </View>
-                            <View style={{display: 'flex'}}>
+                            <View style={styles.nameView}>
                                 <View style={styles.nameInfo}>
-                                    <Text style={{fontSize: 28, color: colors.gray2, fontWeight: '800'}}>  
+                                    <Text style={styles.nameInfoDetail}>  
                                         지대욱, 35
                                     </Text>
-                                    <Text style={{fontSize: 16, color: colors.gray5, marginTop: 15, fontWeight: '800'}}>  
+                                    <Text style={styles.addressDetail}>  
                                         경기도 부천, 대한민국
                                     </Text>
                                 </View>
                             </View>
-                            <View style={{marginTop: 20, marginBottom: 15}}>
+                            <View style={styles.introduceView}>
                                 <View style={styles.divider} />
-                                <View style={{paddingTop: 15, }}>
-                                    <Text style={{fontSize: 14, color: colors.gray3, textAlign: 'flex-start'}}>
+                                <View style={styles.introduceView}>
+                                    <Text style={styles.introduceDetail}>
                                         2022년 상반기 토지주택공사에 합격하고 싶네요.
                                         자신 있는 과목은 의사소통이고,
                                         자신 없는 과목은 문제해결능력입니다. 
                                         제가 토지주택공사에 입사하고 싶은 이유는, 횡령이 쉽기 때문입니다.
                                     </Text>
                                 </View>
-                                <View style={[styles.divider, {marginTop: 20}]} />
-                                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <Text style={{fontWeight: 'bold', fontSize: 14, color: colors.gray3, marginTop: 15,}}>
+                                <View style={[styles.divider, {marginTop: sizes.header}]} />
+                                <View style={styles.listView}>
+                                    <Text style={styles.listTitle}>
                                         최근에 본 영상
                                     </Text>
                                     <TouchableOpacity>
-                                        <Text style={{color: colors.gray3, fontSize: 12, marginTop: 20, marginRight: 5}}>
+                                        <Text style={styles.listMore}>
                                             전체보기
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
-                                <ScrollView horizontal={true} style={{marginTop: 10}} showsHorizontalScrollIndicator={false}>
+                                <ScrollView horizontal={true} style={styles.listScroll} showsHorizontalScrollIndicator={false}>
                                     {recent.map(item => (
                                         <>
                                             <TouchableOpacity
                                                 onPress={() => navigation.navigate("Detail", {id: item._id, isNcs: true})} 
                                             >
                                                 <Image 
-                                                    style={{width: 100, height: 100, borderRadius: 10, marginRight: 10, marginTop: 10}}
+                                                    style={styles.listImage}
                                                     source={{uri: item.poster}}
                                                 >
                                                 </Image>    
@@ -164,24 +164,24 @@ const ProfileScreen = () => {
                                         </>
                                     ))} 
                                 </ScrollView>
-                                <View style={[styles.divider, {marginTop: 20}]} />
-                                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <Text style={{fontWeight: 'bold', fontSize: 14, color: colors.gray3, marginTop: 15,}}>
+                                <View style={[styles.divider, {marginTop: sizes.header}]} />
+                                <View style={styles.listView}>
+                                    <Text style={styles.listTitle}>
                                         좋아요 한 영상
                                     </Text>
                                     <TouchableOpacity>
-                                        <Text style={{color: colors.gray3, fontSize: 12, marginTop: 20, marginRight: 5}}>
+                                        <Text style={styles.listMore}>
                                             전체보기
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
-                                <ScrollView horizontal={true} style={{marginTop: 10}} showsHorizontalScrollIndicator={false}>
+                                <ScrollView horizontal={true} style={styles.listScroll} showsHorizontalScrollIndicator={false}>
                                     {like.map(item => (
                                         <TouchableOpacity 
                                             onPress={() => navigation.navigate("Detail", {id: item._id, isNcs: true})} 
                                         > 
                                             <Image 
-                                                style={{width: 100, height: 100, borderRadius: 10, marginRight: 10, marginTop: 10}}
+                                                style={styles.listImage}
                                                 source={{uri: item.poster}}
                                                 >
                                             </Image>   
@@ -208,33 +208,32 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
     profile: {
         display: 'flex',
-        marginTop: 0,
-        
     },
     editGear: {
-        paddingTop: 50,
-        marginBottom: -80,
-        marginLeft: 20,
-        marginRight: 15,
+        paddingTop: sizes.headerTop,
+        marginBottom: -sizes.headerTop,
+        marginHorizontal: sizes.sideLine,
         flexDirection: 'row',
         justifyContent: 'space-between'  
+    },
+    profileScroll: {
+        width: '100%', 
+        marginTop: '20%'
     },
     profileContainer: {
         width: '100%',
         height: '100%',
-        padding: 0,
         zIndex: 1
     },
     profileBackground: {
         width: '100%',
         height: '50%',
-
     },
     profileCard: {
         display: 'flex',
-        padding: 15,
-        marginHorizontal: 15,
-        marginTop: 65,
+        padding: sizes.sideLine,
+        marginHorizontal: sizes.sideLine,
+        marginTop: sizes.profilePic,
         borderTopLeftRadius: 6,
         borderTopRightRadius: 6,
         backgroundColor: 'white',
@@ -246,38 +245,93 @@ const styles = StyleSheet.create({
     },
     avatarContainer: {
         position: 'relative',
-        marginTop: -80,
+        marginTop: -sizes.profilePic,
         alignItems: 'center'
 
     },
     avatar: {
-        width: 124,
-        height: 124,
+        width: sizes.profileCir,
+        height: sizes.profileCir,
         borderRadius: 62,
-        borderWidth: 0,
         alignItems: 'center'
 
     },
     info: {
-        paddingHorizontal: 40,
-
+        paddingHorizontal: sizes.headerTop,
+    },
+    infoDetail: {
+        ...fonts.h6, 
+        color: colors.gray5
+    },
+    status: {
+        marginTop: sizes.header, 
+        paddingBottom: sizes.bottom, 
+        flexDirection: 'row', 
+        justifyContent: 'space-between'
+    },
+    statusView: {
+        alignItems: 'center'
+    },  
+    nameView: {
+        flex: 1
     },
     nameInfo: {
         alignItems: 'center',
-        marginTop: 15,
-
+        marginTop: sizes.header,
     },
+    nameInfoDetail: {
+        ...fonts.title,
+        color: colors.gray2, 
+    },
+    addressDetail: {
+        ...fonts.subTitle,
+        color: colors.gray5, 
+        marginTop: sizes.header, 
+        fontWeight: '800'
+    },
+    introduceView: {
+        marginHorizontal: sizes.body,
+        marginVertical: sizes.header
+    },
+    introduceDetail: {
+        ...fonts.h5,
+        color: colors.gray3, 
+    },  
     activeInfo: {
-        fontSize: 18, 
+        ...fonts.h3,
         color: colors.gray3, 
         fontWeight: 'bold', 
-        marginTop: 4, 
-        marginBottom: 10
+        marginVertical: sizes.header, 
     },
     divider: {
         width: '100%',
         borderWidth: 1,
         borderColor: colors.gray6
+    },
+    listView: {
+        flexDirection: 'row', 
+        justifyContent: 'space-between'
+    },
+    listTitle: {
+        fontWeight: 'bold', 
+        ...fonts.h4,
+        color: colors.gray3, 
+        marginTop: sizes.header,
+    },
+    listMore: {
+        color: colors.gray3, 
+        ...fonts.h5, 
+        marginTop: sizes.header, 
+        
+    },
+    listScroll: {
+        marginTop: sizes.header
+    },
+    listImage: {
+        width: sizes.profileCir, 
+        height: sizes.profileCir, 
+        borderRadius: 10, 
+        marginRight: sizes.sideLine, 
+        marginTop: sizes.header
     }
-
 });
