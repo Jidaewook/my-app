@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import { LoginScreen, RegisterScreen, AddInfoScreen, ForgotPwScreen } from '../screens';
+import { LoginScreen, RegisterScreen, AddInfoScreen, ForgotPwScreen, Welcome } from '../screens';
 
 import { HomeStack } from '.';
 
@@ -13,8 +13,12 @@ export default () => {
             screenOptions={{
                 headerShown: false
             }}
-            initialRouteName={"LoginScreen"}
+            initialRouteName={"Welcome"}
         >
+            <PStack.Screen 
+                name="Welcome" 
+                component={Welcome} 
+            />            
             <PStack.Screen 
                 name="LoginScreen" 
                 component={LoginScreen} 

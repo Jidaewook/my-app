@@ -54,7 +54,7 @@ const LoginScreen = () => {
                     }}
                     errorMsg={emailErr}
                     appendComponent={
-                        <View style={{justifyContent: 'center'}}> 
+                        <View style={styles.center}> 
                             <AntDesign 
                                 name={"check"}
                                 color={(email != "") || (email != "" && emailErr == "") ? colors.main4 : colors.gray4}
@@ -67,7 +67,7 @@ const LoginScreen = () => {
                     value={password}
                     secureTextEntry={!showPass}
                     placeholder={"Insert Your PASSWORD"}
-                    containerStyle={{marginTop: 20}}
+                    containerStyle={styles.inputView}
                     autoCompleteType="password"
                     onChange={(value) => {
                         setPassword(value)
@@ -82,7 +82,7 @@ const LoginScreen = () => {
                                 name={showPass ? "eye" : "eye-off"}
                                 size={24}
                                 color={colors.gray2}
-                                style={{marginTop: 15}}
+                                style={{marginTop: sizes.header}}
                             />
                         </TouchableOpacity> 
                     }
@@ -103,7 +103,7 @@ const LoginScreen = () => {
                 /> 
                 {/* Link Another Pages  */}
                 <View
-                    style={{flexDirection: 'row', justifyContent: 'center'}}
+                    style={styles.SmallBtnView}
                 >
                     <TouchableOpacity
                         style={styles.SmallButton1}
@@ -117,7 +117,7 @@ const LoginScreen = () => {
                         |
                     </Text>
                     <TouchableOpacity
-                        style={styles.SmallButton3}
+                        style={styles.SmallButton2}
                         onPress={() => navigation.navigate("ForgotPwScreen")}
                     >
                         <Text style={styles.SmallButtonText}>
@@ -133,8 +133,8 @@ const LoginScreen = () => {
                     icon={facebookIcon}
                     iconPosition={"LEFT"}
                     iconStyle={{tintColor: colors.white}}
-                    labelStyle={{marginLeft: 15, color: colors.white}}
-                    containerStyle={{height: 50, alignItems: 'center', borderRadius: 20, backgroundColor: 'blue'}}
+                    labelStyle={styles.oathView}
+                    containerStyle={styles.faceView}
                     onPress={() => alert("페이스북 로그인")}
                 />
                 <TextIconButton 
@@ -142,8 +142,8 @@ const LoginScreen = () => {
                     icon={require('../../assets/auth/google_icon.png')}
                     iconPosition={"LEFT"}
                     iconStyle={{tintColor: colors.white}}
-                    labelStyle={{marginLeft: 15, color: colors.white}}
-                    containerStyle={{height: 50, alignItems: 'center', borderRadius: 20, marginTop: 10, backgroundColor: colors.gray1}}
+                    labelStyle={styles.oathView}
+                    containerStyle={styles.googleView}
                     onPress={() => alert("구글 로그인")}
                 />
             </View>
@@ -157,45 +157,64 @@ export default LoginScreen;
 const styles = StyleSheet.create({
     formContainer: {
         flex: 1,
-        marginTop: 50,
-
+        marginTop: sizes.headerTop,
     },
+    center: {
+        justifyContent: 'center'
+    },  
     buttonStyle: {
-        height: 55,
+        height: sizes.buttonHeight,
         alignItems: 'center',
-        marginTop: 25,
+        marginTop: sizes.header,
         borderRadius: 20,
-
     },  
     loginLabelStyle: {
-        fontSize: 16,
-
+        ...fonts.h3
+    },
+    inputView: {
+        marginTop: sizes.header
+    },    
+    SmallBtnView: {
+        flexDirection: 'row', 
+        justifyContent: 'center'
     },
     SmallButton1: {
-        height: 30,
-        width: 80,
-        marginTop: 20,
-        marginLeft: -10
+        height: sizes.buttonHeight,
+        width: sizes.buttonWidth,
+        marginTop: sizes.header,
     },
     SmallButton2: {
-        height: 30,
-        width: 100,
-        marginTop: 20,
-    },
-    SmallButton3: {
-        height: 30,
-        width: 100,
-        marginTop: 20
+        height: sizes.buttonHeight,
+        width: sizes.buttonWidth,
+        marginTop: sizes.header,
+        marginLeft: sizes.body
     },
     BarButton: {
-        height: 30,
-        width: 10,
-        marginTop: 20,
-        marginLeft: 15
+        height: sizes.buttonHeight,
+        width: sizes.body,
+        marginTop: sizes.header,
+        marginLeft: sizes.body
     },
     SmallButtonText: {
         fontSize: sizes.h4,
         color: colors.black,
         textAlign: 'center'
     },
+    oathView: {
+        marginLeft: sizes.sideLine, 
+        color: colors.white
+    },
+    faceView: {
+        height: sizes.bigBtnHeight, 
+        alignItems: 'center', 
+        borderRadius: 20, 
+        backgroundColor: 'blue'
+    },
+    googleView: {
+        height: sizes.bigBtnHeight, 
+        alignItems: 'center', 
+        borderRadius: 20, 
+        marginTop: sizes.header, 
+        backgroundColor: colors.gray1
+    }
 })

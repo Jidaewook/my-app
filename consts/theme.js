@@ -28,7 +28,10 @@ const sizes = {
     Input: 60,
     buttonWidth: 100,
     buttonHeight: 30,
+    bigBtnHeight: 60,
     d1: 15,
+    footerHeight: 150,
+    
 
 
   };

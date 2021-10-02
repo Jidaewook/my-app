@@ -62,14 +62,14 @@ return (
                     value={name}
                     placeholder={'Insert Your Name'}
                     autoCompleteType="name"
-                    containerStyle={{marginTop: 20}}
+                    containerStyle={styles.input}
                     onChange={(value) => {
                         setName(value)
                     }}
                     errorMsg={nameErr}
                     appendComponent={
                         <View
-                            style={{justifyContent: 'center'}}
+                            style={styles.checkView}
                         >
                             <AntDesign 
                                 name={"check"}
@@ -83,7 +83,7 @@ return (
                     label={'EMAIL'}
                     value={email}
                     placeholder={'Insert Your Email'}
-                    containerStyle={{marginTop: 15}}
+                    containerStyle={styles.input}
                     autoCompleteType="email"
                     onChange={(value) => {
                         utils.validateEmail(value, setEmailErr)
@@ -92,7 +92,7 @@ return (
                     errorMsg={emailErr}
                     appendComponent={
                         <View
-                            style={{justifyContent: 'center'}}
+                            style={styles.checkView}
                         >
                             <AntDesign 
                                 name={"check"}
@@ -108,7 +108,7 @@ return (
                     secureTextEntry={!showPass}
                     placeholder={'Insert Your Password'}
                     autoCompleteType="password"
-                    containerStyle={{marginTop: 20}}
+                    containerStyle={styles.input}
                     onChange={(value) => {
                         utils.validatePassword(value, setPasswordErr)
                         setPassword(value)
@@ -116,14 +116,14 @@ return (
                     errorMsg={passwordErr}
                     appendComponent={
                         <TouchableOpacity
-                            style={{width: 40, alignItems: 'flex-end', justifyContent: 'center', marginTop: 15}}
+                            style={styles.eyeView}
                             onPress={() => setShowPass(!showPass)}
                         >
                             <Feather 
                                 name={showPass ? "eye" : "eye-off"}
                                 size={24}
                                 color={colors.gray2}
-                                style={{marginTop: -15}}
+                                style={styles.eyeCheck}
                             />
                         </TouchableOpacity>
                     }
@@ -163,13 +163,28 @@ return (
 export default RegisterScreen;
 
 const styles = StyleSheet.create({
+    input: {
+        marginTop: sizes.header
+    },
+    checkView: {
+        justifyContent: 'center'
+    },
+    eyeView: {
+        width: sizes.buttonHeight, 
+        alignItems: 'flex-end', 
+        justifyContent: 'center', 
+        marginTop: sizes.header
+    },
+    eyeCheck: {
+        marginTop: -sizes.header
+    },
     registerLabelStyle: {
         fontSize: sizes.h3,
     },
     SmallButton1: {
-        height: 30,
-        width: 80,
-        marginTop: 20,
+        height: sizes.buttonHeight,
+        width: sizes.buttonWidth,
+        marginTop: sizes.header,
     },
     SmallButtonText: {
         fontSize: sizes.h4,

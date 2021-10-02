@@ -1,4 +1,4 @@
 import { sizes, fonts, colors } from "./theme";
-import { comments } from "./mocks";
+import { comments, onboarding_screens } from "./mocks";
 
-export {sizes, fonts, colors, comments };
+export {sizes, fonts, colors, comments, onboarding_screens };
