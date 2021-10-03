@@ -20,6 +20,7 @@ const sizes = {
     caption: 12,
     bottom: 10,
     profilePic: 80,
+    profileAvatar: 60,
     profileCir: 130,
 
     // blank Height
@@ -73,6 +74,12 @@ const sizes = {
     subTitle: {
       fontSize: sizes.subTitle, 
     },
+    settingSectionAnd: {
+      fontFamily: "Avenir"    
+    }, 
+    settingSectionAnd: {
+      fontFamily: "Roboto"    
+    }, 
     
   };
 

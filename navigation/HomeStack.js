@@ -10,9 +10,10 @@ export default () => {
     return (
         <HStack.Navigator
             screenOptions={{
-                headerBackImage: () => <BackBtn />
-                
-            }}
+                headerBackImage: () => <BackBtn />,
+                headerBackTitleVisible: false
+            }
+        }
         >
             <HStack.Screen 
                 name="Main" 
@@ -25,7 +26,7 @@ export default () => {
                 name="Notification" 
                 component={Notification} 
                 options={{
-                    headerShown: false
+                    headerShown: true
                 }}
             />
             <HStack.Screen 

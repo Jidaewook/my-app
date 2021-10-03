@@ -64,4 +64,44 @@ const comments = [
     }
 ]
 
-export {comments, onboarding_screens};
+const menuItem = [
+    {
+      title: '알람설정',
+      data: [
+        {title: '알람설정', icon: 'notification', screen: 'Alarm'}
+      ],
+    },
+    {
+      title: '개인정보',
+      data: [
+        {title: '개인정보정책', icon: 'user', screen: 'Privacy'},
+        {title: '서비스이용약관', icon: 'copy1', screen: 'Service'}
+      ],
+    },
+    {
+      title: '고객센터',
+      data: [
+        {title: '서비스문의', icon: 'customerservice', screen: ''},
+        {title: 'FAQ', icon: 'questioncircleo', screen: 'Frequency'},
+        {title: '오류신고', icon: 'bells', screen: ''}
+      ],
+    },
+    {
+      title: '서비스정보',
+      data: [
+        {title: '버전정보', icon: 'ellipsis1', screen: 'Version'},
+        {title: '구독문의', icon: 'creditcard', screen: ''}
+      ],
+    },
+    {
+      title: '계정설정',
+      data: [
+        {title: '로그아웃', icon: 'dingding', screen: ''},
+        {title: '탈퇴문의', icon: 'phone', screen: ''},
+        {title: '      ', icon: '', screen: ''}
+      ]
+    }
+  ]
+
+
+export {comments, onboarding_screens, menuItem};

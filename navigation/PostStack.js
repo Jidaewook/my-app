@@ -10,8 +10,8 @@ export default () => {
     return (
         <PStack.Navigator
             screenOptions={{
-                headerBackImage: () => <BackBtn />
-                
+                headerBackImage: () => <BackBtn />,
+                headerBackTitleVisible: false
             }}
         >
             <PStack.Screen 

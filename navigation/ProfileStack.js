@@ -10,8 +10,8 @@ export default () => {
     return (
         <PStack.Navigator
             screenOptions={{
-                headerBackImage: () => <BackBtn />
-                
+                headerBackImage: () => <BackBtn />,
+                headerBackTitleVisible: false                
             }}
         >
             <PStack.Screen 
@@ -25,14 +25,14 @@ export default () => {
                 name="ProfileEdit" 
                 component={ProfileEdit} 
                 options={{
-                    headerShown: false
+                    headerShown: true
                 }}
             />
             <PStack.Screen 
                 name="Setting" 
                 component={Setting} 
                 options={{
-                    headerShown: false
+                    headerShown: true
                 }}
             />
             <PStack.Screen 

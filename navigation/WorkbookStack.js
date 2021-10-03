@@ -10,8 +10,9 @@ export default () => {
     return (
         <WStack.Navigator
             screenOptions={{
-                headerBackImage: () => <BackBtn />
-                
+                headerBackImage: () => <BackBtn />,
+                headerBackTitleVisible: false
+
             }}
         >
             <WStack.Screen 
@@ -25,7 +26,7 @@ export default () => {
                 name="Detail" 
                 component={Detail} 
                 options={{
-                    headerShown: false
+                    headerShown: true
                 }}
             />
 
