@@ -1,36 +1,24 @@
 import React from 'react';
 import {View, Text, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
-import {useNavigation} from '@react-navigation/native';
 
 import {colors, sizes, fonts} from '../../consts';
 
-const Section = ({title, horizontal=true, children, show=true}) => {
-    const navigation = useNavigation();
-    
+const Section = ({title, horizontal=true, children, show=true, onPress, isNcs=true}) => {
+
     return (
         <View style={styles.container}>
             <View style={styles.viewBox}>
                 <Text style={styles.title}>
                     {title}
                 </Text>
-                {/* 상황값 필요 */}
-                {title==="주목! NCS" ? 
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate("Notification")}
-                    >
-                        <Text style={styles.more}>
-                            {show === true ? ("더보기") : (null)}
-                        </Text>
-                    </TouchableOpacity> 
-                :   <TouchableOpacity
-                        onPress={() => navigation.navigate("Notification")}
-                    >
-                        <Text style={styles.more}>
-                            {show === true ? ("더보기") : (null)}
-                        </Text>
-                    </TouchableOpacity>
-                } 
+
+                <TouchableOpacity  onPress={onPress}>
+                    <Text style={styles.more}>
+                        {show === true ? ("더보기") : (null)}
+                    </Text>
+                </TouchableOpacity> 
+ 
             </View>
             
             <ScrollView
@@ -50,7 +38,9 @@ Section.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
-    ])
+    ]),
+    onPress: PropTypes.func.isRequired,
+    isNcs: PropTypes.bool
 };
 
 export default Section;

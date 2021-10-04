@@ -5,6 +5,7 @@ import axios from 'axios';
 import { colors } from '../../consts';
 
 import PostList from '../../component/common/PostList';
+import TopMenu from '../../component/common/TopMenu';
 
 const PostScreen = () => {
 
@@ -12,13 +13,15 @@ const PostScreen = () => {
     const [loading, setLoading] = useState(true);
 
     // 게시판 초기 탭 설정
+    const tabs = ['전체', '자유게시판', '질문게시판', '합격수기'];
     const [active, setActive] = useState('전체');
     const [bbs, setBbs] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
 
     const getBbsData = async() => {
         axios   
-            .get("http://passme-env.eba-fkpnrszj.us-east-2.elasticbeanstalk.com/bbs")
+            // .get("http://passme-env.eba-fkpnrszj.us-east-2.elasticbeanstalk.com/bbs")
+            .get('http://localhost:8081/bbs')
             .then(bbss => {
                 setBbs(bbss.data.results)
                 setLoading(false)
@@ -32,26 +35,8 @@ const PostScreen = () => {
     }, [])
 
     // 게시판 탭 설정
-    const tabs = ['전체', '자유게시판', '질문게시판', '합격수기'];
+
     const [postModal, setPostModal] = useState(false);
-
-    const renderTab = (tab) => {
-        const isActive = active === tab;
-
-        return (
-            <TouchableOpacity
-                key={`tab-${tab}`}
-                onPress={() => handleTab(tab)}
-                style={[styles.tab, isActive ? styles.active : null]}
-            >
-                <Text
-                    style={{fontSize: 15, fontWeight: 'bold', color: isActive ? colors.main4 : colors.black }}
-                >
-                    {tab}
-                </Text>
-            </TouchableOpacity>
-        )
-    }
 
     const handleTab = tab => {
         const filtered = bbs.filter(item => 
@@ -64,7 +49,17 @@ const PostScreen = () => {
     return (
         <SafeAreaView style={styles.safeView}>
             <View style={[styles.tabs]}>
-                {tabs.map(tab => renderTab(tab))}
+                {/* {tabs.map(tab => renderTab(tab))} */}
+                {tabs.map(tab => {
+                    return (
+                        <TopMenu 
+                            key={tab.toString()}
+                            onPress={() => handleTab(tab)}
+                            tab={tab}
+                            isActive={active === tab}
+                        />
+                    )
+                })}
             </View>
             <ScrollView
                 showsVerticalScrollIndicator={false}
@@ -98,21 +93,13 @@ const styles = StyleSheet.create({
     },
     tabs: {
 
-        borderBottomColor: colors.gray6,
+        borderBottomColor: colors.gray5,
         borderBottomWidth: StyleSheet.hairlineWidth,
         marginVertical: 10,
         marginHorizontal: 15,
         flexDirection: 'row'
     },
-    tab: {
-        marginRight: 20,
-        paddingVertical: 15
-    },
-    active: {
-        borderBottomColor: colors.gray6,
-        // themes.colors.title,
-        borderBottomWidth: 3
-    },
+
     postList: {
         flexDirection: 'row', 
         alignItems: 'center', 

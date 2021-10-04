@@ -5,7 +5,9 @@ const callApi = async (method, path, data, jwt) => {
         Authrization: jwt,
         "Content-Type": "application/json"
     };
-    const baseUrl = "http://passme-env.eba-fkpnrszj.us-east-2.elasticbeanstalk.com"
+    // const baseUrl = "http://passme-env.eba-fkpnrszj.us-east-2.elasticbeanstalk.com"
+    const baseUrl = "http://localhost:8081"
+
     const fullUrl = `${baseUrl}${path}`
     if (method === "get" || method === "delete") {
         return axios[method](fullUrl, {headers});

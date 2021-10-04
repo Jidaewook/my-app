@@ -10,6 +10,8 @@ import HLine from '../component/common/HLine';
 
 const {width, height} = Dimensions.get('window');
 
+axios.defaults.baseURL = "http://localhost:8081"
+
 const comments = [
     {
         comment: '1등',
@@ -55,6 +57,7 @@ const comments = [
 const Detail = ({route}) => {
     
     const {id, isNcs} = route.params;
+
     const [detail, setDetail] = useState({});
     const [loading, setLoading] = useState(true);
     const [text, onChangeText] = useState('내용이 없습니다.');
@@ -62,8 +65,12 @@ const Detail = ({route}) => {
     const getDetail = async (detailId) => {
         try {
             const {data} = isNcs    
-                ? await axios.get(`${API_URL}/ncs/${detailId}`)
-                : await axios.get(`${API_URL}/psat/${detailId}`)
+                // ? await axios.get(`${API_URL}/ncs/${detailId}`)
+                ? await axios.get(`/ncs/${detailId}`)
+
+                // : await axios.get(`${API_URL}/psat/${detailId}`)
+                : await axios.get(`/psat/${detailId}`)
+
             setDetail(data.results)
         } catch (err) {
             console.log(err)

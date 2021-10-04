@@ -4,7 +4,7 @@ import { AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../../redux/userSlice';
 
 import { colors, fonts, sizes } from '../../consts';
@@ -33,16 +33,43 @@ const ProfileScreen = () => {
 
     const [recent, setRecent] = useState([]);
     const [like, setLike] = useState([]);
+    const [name, setName] = useState('');
+    const [institue, setInstitue] = useState('없음');
+    const [area, setArea] = useState('대한민국');
+    const [introduce, setIntroduce] = useState('없음');
 
     const dispatch = useDispatch();
     
+    const {token} = useSelector(state => state.usersReducer);
+
+    const config = {
+        headers: {
+            Authorization : "Bearer " + token
+        }
+    }
+
+    const getInfo = async() => {
+        try {
+            // const {data} = await axios.get(`${API_URL}/users/userinfo`, config)
+            const {data} = await axios.get('http://localhost:8081/users/userinfo', config)
+
+            setName(data.name)
+            setInstitue(data.institue)
+            setArea(data.area)
+            setIntroduce(data.introduce)
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
     const logOutHandler = () => {
         dispatch(logOut())
     }
 
     const getRecent = async() => {
         try {
-            const {data} = await axios.get(`${API_URL}/ncs`)
+            // const {data} = await axios.get(`${API_URL}/ncs`)
+            const {data} = await axios.get('http://localhost:8081/ncs')
             setRecent(data.results)
         } catch(err) {
             console.log(err)
@@ -51,7 +78,8 @@ const ProfileScreen = () => {
 
     const getLike = async() => {
         try{
-            const {data} = await axios.get(`${API_URL}/ncs`)
+            // const {data} = await axios.get(`${API_URL}/ncs`)
+            const {data} = await axios.get('http://localhost:8081/ncs')
             setLike(data.results)
         } catch(err) {
             console.log(err)
@@ -65,6 +93,7 @@ const ProfileScreen = () => {
     useEffect(() => {
         getRecent()
         getLike()
+        getInfo()
       }, []);
 
     return (
@@ -94,7 +123,7 @@ const ProfileScreen = () => {
                                 <View style={styles.status}>
                                     <View style={styles.statusView}>
                                         <Text style={styles.activeInfo}>
-                                            LH
+                                            {institue}
                                         </Text>
                                         <Text style={styles.infoDetail}>
                                             희망 기관
@@ -121,10 +150,10 @@ const ProfileScreen = () => {
                             <View style={styles.nameView}>
                                 <View style={styles.nameInfo}>
                                     <Text style={styles.nameInfoDetail}>  
-                                        지대욱, 35
+                                        {name}
                                     </Text>
                                     <Text style={styles.addressDetail}>  
-                                        경기도 부천, 대한민국
+                                        {area}
                                     </Text>
                                 </View>
                             </View>
@@ -132,10 +161,7 @@ const ProfileScreen = () => {
                                 <View style={styles.divider} />
                                 <View style={styles.introduceView}>
                                     <Text style={styles.introduceDetail}>
-                                        2022년 상반기 토지주택공사에 합격하고 싶네요.
-                                        자신 있는 과목은 의사소통이고,
-                                        자신 없는 과목은 문제해결능력입니다. 
-                                        제가 토지주택공사에 입사하고 싶은 이유는, 횡령이 쉽기 때문입니다.
+                                        {introduce}
                                     </Text>
                                 </View>
                                 <View style={[styles.divider, {marginTop: sizes.header}]} />
@@ -151,17 +177,16 @@ const ProfileScreen = () => {
                                 </View>
                                 <ScrollView horizontal={true} style={styles.listScroll} showsHorizontalScrollIndicator={false}>
                                     {recent.map(item => (
-                                        <>
-                                            <TouchableOpacity
-                                                onPress={() => navigation.navigate("Detail", {id: item._id, isNcs: true})} 
+                                        <TouchableOpacity
+                                            key={`${item._id}`}
+                                            onPress={() => navigation.navigate("Detail", {id: item._id, isNcs: true})} 
+                                        >
+                                            <Image 
+                                                style={styles.listImage}
+                                                source={{uri: item.poster}}
                                             >
-                                                <Image 
-                                                    style={styles.listImage}
-                                                    source={{uri: item.poster}}
-                                                >
-                                                </Image>    
-                                            </TouchableOpacity>
-                                        </>
+                                            </Image>    
+                                        </TouchableOpacity>
                                     ))} 
                                 </ScrollView>
                                 <View style={[styles.divider, {marginTop: sizes.header}]} />
@@ -178,6 +203,7 @@ const ProfileScreen = () => {
                                 <ScrollView horizontal={true} style={styles.listScroll} showsHorizontalScrollIndicator={false}>
                                     {like.map(item => (
                                         <TouchableOpacity 
+                                            key={`${item._id}`}
                                             onPress={() => navigation.navigate("Detail", {id: item._id, isNcs: true})} 
                                         > 
                                             <Image 

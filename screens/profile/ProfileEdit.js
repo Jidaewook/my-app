@@ -1,21 +1,46 @@
-import React, {useState} from 'react';
-import {Text,TouchableOpacity, View, Image, StyleSheet, ScrollView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Text,TouchableOpacity, View, TextInput, Image, StyleSheet, ScrollView} from 'react-native';
+import axios from 'axios';
+
+import { useSelector, useDispatch } from 'react-redux';
 
 import { colors, fonts, sizes } from '../../consts';
+import { API_URL } from '../../api/baseApi';
 
 const ProfileEdit = () => {
 
-    const [name, setName] = useState('관리자');
+    const [name, setName] = useState('');
     const [institue, setInstitue] = useState('없음');
     const [area, setArea] = useState('대한민국');
-    const [introduce, setIntroduce] = useState('2022년 상반기 토지주택공사에 합격하고 싶네요.자신 있는 과목은 의사소통이고,자신 없는 과목은 문제해결능력입니다.제가 토지주택공사에 입사하고 싶은 이유는, 횡령이 쉽기 때문입니다.');
+    const [introduce, setIntroduce] = useState('없음');
     const [editing, setEditing] = useState(false);
 
-    const toggleEdit = (name) => {
-        setEditing(!editing ? name : null );
+    // 로그인한 유저정보 가져오기 위한 토큰 인식/헤더에 토큰 적용/토큰 넘겨서 정보 겟
+    const { token } = useSelector(state => state.usersReducer);
+
+    const config = {
+        headers : {
+            Authorization : "Bearer " + token 
+        }
     }
 
+    const getInfo = async() => {
+        try {
+            // const {data} = await axios.get(`${API_URL}/users/userinfo`, config)
+            const {data} = await axios.get('http://localhost:8081/users/userinfo', config)
 
+            setName(data.name)
+            setInstitue(data.institue)
+            setArea(data.area)
+            setIntroduce(data.introduce)
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        getInfo();
+    }, {})
 
     return (
         <ScrollView
@@ -41,50 +66,38 @@ const ProfileEdit = () => {
                     </Text>
                 </View>
                 <View style={styles.TitleContainer}>
-                <Text style={styles.ContentContainer}>
+                <TextInput style={styles.ContentContainer}>
                     {name}
-                </Text>
-                <TouchableOpacity style={styles.EditBtn}>
-                    <Text style={styles.EditContainer}>
-                        Edit
-                    </Text>
-                </TouchableOpacity>
+                </TextInput>
+                
             </View>
             </View>
             <View style={styles.divider} />
-            <View style={{marginTop: 20}}>
+            <View style={styles.TabContainer}>
                 <View style={styles.TitleContainer}>
                     <Text style={styles.TextContainer}>
                         선호 기관
                     </Text>
                 </View>
-                <View style={{flexDirection: 'row'}}>
-                <Text style={styles.ContentContainer}>
-                    {institue}
-                </Text>
-                <TouchableOpacity style={styles.EditBtn}>
-                    <Text style={styles.EditContainer}>
-                        Edit
-                    </Text>
-                </TouchableOpacity>
+                <View style={styles.TitleContainer}>
+                    <TextInput style={styles.ContentContainer}>
+                        {institue}
+                    </TextInput>
+                
                 </View>
             </View> 
             <View style={styles.divider} />
-            <View style={{marginTop: 20}}>
+            <View style={styles.TabContainer}>
                 <View style={styles.TitleContainer}>
                     <Text style={styles.TextContainer}>
                         거주지
                     </Text>
                 </View>
                 <View style={styles.TitleContainer}>
-                    <Text style={styles.ContentContainer}>
+                    <TextInput style={styles.ContentContainer}>
                         {area}
-                    </Text>
-                    <TouchableOpacity style={styles.EditBtn}>
-                        <Text style={styles.EditContainer}>
-                            Edit
-                        </Text>
-                    </TouchableOpacity>
+                    </TextInput>
+                    
                 </View>
             </View>  
             <View style={styles.divider} />
@@ -95,18 +108,13 @@ const ProfileEdit = () => {
                         자기소개
                     </Text>
                 </View>
-                <TouchableOpacity style={styles.EditBtn}>
-                    <Text style={styles.EditIntro}>
-                        Edit
-                    </Text>
-                </TouchableOpacity>
                 
             </View>
             
             <View style={styles.TitleContainer}>
-                <Text style={styles.introduce}>
+                <TextInput style={styles.introduce} multiline={true} numberoflines={5}>
                     {introduce}
-                </Text>
+                </TextInput>
                 
             </View>
         </ScrollView>
@@ -146,6 +154,9 @@ const styles = StyleSheet.create({
         color: colors.gray1,
         ...fonts.h4
 
+    },
+    TabContainer: {
+        marginTop: 20
     },
     TitleContainer: {
         flexDirection: 'row',
@@ -191,7 +202,9 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         justifyContent: 'center',
         marginTop: sizes.header,
-        marginRight: sizes.sideLine
+        marginRight: sizes.sideLine,
+        height: sizes.width /10,
+        marginVertical: sizes.sideLine
     },
     divider: {
         width: '95%',

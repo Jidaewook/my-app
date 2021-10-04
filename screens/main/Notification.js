@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, Image, StyleSheet, ScrollView, SafeAreaView, FlatList, TouchableOpacity} from 'react-native';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/core';
 // import Moment from 'react-moment';
 // import moment from 'moment';
 
@@ -10,22 +11,27 @@ import { colors, fonts, sizes } from '../../consts';
 import HLine from '../../component/common/HLine';
 
 
-const Notification = () => {
+const Notification = ({isNot}) => {
 
     const tabs = ['공지사항', '알림'];
     const [active, setActive] = useState('공지사항');
     const [notice, setNotice] = useState([]);
     const [alarm, setAlarm] = useState([]);
     const [filterData, setFilteredData] = useState([]);
+    const navigation = useNavigation();
 
     const getNotice = async () => {
-        const {data} = await axios.get(`${API_URL}/notice`)
+        // const {data} = await axios.get(`${API_URL}/notice`)
+        const {data} = await axios.get('http://localhost:8081/notice')
+
         setNotice(data.results)
         console.log('+++++++++', data.results.length)
     }
 
     const getAlarm = async () => {
-        const {data} = await axios.get(`${API_URL}/alarm`)
+        // const {data} = await axios.get(`${API_URL}/alarm`)
+        const {data} = await axios.get('http://localhost:8081/alarm')
+
         setAlarm(data.results)
         // console.log()
     }
@@ -65,7 +71,9 @@ const Notification = () => {
                     {notice.map(item => (
                         <>
                             <View style={styles.post} key={item._id}>
-                                <View>
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate("Detail2", {id: item._id, isNot: true, title: item.title})}
+                                >
                                     <Text style={styles.title} >
                                         [{item.genres_ids[0]}]{" "}{item.title}
                                     </Text>
@@ -84,7 +92,7 @@ const Notification = () => {
                                     >
                                         {item.createdAt}
                                     </Moment> */}
-                                </View> 
+                                </TouchableOpacity> 
                                 
                             
                             </View>

@@ -21,7 +21,9 @@ const MainScreen = () => {
 
     const getNcs = async() => {
         try {
-            const {data} = await axios.get(`${API_URL}/ncs`)
+            // const {data} = await axios.get(`${API_URL}/ncs`)
+            const {data} = await axios.get('http://localhost:8081/ncs')
+
             setNcs(data.results)
             console.log(ncs)
         } catch (err) {
@@ -31,7 +33,8 @@ const MainScreen = () => {
 
     const getPsat = async() => {
         try {
-            const {data} = await axios.get(`${API_URL}/psat`)
+            // const {data} = await axios.get(`${API_URL}/psat`)
+            const {data} = await axios.get('http://localhost:8081/psat')
             setPsat(data.results)
             console.log(psat)
         } catch (err) {
@@ -111,10 +114,10 @@ const MainScreen = () => {
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.group}>
                     <View style={{display: 'flex'}}>
-                        <Section title={"주목! NCS"}>
+                        <Section title={"주목! NCS"} onPress={() => navigation.navigate("More", {title: "NCS 리스트"})} >
                             {ncs.map(i => (
                                 <Card 
-                                    key={i._id}
+                                    key={`${i._id}`}
                                     item={i}
                                     full
                                     style={styles.cardView}
@@ -124,9 +127,14 @@ const MainScreen = () => {
                         </Section>
                     </View>
                     <View>
-                        <Section title={"주목! PSAT"}>
+                        <Section 
+                            title={"주목! PSAT"} 
+                            onPress={() => navigation.navigate("More", {title: "PSAT 리스트"})}
+                            isNcs={false}
+                        >
                             {psat.map(i => (
                                 <Card 
+                                    key={`${i._id}`}
                                     item={i}
                                     full
                                     style={styles.cardView}

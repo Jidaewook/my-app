@@ -1,3 +1,7 @@
+import { Dimensions } from "react-native";
+
+const {width, height} = Dimensions.get('window');
+
 const sizes = {
     // global sizes
     zero: 0,
@@ -5,6 +9,8 @@ const sizes = {
     font: 14,
     radius: 6,
     padding: 25,
+    width,
+    height,
   
     // font sizes
     h1: 26,
@@ -105,6 +111,12 @@ const sizes = {
     main2: '#d91cff',
     main3: '#a308c2',
     main4: '#560666',
+
+    sub1: '#fc0366', 
+    sub2: '#bf5680',
+    sub3: '#493999',
+    sub4: '#18c491',
+    sub5: '#a84258',
 
     aquablue: '#468cf0',
     buttonBlue: '#91bdfa'

@@ -10,11 +10,9 @@ const PostList = ({datas}) => {
 
     const navigation = useNavigation();
 
-    const goToPostDetail = () => {
-        navigation.navigate("PostDetail", {id})
+    const goToPostDetail = ({id, title}) => {
+        navigation.navigate("Detail2", {id, title})
     }
-
-    const {width, height} = Dimensions.get("window")
 
     return (
         <View
@@ -23,18 +21,18 @@ const PostList = ({datas}) => {
             {datas.map(data => (
                 <TouchableOpacity
                     key={data._id}
-                    onPress={() => goToPostDetail(data._id)}
-                    style={{height: height/13, marginTop: 10, marginBottom: 15}}
+                    onPress={() => navigation.navigate("Detail2", {id: data._id, title: data.title})}
+                    style={{height: sizes.height/13, marginTop: 10, marginBottom: 15}}
                 >
-                    <View style={{flexDirection: 'row', height: height/10, marginTop: 0 }}> 
+                    <View style={{flexDirection: 'row', height: sizes.height/10, marginTop: 0 }}> 
                         <View>
                             <Image 
                                 source={require('../../assets/dummy/car.png')}
-                                style={{width: width/10, height: height/17, borderRadius: 1, opacity: 0.7}}
+                                style={{width: sizes.width/10, height: sizes.height/17, borderRadius: 1, opacity: 0.7}}
                             />
                         </View>
                         <View 
-                            style={[styles.postList, {width: width*0.95, height: height/9, marginTop: -20}]}
+                            style={[styles.postList, {width: sizes.width*0.95, height: sizes.height/9, marginTop: -20}]}
                         >
                             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <View
@@ -63,7 +61,7 @@ const PostList = ({datas}) => {
                                 <Text style={[styles.titleStyle]}>
                                     {data.title}
                                 </Text>
-                                <View style={{width: '35%', flexDirection: 'row', justifyContent: 'flex-end', marginLeft: 200, marginTop: -25}}>
+                                <View style={{width: sizes.width / 3 , flexDirection: 'row', justifyContent: 'flex-end', marginLeft: 200, marginTop: -25}}>
                                     <View style={{flexDirection: 'row'}}>
                                         <AntDesign name="like2" size={16} color={colors.gray5} />
                                         <Text style={styles.postProperty}>
@@ -82,7 +80,7 @@ const PostList = ({datas}) => {
                     </View>
                     <View
                         style={[{
-                            width: '98%',
+                            width: sizes.width * 0.98,
                             marginTop: -20,
                             height: 1,
                             backgroundColor: colors.gray5
