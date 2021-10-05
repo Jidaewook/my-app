@@ -114,7 +114,7 @@ const MainScreen = () => {
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.group}>
                     <View style={{display: 'flex'}}>
-                        <Section title={"주목! NCS"} onPress={() => navigation.navigate("More", {title: "NCS 리스트"})} >
+                        <Section title={"주목! NCS"} onPress={() => navigation.navigate("More", {title: "NCS 리스트", isNcs: true})} >
                             {ncs.map(i => (
                                 <Card 
                                     key={`${i._id}`}
@@ -129,7 +129,7 @@ const MainScreen = () => {
                     <View>
                         <Section 
                             title={"주목! PSAT"} 
-                            onPress={() => navigation.navigate("More", {title: "PSAT 리스트"})}
+                            onPress={() => navigation.navigate("More", {title: "PSAT 리스트", isNcs: false})}
                             isNcs={false}
                         >
                             {psat.map(i => (
