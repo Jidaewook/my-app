@@ -27,7 +27,7 @@ class Card extends React.Component {
                         <Image source={{uri: item.poster}} style={imageStyles} />
                     </Block>
                     <Block flex space="between" style={styles.cardDescription}>
-                        <Text size={14} style={styles.cardTitle}>{item.title}</Text>
+                        <Text size={16} style={styles.cardTitle}>{item.title}</Text>
                         <Text size={12} muted={!ctaColor} color={ctaColor} bold>{item.cta}</Text>
                     </Block>
                 </TouchableOpacity>
@@ -48,15 +48,14 @@ const styles = StyleSheet.create({
     card: {
     backgroundColor: colors.white,
     marginVertical: sizes.base,
-    borderWidth: 0,
-    minHeight: 114,
-    marginBottom: 16,
+    borderWidth: sizes.zero,
+    marginBottom: sizes.headerTop,
 
     },
     cardTitle: {
-    flex: 1,
-    flexWrap: 'wrap',
-    paddingBottom: 6
+        flex: 1,
+        flexWrap: 'wrap',
+        paddingBottom: sizes.bottom
     },
     cardDescription: {
         padding: sizes.base
@@ -66,22 +65,17 @@ const styles = StyleSheet.create({
         elevation: 1,
         overflow: 'hidden',
     },
-    image: {
-    },
     horizontalImage: {
-        height: 122,
         width: 'auto',
     },
     horizontalStyles: {
-        borderTopRightRadius: 0,
-        borderBottomRightRadius: 0,
+       
     },
     verticalStyles: {
-        borderBottomRightRadius: 0,
-        borderBottomLeftRadius: 0
+        
     },
     fullImage: {
-        height: 160,
+        height: sizes.fullImage,
         resizeMode: 'stretch',
         width: '100%'
     },

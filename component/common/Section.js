@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         width: '90%',
         color: colors.black,
         ...fonts.title,
-        marginLeft: -20
+        marginLeft: -sizes.sideLine
     },
     more: {
         paddingLeft: sizes.sideLine,

@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, TextInput, ScrollView} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/core';
 import { Feather } from '@expo/vector-icons';
 
 import { colors, sizes, fonts } from '../consts';
@@ -55,8 +56,10 @@ const comments = [
 ]
 
 const Detail = ({route}) => {
+
+    const navigation = useNavigation();
     
-    const {id, isNcs} = route.params;
+    const {id, isNcs, title} = route.params;
 
     const [detail, setDetail] = useState({});
     const [loading, setLoading] = useState(true);
@@ -76,6 +79,12 @@ const Detail = ({route}) => {
             console.log(err)
         }
     }
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerTitle: title
+        })
+    })
 
     useEffect(() => {
         getDetail(id);

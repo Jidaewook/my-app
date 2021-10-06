@@ -74,7 +74,7 @@ const Detail2 = ({route}) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerTitle: title
+            headerTitle: title.slice(0,25)
         })
     })
 

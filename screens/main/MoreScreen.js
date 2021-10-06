@@ -1,5 +1,5 @@
 import React, {useState, useLayoutEffect, useEffect} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, ActivityIndicator, FlatList, ImageBackground} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Image, ScrollView, ActivityIndicator, FlatList, ImageBackground} from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/core';
 import Moment from 'react-moment';
 import axios from 'axios';
@@ -113,29 +113,50 @@ const moreScreen = () => {
                     keyExtractor={(item) => item._id}
                     renderItem={({item}) => (
                         <View style={styles.cardView}>
-                            <ImageBackground source={require('../../assets/favicon.png')} style={styles.bgImage}>
-                            
-                            <View style={{height: 20, marginTop: 240 }}>
-                                <Text style={styles.cardContent}>
-                                    {item.title.slice(0,15)}
+                            <Image
+                                source={require('../../assets/dummy/15.png')}
+                                style={{width: '80%', height: '50%'}}
+                            />
+                            <Text style={styles.cardContent}>
+                                {item.title.slice(0,10)}
+                            </Text>
+                            <Text style={styles.cardDesc}>
+                                {item.desc.slice(0,15)}
+                            </Text>
+                            <TouchableOpacity 
+                                style={styles.Btn}
+                                onPress={() => navigation.navigate('Detail', {id: item._id})}
+                            >
+                                <Text style={styles.footer}>
+                                    바로가기
                                 </Text>
-                            </View>
-                            <View>
-                                <Text style={styles.cardDesc}>
-                                    {item.desc.slice(0,16)}
-                                </Text>
-                            </View>
-                            </ImageBackground>
-                            <View style={styles.footer}>
-                                <TouchableOpacity
-                                    onPress={() => navigation.navigate('Detail', {id: item._id})}
-                                >
-
-                                    <Text>바로가기</Text>
-                                </TouchableOpacity>
-                            </View>
-                            
+                            </TouchableOpacity>
                         </View>
+
+                        // <View style={styles.cardView}>
+                        //     <Image source={require('../../assets/favicon.png')} style={styles.bgImage} />
+                        //     <View style={styles.itemView}>
+                        //         <Text style={styles.cardContent}>
+                        //             {item.title.slice(0,5)}
+                        //         </Text>
+                        //         <Text style={styles.cardDesc}>
+                        //             {item.desc.slice(0,10)}
+                        //         </Text>
+                        //     </View>
+                        //     <View style={styles.footer}>
+                        //         <TouchableOpacity
+                        //             onPress={() => navigation.navigate('Detail', {id: item._id})}
+                        //         >
+
+                        //             <Text
+                        //                 style={{fontSize: 14, fontWeight: 'bold'}}
+                        //             >
+                        //                 바로가기
+                        //             </Text>
+                        //         </TouchableOpacity>
+                        //     </View>
+                            
+                        // </View>
                     )}
                 />
             </View>
@@ -192,56 +213,42 @@ const styles = StyleSheet.create({
         width: '100%', 
         height: '100%', 
         resizeMode: 'stretch', 
-        marginTop: 5, 
-        // marginRight: 5, 
+        marginTop: sizes.header, 
         justifyContent: 'center', 
         alignItems: 'center',
-        // borderRadius: 100,
-        opacity: 0.9
+        opacity: 0.5
     },
     cardView: {
-        // backgroundColor: COLORS.gray1,
-        flex: 1, 
-        margin: 20,
-        // width: width,
-        height: 200,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        // flexGrow: 0
+        height: sizes.cardView, 
+        width: sizes.cardView, 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        backgroundColor: colors.gray4, 
+        borderRightWidth: 1, 
+        borderBottomWidth: 1, 
+        borderRightColor: colors.gray6, 
+        borderBottomColor: colors.gray6
     }, 
     cardContent: {
-        // backgroundColor: COLORS.gray1,
-        flex: 1,
-        marginTop: 0,
-        // marginLeft: 10,
-        // marginRight: 10,
-        width: '90%',
-        height: 30,
-        textAlign: 'left',
-        // justifyContent: 'center',
-        alignItems: 'flex-start',
-        fontWeight: 'bold',
-        fontSize: sizes.h3
+        ...fonts.h3, 
+        fontWeight: 'bold', 
+        marginTop: sizes.radius, 
+        textAlign: 'left' 
     },
     cardDesc: {
-        flex: 1,
-        // marginLeft: 10,
-        // marginRight: 10,
-        width: '90%',
-        height: 30,
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        textAlign: 'left',
-        // backgroundColor: COLORS.purple
+        ...fonts.h5, 
+        marginTop: sizes.bottom, 
+        textAlign: 'left'
     },  
+    Btn: {
+        marginTop: sizes.radius, 
+        width: '60%'
+    },
     footer: {
-        backgroundColor: colors.tertiary,
-        margin: 0,
-        height: 30,
-        width: '100%',
-        justifyContent: 'center',
-        textAlign: 'center',
+        backgroundColor: colors.sub3, 
+        color: colors.white, 
+        textAlign: 'center', 
+        height: sizes.sideLine, 
         alignItems: 'center'
     }
 })

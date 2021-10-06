@@ -131,7 +131,7 @@ export default function App() {
 
                     const translateY = scrollX.interpolate({
                         inputRange,
-                        outputRange: [120, 50, 120],
+                        outputRange: [200, 50, 200],
                         extrapolate: 'clamp'
                     });
 
@@ -145,6 +145,7 @@ export default function App() {
                                     transform: [{translateY}],
                                     backgroundColor: colors.white,
                                     borderRadius: 34,
+                                    width: 400
                                 }}
                             >
                                 <Image 
@@ -198,8 +199,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     posterImage: {
-        width: '100%',
-        height: ITEM_SIZE * 1,
+        width: ITEM_SIZE * 1.2,
+        height: ITEM_SIZE * 1.5,
         resizeMode: 'cover',
         borderRadius: 24,
         marginBottom: sizes.bottom,

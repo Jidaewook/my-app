@@ -54,9 +54,6 @@ const MainScreen = () => {
                 barStyle={'light-content'}
             />
             <View style={styles.header}>
-                <MaterialIcons 
-                    name="sort" size={28} color={colors.white}
-                />
                 <TouchableOpacity
                     onPress={() => navigation.navigate("Notification")} 
                 >
@@ -64,6 +61,7 @@ const MainScreen = () => {
                         name="notifications-none" 
                         size={28} 
                         color={colors.white} 
+                        style={styles.notice}
                     />
                 </TouchableOpacity>
             </View>
@@ -121,7 +119,7 @@ const MainScreen = () => {
                                     item={i}
                                     full
                                     style={styles.cardView}
-                                    goTo={() => navigation.navigate("Detail", {id: i._id, isNcs: true})}
+                                    goTo={() => navigation.navigate("Detail", {id: i._id, isNcs: true, title: i.title})}
                                 />    
                             ))}
                         </Section>
@@ -138,7 +136,7 @@ const MainScreen = () => {
                                     item={i}
                                     full
                                     style={styles.cardView}
-                                    goTo={() => navigation.navigate("Detail", {id: i._id, isNcs: false})}
+                                    goTo={() => navigation.navigate("Detail", {id: i._id, isNcs: false, title: i.title})}
                                 />    
                             ))}
                         </Section>
@@ -163,6 +161,9 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-between',
       backgroundColor: colors.main4,
+    },
+    notice: {
+        marginLeft: width - 70
     },
     headerView: {
         backgroundColor: colors.main4,

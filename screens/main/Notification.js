@@ -110,7 +110,9 @@ const Notification = ({isNot}) => {
                 {alarm.map(item => (
                     <>
                         <View style={styles.post} key={item._id}>
-                            <View>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate("Detail2", {id: item._id, isNot: true, title: item.title})}
+                            >
                                 <Text style={styles.title} >
                                     [{item.genres_ids[0]}]{" "}{item.title}
                                 </Text>
@@ -129,7 +131,7 @@ const Notification = ({isNot}) => {
                                 >
                                     {item.createdAt}
                                 </Moment> */}
-                            </View> 
+                            </TouchableOpacity> 
                             
                         
                         </View>

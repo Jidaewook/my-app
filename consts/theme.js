@@ -38,6 +38,8 @@ const sizes = {
     bigBtnHeight: 60,
     d1: 15,
     footerHeight: 150,
+    fullImage: 160,
+    cardView: 200,
     
 
 
