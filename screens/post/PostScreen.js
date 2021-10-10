@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {View, SafeAreaView, StyleSheet, ScrollView, ActivityIndicator} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { colors } from '../../consts';
@@ -69,14 +69,14 @@ const PostScreen = () => {
                         <ActivityIndicator color={colors.black} size={'large'} />
                     </View> 
                 ) : (
-                    <> 
+                    <View style={{paddingHorizontal: 15}}> 
                         {active === '전체' && <PostList datas={bbs}/>}
                         {active === '자유게시판' && <PostList datas={filteredData} /> }
                         {active === '질문게시판' && <PostList datas={filteredData} /> }
                         {active === '합격수기' && <PostList datas={filteredData} /> }
                         {/* {postModal && <PostModal />} */}
                        
-                    </>
+                    </View>
                 )}  
             </ScrollView>
         </SafeAreaView>

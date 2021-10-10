@@ -18,6 +18,7 @@ const MainScreen = () => {
     const [searchModal, setSearchModal] = useState(false);
     const [ncs, setNcs] = useState([]);
     const [psat, setPsat] = useState([]);
+    const [text, onChangeText] = useState('내용이 없습니다.');
 
     const getNcs = async() => {
         try {
@@ -83,16 +84,33 @@ const MainScreen = () => {
                         <View style={styles.centerModal}>
                             <View style={styles.modalView}>
                                 <Text style={styles.ModalTitle}>
-                                    서치 모달
+                                    Search Contents
                                 </Text>
+                                <TextInput
+                                    value={text}
+                                    onChangeText={onChangeText}
+                                    style={styles.SearchText}
+                                >
+
+                                </TextInput>
+                                <View style={{flexDirection: 'row', width: 300, justifyContent: 'flex-start'}}>
                                 <TouchableOpacity
                                     style={[styles.ModalBtn]}
                                     onPress={() => setSearchModal(!searchModal)}
                                 >
                                     <Text style={styles.ModalBtnText}>
-                                        모달 닫기
+                                        검색하기
                                     </Text>
                                 </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={[styles.ModalCloseBtn]}
+                                    onPress={() => setSearchModal(!searchModal)}
+                                >
+                                    <Text style={styles.ModalBtnText}>
+                                        닫기
+                                    </Text>
+                                </TouchableOpacity>
+                                </View>
                             </View>
                         </View>
                     </Modal>
@@ -190,15 +208,21 @@ const styles = StyleSheet.create({
       shadowRadius: 15,
     },
     ModalTitle: {
-        ...fonts.h1
+        ...fonts.h1,
+        justifyContent: 'flex-start',
+        textAlign: 'left'
     },
     ModalBtn: {
-      marginHorizontal: sizes.sideLine,
-      marginVertical: sizes.sideLine,
+        marginTop: sizes.headerTop,
+    },
+    ModalCloseBtn: {
+        marginTop: sizes.headerTop,
+        marginLeft: sizes.fullImage
     },
     ModalBtnText: {
-        ...fonts.h2
+        ...fonts.h4,
     },
+    
     group: {
       paddingTop: sizes.base,
       paddingHorizontal: sizes.sideLine,
@@ -208,15 +232,15 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: sizes.headerTop
     },
     modalView: {
       width: width/6 * 5,
-      height: height/5 * 4,
+      height: height/15 * 4,
       backgroundColor: colors.white,
       borderRadius: 20,
       padding: sizes.headerTop,
-      alignItems: 'center',
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start',
       shadowColor: colors.black,
       shadowOffset: {
         width: 0,
@@ -229,5 +253,11 @@ const styles = StyleSheet.create({
     cardView: {
         marginRight: sizes.sideLine,
         width: width/1.5
+    },
+    SearchText: {
+        width: '100%',
+        height: sizes.buttonHeight,
+        marginTop: sizes.headerTop,
+        backgroundColor: colors.gray6,
     }
 })

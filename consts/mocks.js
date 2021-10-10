@@ -98,7 +98,6 @@ const menuItem = [
       data: [
         {title: '로그아웃', icon: 'dingding', screen: ''},
         {title: '탈퇴문의', icon: 'phone', screen: ''},
-        {title: '      ', icon: '', screen: ''}
       ]
     }
   ]

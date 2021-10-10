@@ -1,93 +1,77 @@
 import React from 'react';
-import {View, Text, Dimensions, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { colors, fonts, sizes } from '../../consts';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import moment from 'moment';
 
-import BadgePill from './BadgePill';
+import HLine from './HLine';
 
 const PostList = ({datas}) => {
 
     const navigation = useNavigation();
 
-    const goToPostDetail = ({id, title}) => {
-        navigation.navigate("Detail2", {id, title})
-    }
-
     return (
         <View
-            style={{backgroundColor: colors.gray6}}
+            // style={styles.Container}
         >
             {datas.map(data => (
-                <TouchableOpacity
-                    key={data._id}
-                    onPress={() => navigation.navigate("Detail2", {id: data._id, title: data.title})}
-                    style={{height: sizes.height/13, marginTop: 10, marginBottom: 15}}
-                >
-                    <View style={{flexDirection: 'row', height: sizes.height/10, marginTop: 0 }}> 
-                        <View>
-                            <Image 
-                                source={require('../../assets/dummy/car.png')}
-                                style={{width: sizes.width/10, height: sizes.height/17, borderRadius: 1, opacity: 0.7}}
-                            />
-                        </View>
-                        <View 
-                            style={[styles.postList, {width: sizes.width*0.95, height: sizes.height/9, marginTop: -20}]}
-                        >
-                            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                                <View
-                                    style={{flexDirection: 'row', justifyContent: 'flex-start'}}
-                                >
-                                    {data.tag.map(t => (
-                                        <View key={t._id} style={{paddingLeft: 10}} >
-                                            <BadgePill 
-                                                title={"#"+t}
-                                                textStyle={[styles.badgePill, {paddingVertical: 5, paddingHorizontal: 10, opacity: 1 }]}
-                                            />
-                                        </View>    
-                                    ))}
+                <>
+                    <TouchableOpacity
+                        key={data._id}
+                        onPress={() => navigation.navigate("PostDetail", {id: data._id, title: data.title})}
+                        style={styles.ListBtn}
+                    >
+                        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 15}}>
+                            <View style={{width: '70%'}}>
+                                <View>
+                                    <Text style={{fontSize: 14, color: colors.gray3}}>
+                                        {`[${data.tag[0]}] PASSME`}
+                                    </Text>
                                 </View>
-                                <View style={{paddingRight: 40}}>
-                                    {/* <Moment
-                                        from={Date.now()}
-                                        element={Text}
-                                        style={{color: colors.gray2, fontSize: 12}}
+                                <View style={{marginTop: 5}}>
+                                    <Text style={{...fonts.h4, fontWeight: '600'}}>
+                                        {data.title}
+                                    </Text>
+                                </View>
+                            </View>
+                            <View style={{alignItems: 'flex-end', width: '30%'}}>
+                                <View>
+                                    <Text style={{color: colors.gray3}}>
+                                        {moment(data.createdAt).startOf('hour').fromNow()}
+                                    </Text>
+                                </View>
+                                <View>
+                                    <View 
+                                        style={{flexDirection: 'row', marginTop: 5}}
                                     >
-                                        {data.createdAt}
-                                    </Moment> */}
-                                </View>
-                            </View>
-                            <View stlye={{flexDirection: 'row'}}>
-                                <Text style={[styles.titleStyle]}>
-                                    {data.title}
-                                </Text>
-                                <View style={{width: sizes.width / 3 , flexDirection: 'row', justifyContent: 'flex-end', marginLeft: 200, marginTop: -25}}>
-                                    <View style={{flexDirection: 'row'}}>
-                                        <AntDesign name="like2" size={16} color={colors.gray5} />
-                                        <Text style={styles.postProperty}>
-                                            50
-                                        </Text>
-                                    </View>
-                                    <View style={{marginLeft: 10, flexDirection: 'row'}}>
-                                        <MaterialCommunityIcons name="message-reply-text" size={16} color={colors.gray2} />
-                                        <Text style={styles.postProperty}>
-                                            10
-                                        </Text>
+                                        <View 
+                                            style={{flexDirection: 'row', paddingHorizontal: 10}}
+                                        >
+                                            <AntDesign name="like2" size={16} color={colors.gray2} />
+                                            <Text 
+                                                style={{marginLeft: 5, ...fonts.h5, color: colors.gray2}}
+                                            >
+                                                50
+                                            </Text>
+                                        </View>
+                                        <View 
+                                            style={{flexDirection: 'row'}}
+                                        >
+                                            <MaterialCommunityIcons name="message-reply-text" size={16} color={colors.gray2} />
+                                            <Text 
+                                                style={{marginLeft: 5, ...fonts.h5, color: colors.gray2}}                                        
+                                            >
+                                                10
+                                            </Text>
+                                        </View>
                                     </View>
                                 </View>
                             </View>
                         </View>
-                    </View>
-                    <View
-                        style={[{
-                            width: sizes.width * 0.98,
-                            marginTop: -20,
-                            height: 1,
-                            backgroundColor: colors.gray5
-
-                        }]}
-                    />
-                </TouchableOpacity>
+                    </TouchableOpacity>
+                    <HLine />
+                </>
             ))}
             
             
@@ -98,37 +82,93 @@ const PostList = ({datas}) => {
 export default PostList;
 
 const styles = StyleSheet.create({
-
+    Container: {
+        backgroundColor: colors.gray6, 
+        flex: 1
+    },
+    ListBtn: {
+        height: 60, 
+        marginVertical: 10
+    },
+    ListContainer: {
+        // marginHorizontal: 10
+        // flexDirection: 'row', 
+        // height: sizes.height/10,
+    },
     postList: {
         justifyContent: 'space-between', 
-        paddingVertical: 10, 
-        paddingRight: 10
+        paddingVertical: sizes.header, 
+    },
+    postListDetail: {
+        // width: sizes.width, 
+        height: sizes.height/9, 
+        marginTop: -sizes.sideLine,
+        backgroundColor: 'red',
+        // marginHorizontal: 0,
+        // marginRight: -20
+    },
+    postListContainer: {
+        // width: sizes.width,
+        flexDirection: 'row', 
+        marginHorizontal: 20
+    },
+    postListView: {
+        flexDirection: 'row', 
+        justifyContent: 'flex-start',
+        width: sizes.width / 1.5,
+    },
+    postListMap: {
+        // paddingLeft: sizes.body,
     },
     badgePill: {
-        ...fonts.h5, 
-        letterSpacing: -0.6, 
-        color: colors.gray2, 
-        opacity: .5
+        // ...fonts.h5, 
+        // letterSpacing: -0.6, 
+        // color: colors.gray2, 
+        // opacity: .5,
     },
-    badgeDate: {
-        fontSize: 10, 
-        letterSpacing: -0.6, 
-        color: 'black', 
-        opacity: .5,
-        paddingRight: 10
+    badgePillText: {
+        paddingVertical: 8, 
+        // paddingHorizontal: 10, 
+
+        opacity: 1
     },
+    momentView: {
+        // width: sizes.width * 0.38,
+        // alignItems: 'flex-end',
+    },
+    moment: {
+        // paddingRight: sizes.sideLine * 2, 
+        color: colors.gray3
+    },
+    DetailView: {
+        flexDirection: 'row',
+        // width: sizes.width
+        marginHorizontal: 20
+    },
+    titleView: {
+        // width: sizes.width * 0.70
+    },  
     titleStyle: {
-        fontSize: 16,
-        // letterSpacing: -.72,
+        ...fonts.h4,
         fontWeight: '500',
         color: colors.black,
-        paddingVertical: 20,
-        marginHorizontal: 15,
-        width: '57%'
+        // marginLeft: sizes.sideLine
+    },
+    infoContainer: {
+        // width: sizes.width * 0.3, 
+        flexDirection: 'row',
+        // marginHorizontal: -10,
+        alignItems: 'flex-end'
+    },
+    infoView: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end'
+        
     },
     postProperty: {
-        marginLeft: 5, 
-        color: colors.black
+        // alignItems: 'flex-end'
+        // marginLeft: sizes.body /2,
+        // marginRight: sizes.sideLine
     }
 
 })

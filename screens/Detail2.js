@@ -1,55 +1,13 @@
 import axios from 'axios';
 import React, {useEffect, useState, useLayoutEffect} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, TextInput, ScrollView, Image} from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import { Feather } from '@expo/vector-icons';
+
+import moment from 'moment';
 
 import {colors, sizes, fonts} from '../consts';
-import HLine from '../component/common/HLine';
 
 axios.defaults.baseURL = "http://localhost:8081"
-
-const comments = [
-    {
-        comment: '1등',
-        name: '유저네임',
-        date: '2021-01-21'
-    },
-    {
-        comment: '안녕하세요 댓글이벤트 당첨자입니다. 당첨된 댓글은 이메일을 보내주세요',
-        name: '관리자',
-        date: '2021-01-21'
-
-    },
-    {
-        comment: '위에꺼 거짓말임',
-        name: '나도 관리자는 아님',
-        date: '2021-01-21'
-
-    },
-    {
-        comment: '1등',
-        name: '유저네임',
-        date: '2021-01-21'
-    },
-    {
-        comment: '안녕하세요 댓글이벤트 당첨자입니다. 당첨된 댓글은 이메일을 보내주세요',
-        name: '관리자',
-        date: '2021-01-21'
-
-    },
-    {
-        comment: '1등',
-        name: '유저네임',
-        date: '2021-01-21'
-    },
-    {
-        comment: '안녕하세요 댓글이벤트 당첨자입니다. 당첨된 댓글은 이메일을 보내주세요',
-        name: '관리자',
-        date: '2021-01-21'
-
-    },
-]
 
 const Detail2 = ({route}) => {
 
@@ -80,95 +38,29 @@ const Detail2 = ({route}) => {
 
     useEffect(() => {
         getDetail(id)
-    })
-
-    const renderComment = ({item}) => {
-        return (
-            <View style={styles.CommentContainer}>
-                {comments.map(item => 
-                    <View
-                        style={styles.CommentView}
-                    >
-                        <Text style={styles.CommentName}>
-                            {item.name.slice(0,5)}
-                        </Text>
-                        <Text style={styles.CommentFirst}>
-                            {item.comment}
-                        </Text>
-                        <View style={styles.info}>
-                            <Text style={styles.CommentDate}>
-                                {item.date}
-                            </Text>
-                            <TouchableOpacity
-                                onPress={() => alert('삭제하시겠습니까')}
-                                style={styles.CommentAlert}
-                            >
-                                <Text style={styles.delete}>
-                                    삭제
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => alert('좋아요')}
-                                style={styles.likeBtn}
-                            >
-                                <Feather 
-                                    name="thumbs-up"
-                                    size={20}
-                                    color={colors.black}
-                                />
-                            </TouchableOpacity>
-                            <Text style={styles.likeCount}>
-                                    110
-                            </Text>
-                        </View>
-                        <HLine />
-                    </View>
-                )}       
-            </View>
-           )
-    }
+    }, [])
 
     return (
         <SafeAreaView style={styles.Container}>
             <ScrollView style={[styles.Container]} contentContainerStyle={styles.MainScroll}>
                 <Image 
-                    source={require('../assets/profile/profile_Back.jpeg')}
+                    source={{uri: detail.poster}}
                     style={styles.Image}
                 />
-                <View>
+                <View style={{marginHorizontal: 25}}>
                     <Text style={styles.MainTitle}>
                         {detail.title}
+                    </Text>
+                    <Text style={{marginTop: 15, color: colors.gray4}}>
+                        {moment(detail.createdAt).startOf('hour').fromNow()}
                     </Text>
                     <Text style={styles.MainDesc}>
                         {detail.desc}
                     </Text>
+                   
                 </View>
-                <HLine />
-                <View style={styles.MainView}>
-                    <View>
-                        <Text style={styles.CommentTitle}>
-                            댓글
-                        </Text>
-                        <View style={{flexDirection: 'row'}}>
-                            <TextInput 
-                                style={styles.CommentInput}
-                                value={text}
-                                onChangeText={onChangeText}
-                            />
-                            <TouchableOpacity
-                                style={styles.CommentBtn}
-                                onPress={() => alert("등록하시겠습니까?")}
-                            >
-                                <Text style={styles.RegisterButton}>
-                                    등록
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                        {renderComment(detail)}
-                    </View>
-                </View>
+                    
             </ScrollView>
-
         </SafeAreaView>
     );
 };
@@ -179,20 +71,16 @@ const styles = StyleSheet.create({
     
     Container: {
         backgroundColor: colors.white,
-        marginVertical: sizes.zero,
-        // marginHorizontal: sizes.sideLine,        
+        marginVertical: sizes.zero,  
     },
     MainTitle: {
-        marginLeft: sizes.sideLine,
-        marginTop: sizes.header,
-        ...fonts.title,
+        marginTop: sizes.headerTop,
+        ...fonts.h2,
+        fontWeight: 'bold',
         color: colors.black,
     },
     MainDesc: {
-        marginLeft: sizes.sideLine,
-        marginRight: sizes.sideLine,
         marginTop: sizes.header,
-        marginBottom: sizes.bottom,
         ...fonts.body,
         color: colors.gray2,
     }, 
@@ -233,18 +121,6 @@ const styles = StyleSheet.create({
         marginHorizontal: sizes.sideLine, 
         color: colors.gray2
     },
-    // CommentCount: {
-    //     marginTop: 15,
-    //     marginLeft: 5,
-    //     fontSize: 16,
-    //     width: '68%'
-    // },
-    // CommentMore: {
-    //     marginTop: 15,
-    //     marginLeft: 5,
-    //     fontSize: 16,
-    //     color: themes.colors.gray
-    // },
     CommentFirst: {
         marginVertical: sizes.bottom,
         marginHorizontal: sizes.sideLine,
@@ -316,8 +192,7 @@ const styles = StyleSheet.create({
     },
     Image: {
         width: sizes.width,
-        height: sizes.height * 0.3,
-        resizeMode: 'contain'
-
+        height: sizes.height/2.5,
+        resizeMode: 'center',
     }
 });

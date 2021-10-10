@@ -4,8 +4,7 @@ import { AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { logOut } from '../../redux/userSlice';
+import { useSelector } from 'react-redux';
 
 import { colors, fonts, sizes } from '../../consts';
 import { API_URL } from '../../api/baseApi';
@@ -37,8 +36,6 @@ const ProfileScreen = () => {
     const [institue, setInstitue] = useState('없음');
     const [area, setArea] = useState('대한민국');
     const [introduce, setIntroduce] = useState('없음');
-
-    const dispatch = useDispatch();
     
     const {token} = useSelector(state => state.usersReducer);
 
@@ -60,10 +57,6 @@ const ProfileScreen = () => {
         } catch(err) {
             console.log(err)
         }
-    }
-
-    const logOutHandler = () => {
-        dispatch(logOut())
     }
 
     const getRecent = async() => {
@@ -179,7 +172,7 @@ const ProfileScreen = () => {
                                     {recent.map(item => (
                                         <TouchableOpacity
                                             key={`${item._id}`}
-                                            onPress={() => navigation.navigate("Detail", {id: item._id, isNcs: true})} 
+                                            onPress={() => navigation.navigate("Detail", {id: item._id, isNcs: true, title: item.title})} 
                                         >
                                             <Image 
                                                 style={styles.listImage}
@@ -204,7 +197,7 @@ const ProfileScreen = () => {
                                     {like.map(item => (
                                         <TouchableOpacity 
                                             key={`${item._id}`}
-                                            onPress={() => navigation.navigate("Detail", {id: item._id, isNcs: true})} 
+                                            onPress={() => navigation.navigate("Detail", {id: item._id, isNcs: true, title: item.title})} 
                                         > 
                                             <Image 
                                                 style={styles.listImage}
@@ -216,10 +209,6 @@ const ProfileScreen = () => {
                                 </ScrollView>
                             </View>
                         </View>
-                            <Button 
-                                onPress={() => logOutHandler()}
-                                title={"로그아웃"}
-                            />
                     </ScrollView>
 
                 </ImageBackground>

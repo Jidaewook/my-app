@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import { PostScreen, PostDetail, Detail2 } from '../screens';
+import { PostScreen, PostDetail } from '../screens';
 import BackBtn from '../component/common/BackBtn';
 
 const PStack = createStackNavigator();
@@ -22,8 +22,8 @@ export default () => {
                 }}
             />
             <PStack.Screen 
-                name="Detail2" 
-                component={Detail2} 
+                name="PostDetail" 
+                component={PostDetail} 
                 options={{
                     headerShown: true
                 }}

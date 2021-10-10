@@ -5,6 +5,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import * as Linking from 'expo-linking';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { logOut } from '../redux/userSlice';
+
 import { API_URL } from '../api/baseApi';
 import { colors, fonts, sizes } from '../consts';
 import { menuItem } from '../consts';
@@ -24,6 +27,14 @@ const Setting = () => {
                     .catch(() => null);
                 }
             });
+    }
+
+    const dispatch = useDispatch();
+
+    const {token} = useSelector(state => state.usersReducer);
+
+    const logOutHandler = () => {
+      dispatch(logOut())
     }
 
     const [userData, setUserData] = useState({});
@@ -51,9 +62,6 @@ const Setting = () => {
 
     // }
     } 
-    const logOutHandler = () => {
-    // dispatch(logOut())
-    }
 
 return (
     <SafeAreaView style={styles.safeAreaView}>
@@ -68,10 +76,18 @@ return (
                   openOnPressMail();
                   break
                 case "로그아웃" :
-                  alert("로그아웃 하시겠습니까?")
+                  Alert.alert("정말 로그아웃 하시겠습니까?", '', [
+                    {text: '확인', onPress: () => logOutHandler()},
+                    {text: '취소'}
+                  ])
                   break
                 case "탈퇴문의" : 
-                  alert("탈퇴하시겠습니까?")
+                Alert.alert("정말 서비스 이용을 중단하시겠습니까?", '', [
+                  {text: '확인', onPress: () => alert("탈퇴되었습니다.")},
+                  {text: '취소'}
+                ])                  
+                break
+                case "버전정보" : 
                   break
                 default :
                   movieScreen(item.screen)
@@ -118,7 +134,8 @@ export default Setting;
 
 const styles = StyleSheet.create({
     safeAreaView: {
-        backgroundColor: colors.white
+        backgroundColor: colors.white,
+        flex: 1
     },
     container: {
       flex: 1,
@@ -141,7 +158,7 @@ const styles = StyleSheet.create({
       paddingLeft: sizes.sideLine,
       height: sizes.headerTop,
       ...fonts.h3,
-      backgroundColor: 'white',
+      backgroundColor: colors.white,
       justifyContent: 'center',
       flexDirection: 'row'
     },

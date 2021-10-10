@@ -39,7 +39,7 @@ export default () => {
                 name="Detail" 
                 component={Detail} 
                 options={{
-                    headerShown: false
+                    headerShown: true
                 }}
             />
 

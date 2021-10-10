@@ -78,9 +78,6 @@ export default function App() {
     const [workbooks, setWorkbooks] = useState([]);
     const navigation = useNavigation();
 
-    const goToDetail = (id) => {
-        navigation.navigate("Detail", {id, isNcs: true})
-    };
     const scrollX = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
@@ -131,7 +128,7 @@ export default function App() {
 
                     const translateY = scrollX.interpolate({
                         inputRange,
-                        outputRange: [200, 50, 200],
+                        outputRange: [100, 50, 100],
                         extrapolate: 'clamp'
                     });
 
@@ -145,7 +142,8 @@ export default function App() {
                                     transform: [{translateY}],
                                     backgroundColor: colors.white,
                                     borderRadius: 34,
-                                    width: 400
+                                    // width: 300,
+                                    // height: 550
                                 }}
                             >
                                 <Image 
@@ -159,7 +157,7 @@ export default function App() {
                                 <Text style={styles.body} numberOfLines={3}>
                                     {item.description}
                                 </Text>
-                                <TouchableOpacity onPress={() => goToDetail(item.key)}>
+                                <TouchableOpacity onPress={() => navigation.navigate("Detail", {id: item._id, isNcs: true, title: item.title})}>
                                     <View style={styles.button}>
                                         <Text style={styles.buttonText}>
                                             자세히 보기
@@ -199,9 +197,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     posterImage: {
-        width: ITEM_SIZE * 1.2,
-        height: ITEM_SIZE * 1.5,
-        resizeMode: 'cover',
+        width: '100%',
+        height: ITEM_SIZE,
+        resizeMode: 'stretch',
         borderRadius: 24,
         marginBottom: sizes.bottom,
     },
@@ -212,25 +210,32 @@ const styles = StyleSheet.create({
         opacity: .5
     },
     button: {
-        width: sizes.buttonWidth,
-        height: sizes.buttonHeight,
-        marginTop: sizes.body,
+        width: sizes.buttonWidth * 2,
+        height: sizes.buttonHeight * 1.5,
+        marginTop: sizes.headerTop / 1.5,
         borderRadius: 24,
-        backgroundColor: colors.main4,
+        borderWidth: 1,
+        borderColor: colors.gray4,
+        // backgroundColor: colors.main4,
         justifyContent: 'center'
     },
     buttonText: {
-        ...fonts.h5,
-        color: colors.white,
+        ...fonts.h4,
+        color: colors.gray,
         textAlign: 'center',
         fontWeight: 'bold'
     },
     title: {
-        ...fonts.title
+        ...fonts.h2,
+        fontWeight: 'bold',
+        color: colors.gray2,
+        marginVertical: sizes.header
     },
     body: {
         ...fonts.body,
-        marginTop: sizes.bottom
+        color: colors.gray1,
+        marginHorizontal: sizes.sideLine / 2
+
     }
 });
   

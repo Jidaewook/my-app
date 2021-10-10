@@ -4,6 +4,7 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
 import { Feather } from '@expo/vector-icons';
+import moment from 'moment';
 
 import { colors, sizes, fonts } from '../consts';
 import { API_URL } from '../api/baseApi';
@@ -150,6 +151,11 @@ const Detail = ({route}) => {
                     <Text style={styles.MainTitle}>
                         {detail.title}
                     </Text>
+                    <View style={{alignItems: 'flex-end', marginRight: 20}}>
+                        <Text style={{marginTop: 15, color: colors.gray4}}>
+                            {moment(detail.createdAt).startOf('hour').fromNow()}
+                        </Text>
+                    </View>
                     <Text style={styles.MainDesc}>
                         {detail.desc}
                     </Text>

@@ -11,7 +11,7 @@ import { colors, fonts, sizes } from '../../consts';
 import HLine from '../../component/common/HLine';
 
 
-const Notification = ({isNot}) => {
+const Notification = () => {
 
     const tabs = ['공지사항', '알림'];
     const [active, setActive] = useState('공지사항');
@@ -111,7 +111,7 @@ const Notification = ({isNot}) => {
                     <>
                         <View style={styles.post} key={item._id}>
                             <TouchableOpacity
-                                onPress={() => navigation.navigate("Detail2", {id: item._id, isNot: true, title: item.title})}
+                                onPress={() => navigation.navigate("Detail2", {id: item._id, isNot: false, title: item.title})}
                             >
                                 <Text style={styles.title} >
                                     [{item.genres_ids[0]}]{" "}{item.title}
