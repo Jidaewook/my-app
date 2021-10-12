@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, TextInput, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, TextInput, ScrollView, Image} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
@@ -93,45 +93,55 @@ const Detail = ({route}) => {
 
     const renderComment = ({item}) => {
         return (
-            <View style={styles.CommentContainer}>
+            <View>
                 {comments.map(item => 
+                <View style={styles.CommentContainer}>
                     <View
                         style={styles.CommentView}
                     >
-                        <Text style={styles.CommentName}>
-                            {item.name.slice(0,5)}
-                        </Text>
-                        <Text style={styles.CommentFirst}>
-                            {item.comment}
-                        </Text>
-                        <View style={styles.info}>
-                            <Text style={styles.CommentDate}>
-                                {item.date}
+                        <View style={styles.avatarContainer}>
+                            <Image 
+                                source={require('../assets/profile/profile_sample.jpeg')}
+                                style={styles.avatar}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.CommentName}>
+                                {item.name.slice(0,5)}
                             </Text>
-                            <TouchableOpacity
-                                onPress={() => alert('삭제하시겠습니까')}
-                                style={styles.CommentAlert}
-                            >
-                                <Text style={styles.delete}>
-                                    삭제
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => alert('좋아요')}
-                                style={styles.likeBtn}
-                            >
-                                <Feather 
-                                    name="thumbs-up"
-                                    size={20}
-                                    color={colors.black}
-                                />
-                            </TouchableOpacity>
-                            <Text style={styles.likeCount}>
-                                    110
+                            <Text style={styles.CommentFirst}>
+                                {item.comment}
                             </Text>
                         </View>
-                        <HLine />
                     </View>
+                    <View style={styles.info}>
+                        <Text style={styles.moment}>
+                            {moment(detail.createdAt).startOf('hour').fromNow()}
+                        </Text>
+                        <TouchableOpacity
+                            onPress={() => alert('삭제하시겠습니까')}
+                            style={styles.CommentAlert}
+                        >
+                            <Text style={styles.delete}>
+                                삭제
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => alert('좋아요')}
+                            style={styles.likeBtn}
+                        >
+                            <Feather 
+                                name="thumbs-up"
+                                size={20}
+                                color={colors.black}
+                            />
+                        </TouchableOpacity>
+                        <Text style={styles.likeCount}>
+                                110
+                        </Text>
+                    </View>   
+                    <HLine />
+                </View>
                 )}       
             </View>
            )
@@ -146,30 +156,30 @@ const Detail = ({route}) => {
                     videoId={detail.url}
                 />
             </View>
-            <View style={styles.MainView}>
-                <View>
-                    <Text style={styles.MainTitle}>
-                        {detail.title}
-                    </Text>
-                    <View style={{alignItems: 'flex-end', marginRight: 20}}>
-                        <Text style={{marginTop: 15, color: colors.gray4}}>
-                            {moment(detail.createdAt).startOf('hour').fromNow()}
+            <ScrollView style={[styles.Container]} contentContainerStyle={styles.MainScroll}>
+                <View style={styles.MainView}>
+                    <View>
+                        <Text style={styles.MainTitle}>
+                            {detail.title}
+                        </Text>
+                        <View style={styles.momentView}>
+                            <Text style={styles.moment}>
+                                {moment(detail.createdAt).startOf('hour').fromNow()}
+                            </Text>
+                        </View>
+                        <Text style={styles.MainDesc}>
+                            {detail.desc}
                         </Text>
                     </View>
-                    <Text style={styles.MainDesc}>
-                        {detail.desc}
-                    </Text>
-                </View>
-                <View>
-                    <Text style={styles.slogan}>
-                        각종 적성검사의 기본기를
-                    </Text>
-                    <Text style={styles.slogan}>
-                        탄탄하게 다집니다!!
-                    </Text>
-                </View>
-                <HLine />
-                <ScrollView style={[styles.Container]} contentContainerStyle={styles.MainScroll}>
+                    <View>
+                        <Text style={styles.slogan}>
+                            각종 적성검사의 기본기를
+                        </Text>
+                        <Text style={styles.slogan}>
+                            탄탄하게 다집니다!!
+                        </Text>
+                    </View>
+                    <HLine />
                     <View>
                         <Text style={styles.CommentTitle}>
                             질문과 답변
@@ -194,9 +204,8 @@ const Detail = ({route}) => {
                         </View>
                         {renderComment(detail)}
                     </View>
-                </ScrollView>
-            </View>
-
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 };
@@ -238,22 +247,11 @@ const styles = StyleSheet.create({
         height: height * 1.7
     },
     MainScroll: {
-        height: '170%', 
-        paddingBottom: sizes.header, 
+        height: sizes.height*1.7, 
         paddingHorizontal: sizes.body, 
-        marginTop: sizes.header
-    },
-    CommentContainer: {
-        height: '180%'
-    },  
-    CommentView: {
-        borderWidth: 0.5,
-        borderColor: colors.white,
-        marginTop: 5
     },
     CommentTitle: {
         marginTop: sizes.bottom,
-        marginLeft: sizes.sideLine,
         ...fonts.subTitle,
         fontWeight: 'bold',
         width: '40%'
@@ -263,6 +261,16 @@ const styles = StyleSheet.create({
         marginHorizontal: sizes.sideLine, 
         color: colors.gray2
     },
+
+    // Comment Screen
+    CommentContainer: {
+        marginLeft: 15
+    },
+    CommentView: {
+        marginTop: 5,
+        flexDirection: 'row'
+    },
+    
     // CommentCount: {
     //     marginTop: 15,
     //     marginLeft: 5,
@@ -276,14 +284,13 @@ const styles = StyleSheet.create({
     //     color: themes.colors.gray
     // },
     CommentFirst: {
-        marginVertical: sizes.bottom,
         marginHorizontal: sizes.sideLine,
         ...fonts.h4,
-        width: '85%'
+        width: sizes.width / 1.4
     },
     CommentName: {
-        marginVertical: sizes.bottom,
-        marginHorizontal: sizes.sideLine,
+        marginVertical: 10,
+        marginHorizontal: sizes.body,
         ...fonts.h4,
         fontWeight: 'bold',
     },
@@ -296,6 +303,8 @@ const styles = StyleSheet.create({
     },
     info: {
         flexDirection: 'row',
+        marginLeft: sizes.sideLine * 3,
+        marginTop: -5
     },
     CommentDate: {
         marginLeft: sizes.sideLine,
@@ -328,16 +337,37 @@ const styles = StyleSheet.create({
         marginLeft: sizes.sideLine,
         marginTop: sizes.header,
     },
-    likeCount: {
-        marginLeft: sizes.sideLine,
-        marginTop: sizes.header,
-        justifyContent: 'center',
-        width: '10%',
-    },
     likeBtn: {
-        marginLeft: sizes.sideLine,
+        marginTop: sizes.body,
+        justifyContent: 'center',
+    },
+    likeCount: {
+        marginLeft: sizes.body,
         marginTop: sizes.header,
         justifyContent: 'center',
-        width: '5%',
+    },
+    // profile avatar
+    avatarContainer: {
+        position: 'relative',
+        alignItems: 'center',
+        marginTop: sizes.header,
+        marginLeft: -sizes.sideLine
+    },
+    avatar: {
+        width: sizes.sideLine * 3,
+        height: sizes.sideLine * 3,
+        borderRadius: 62,
+        alignItems: 'center'
+
+    },
+
+    // moment
+    momentView: {
+        alignItems: 'flex-end', 
+        marginRight: 20
+    },
+    moment: {
+        marginTop: 15, 
+        color: colors.gray2
     }
 });
