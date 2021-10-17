@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {View, SafeAreaView, StyleSheet, ScrollView, ActivityIndicator} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -33,6 +33,23 @@ const PostScreen = () => {
         getBbsData();
         setFilteredData();
     }, [])
+
+    // 포스트 모달
+    useLayoutEffect(() => {
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => setPostModal(true)}
+              style={{marginRight: 10}}>
+            <FontAwesome 
+                size={24}
+                color='black'
+                name='pencil-square-o'
+            />
+            </TouchableOpacity>
+          ),
+        });
+      }, [navigation]);
 
     // 게시판 탭 설정
 

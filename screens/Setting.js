@@ -37,6 +37,16 @@ const Setting = () => {
       dispatch(logOut())
     }
 
+    const openOnTerms = () => {
+        Linking.openURL("https://master.df476lzbmz9nc.amplifyapp.com/")
+              .then((supported) => {
+                if (supported) {
+                  return Linking.openURL(url)
+                    .catch(() => null);
+                }
+              })
+    }
+
     const [userData, setUserData] = useState({});
     const [isEnabled, setIsEnabled] = useState(false);
   
@@ -89,6 +99,8 @@ return (
                 break
                 case "버전정보" : 
                   break
+                case "서비스이용약관" : 
+                  openOnTerms();
                 default :
                   movieScreen(item.screen)
                   break
