@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {VAsyncStorage, TouchableOpacity, SectionList, SafeAreaView, View, Alert, Text, StyleSheet} from 'react-native';
+import {VAsyncStorage, TouchableOpacity, SectionList, SafeAreaView, View, Alert, Text, StyleSheet, Linking} from 'react-native';
+// import * as Linking from 'expo-linking';
 import SettingSection from '../component/common/SettingSection';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
-import * as Linking from 'expo-linking';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../redux/userSlice';
@@ -19,16 +19,6 @@ const Setting = () => {
         navigation.navigate(a)
     };
 
-    const openOnPressMail = () => {
-        Linking.openURL("mailto:dw4157@naver.com")
-            .then((supported) => {
-                if (supported) {
-                return Linking.openURL(url)
-                    .catch(() => null);
-                }
-            });
-    }
-
     const dispatch = useDispatch();
 
     const {token} = useSelector(state => state.usersReducer);
@@ -37,14 +27,7 @@ const Setting = () => {
       dispatch(logOut())
     }
 
-    const openOnTerms = () => {
-        Linking.openURL("https://master.df476lzbmz9nc.amplifyapp.com/")
-              .then((supported) => {
-                if (supported) {
-                  return Linking.openURL(url)
-                    .catch(() => null);
-                }
-              })
+    const openOnPressMail = () => {
     }
 
     const [userData, setUserData] = useState({});
@@ -83,7 +66,7 @@ return (
             onPress={() => {
               switch (item.title) {
                 case "서비스문의", "오류신고", "구독문의" :
-                  openOnPressMail();
+                  () => {Linking.openURL("https://m.naver.com")}
                   break
                 case "로그아웃" :
                   Alert.alert("정말 로그아웃 하시겠습니까?", '', [
@@ -100,7 +83,14 @@ return (
                 case "버전정보" : 
                   break
                 case "서비스이용약관" : 
-                  openOnTerms();
+                  navigation.navigate('Webview', {uri: "agreeterms", title: "서비스이용약관"})
+                  break
+                case "개인정보정책" : 
+                  navigation.navigate('Webview', {uri: "privacy", title: "개인정보정책"})
+                  break
+                case "FAQ" : 
+                  navigation.navigate('Frequency', {title: "FAQ"})
+                  break
                 default :
                   movieScreen(item.screen)
                   break

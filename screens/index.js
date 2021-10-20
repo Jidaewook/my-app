@@ -19,5 +19,7 @@ import ProfileEdit from "./profile/ProfileEdit";
 import Detail from './Detail';
 import Detail2 from './Detail2';
 import Setting from "./Setting";
+import Frequency from './profile/Frequency';
+import WebviewScreen from './WebviewScreen';
 
-export {LoginScreen, RegisterScreen, AddInfoScreen, ForgotPwScreen, Welcome, MainScreen, Notification, MoreScreen, PostScreen, PostDetail, WorkbookScreen, ProfileScreen, ProfileEdit, Detail, Detail2, Setting}
+export {LoginScreen, RegisterScreen, AddInfoScreen, ForgotPwScreen, Welcome, MainScreen, Notification, MoreScreen, PostScreen, PostDetail, WorkbookScreen, ProfileScreen, ProfileEdit, Detail, Detail2, Setting, Frequency, WebviewScreen}
