@@ -2,10 +2,13 @@ import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {View, SafeAreaView, StyleSheet, ScrollView, ActivityIndicator} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import { colors } from '../../consts';
+import { FontAwesome } from '@expo/vector-icons';
 
 import PostList from '../../component/common/PostList';
 import TopMenu from '../../component/common/TopMenu';
+import PostModal from '../../component/common/modal/Post';
+import { colors } from '../../consts';
+
 
 const PostScreen = () => {
 
@@ -55,6 +58,22 @@ const PostScreen = () => {
 
     const [postModal, setPostModal] = useState(false);
 
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+            <TouchableOpacity
+                onPress={() => setPostModal(true)}
+                style={{marginRight: 10}}>
+            <FontAwesome 
+                size={24}
+                color='black'
+                name='pencil-square-o'
+            />
+            </TouchableOpacity>
+            ),
+        });
+    }, [navigation]);
+
     const handleTab = tab => {
         const filtered = bbs.filter(item => 
             item.tag.includes(tab.toLowerCase())    
@@ -91,7 +110,7 @@ const PostScreen = () => {
                         {active === '자유게시판' && <PostList datas={filteredData} /> }
                         {active === '질문게시판' && <PostList datas={filteredData} /> }
                         {active === '합격수기' && <PostList datas={filteredData} /> }
-                        {/* {postModal && <PostModal />} */}
+                        {postModal && <PostModal />}
                        
                     </View>
                 )}  

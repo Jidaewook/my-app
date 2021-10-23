@@ -1,8 +1,8 @@
 import React, {useState, useRef} from 'react';
-import {View, Text, Modal, TouchableWithoutFeedback, Keyboard, TextInput} from 'react-native';
+import {View, Text, Modal, TouchableWithoutFeedback, StyleSheet, SafeAreaView, Keyboard, TextInput} from 'react-native';
 import axios from 'axios';
 
-import { colors, fonts,  } from '../../../consts';
+import { colors, fonts, sizes,  } from '../../../consts';
 import HLine from '../HLine';
 
 
@@ -83,12 +83,45 @@ const Post = ({visible, close, complete}) => {
     }
     
     return (
-        <View>
-            <Text>
+        <DismissKeyboard>
+            <Modal
+                animationType="slide"
+                visible={show}
+                onRequestClose={setShow(false)}
+                presentationStyle={'overFullScreen'}
+            >
+                {/* <SafeAreaView
+                    style={styles.Container}
+                >
+                    <View
+                        style={styles.ContainerView}
+                    >
+                        <Text>
+                            글쓰기
+                        </Text>
+                    </View>
+                </SafeAreaView> */}
 
-            </Text>
-        </View>
+            </Modal>
+        </DismissKeyboard>
     );
 };
 
 export default Post;
+
+const styles = StyleSheet.create({
+    Container: {
+        backgroundColor: colors.white
+    },
+    ContainerView: {
+        marginTop: sizes.sideLine, 
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        backgroundColor: colors.white
+    },
+    ModalTitle: {
+        // ...fonts.h2,
+        // fontWeight: 'bold', 
+        // colors: colors.black
+    }
+})

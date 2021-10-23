@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
         width: sizes.width / 1.4
     },
     CommentName: {
-        marginVertical: 10,
+        marginVertical: sizes.sideLine/2,
         marginHorizontal: sizes.body,
         ...fonts.h4,
         fontWeight: 'bold',

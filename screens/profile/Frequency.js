@@ -3,34 +3,36 @@ import {View, Text, StyleSheet, TouchableOpacity, Image, Dimensions} from 'react
 import {Transition, Transitioning, TransitioningView} from 'react-native-reanimated';
 import { FontAwesome } from '@expo/vector-icons';
 
-import { colors, sizes } from '../../consts';
+import { colors, sizes, fonts } from '../../consts';
 
 const screenWidth = Dimensions.get('window').width;
 
-
-
-
 const categories = [
     {
-      category: '패스매니저가 무엇인가요?',
-      bg: '#00f',
-      answer: '패스매니저는 여러분의 수험 생활을 관리해주는 최전선 관리인입니다. 수험생활을 하는 데 있어 필요한 교육과정과 맞춤형 관리를 할 수 있도록 제공되는, 패스미 고유의 학습관리 서비스입니다.'
+        title: '패스매니저가 무엇인가요?',
+        bg: '#00f',
+        answer: '패스매니저는 여러분의 수험 생활을 관리해주는 최전선 관리인입니다. 수험생활을 하는 데 있어 필요한 교육과정과 맞춤형 관리를 할 수 있도록 제공되는, 패스미 고유의 학습관리 서비스입니다.'
     },
     {
-    category: '패스매니저가 무엇인가요?',
+        title: '패스매니저는 어떻게 구성되어 있나요?',
     bg: '#00f',
-    answer: '패스매니저는 여러분의 수험 생활을 관리해주는 최전선 관리인입니다. 수험생활을 하는 데 있어 필요한 교육과정과 맞춤형 관리를 할 수 있도록 제공되는, 패스미 고유의 학습관리 서비스입니다.'
+    answer: '패스매니저는 NCS/PSAT을 중심으로, 각종 적성검사 문제풀이 역량을 강화시키기 위한 커리큘럼으로 구성되어 있습니다. 크게 기초모듈이론, 기출문제분석, 실전연습으로 구분합니다.'
     },
     {
-    category: '패스매니저가 무엇인가요?',
+        title: 'NCS는 무엇인가요?',
     bg: '#00f',
-    answer: '패스매니저는 여러분의 수험 생활을 관리해주는 최전선 관리인입니다. 수험생활을 하는 데 있어 필요한 교육과정과 맞춤형 관리를 할 수 있도록 제공되는, 패스미 고유의 학습관리 서비스입니다.'
+    answer: 'NCS는 공기업 직무적성 검사로, 공기업 시험을 구성하고 있는 시험체계입니다. 구체적으로는 복잡하게 나뉘겠지만, 의사소통/수리능력/문제해결능력을 포함한 총 10개 과목으로 구성되어 있습니다. 자세한 내용은 영상을 확인해주시기 바랍니다.'
     },
     {
-    category: '패스매니저가 무엇인가요?',
+        title: 'PSAT는 무엇인가요?',
     bg: '#00f',
-    answer: '패스매니저는 여러분의 수험 생활을 관리해주는 최전선 관리인입니다. 수험생활을 하는 데 있어 필요한 교육과정과 맞춤형 관리를 할 수 있도록 제공되는, 패스미 고유의 학습관리 서비스입니다.'
+    answer: 'PSAT는 공직 직무적성 검사로, 공무원 시험의 1차 시험으로 구성된 적성검사 시험체계입니다. 언어논리, 자료해석, 상황판단으로 구성되어 있습니다.'
     },
+    {
+        title: '구독했을 때의 혜택은 무엇인가요?',
+        vg: '#00f',
+        answer: '패스미를 구독하면, 패스미에서 제공되는 모든 서비스를 이용할 수 있습니다. 온라인으로 제공되는 영상과 pdf로 제공되는 모든 파일들의 이용권한, 상담권을 받게 됩니다.'
+    }
   ];
 
 const Frequency = () => {
@@ -52,7 +54,10 @@ const Frequency = () => {
             transition={transition}
             style={styles.container}
         >
-            {categories.map(({category, answer, bg}, index) => {
+            <View
+                style={styles.containerView}
+            >
+            {categories.map(({title, answer, bg}, index) => {
                 return (
                     <TouchableOpacity
                         onPress={() => {
@@ -66,11 +71,11 @@ const Frequency = () => {
                         
                         <View style={styles.card}>
                             <View style={styles.headerContainer}>
-                                <Text style={styles.headerName}>{category}</Text>
+                                <Text style={styles.headerName}>{title}</Text>
                                 <FontAwesome
-                                size={25}
-                                color="#000"
-                                name={index === currentIndex ? 'chevron-up' : 'chevron-down'}
+                                    size={25}
+                                    color="#000"
+                                    name={index === currentIndex ? 'chevron-up' : 'chevron-down'}
                                 />
                             </View>
                             {index === currentIndex && (
@@ -80,7 +85,7 @@ const Frequency = () => {
                                         style={styles.category}
                                         key={answer + Math.random() * 5}
                                     >
-                                        <Text>
+                                        <Text style={styles.answerText}>
                                             {answer}
                                         </Text>
                                     </TouchableOpacity>
@@ -111,6 +116,7 @@ const Frequency = () => {
                     </TouchableOpacity>
                 );
             })}
+            </View>
 
         </Transitioning.View>
     );
@@ -121,10 +127,12 @@ export default Frequency;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
-        marginHorizontal: 20,
-        paddingTop: 20,
+        paddingTop: sizes.sideLine,
+        backgroundColor: colors.white
       },
+      containerView: {
+        marginHorizontal: sizes.sideLine
+      },    
       cardContainer: {
         // flexGrow: 1,
       },
@@ -151,15 +159,17 @@ const styles = StyleSheet.create({
         // backgroundColor: '#f04',
       },
       category: {
-        // backgroundColor: '#f04',
-        width: screenWidth / 4,
-        height: screenWidth / 4,
+        // width: screenWidth / 4,
+        // height: screenWidth / 4,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 25,
-        alignSelf:"center"
+        padding: sizes.body / 2,
+        alignSelf:"center",
+
       },
-    
+      answerText: {
+        ...fonts.h4
+      },
       itemContainer: {
         alignItems: 'center',
         justifyContent: 'center',
