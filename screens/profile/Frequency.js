@@ -73,8 +73,8 @@ const Frequency = () => {
                             <View style={styles.headerContainer}>
                                 <Text style={styles.headerName}>{title}</Text>
                                 <FontAwesome
-                                    size={25}
-                                    color="#000"
+                                    size={14}
+                                    color={colors.gray1}
                                     name={index === currentIndex ? 'chevron-up' : 'chevron-down'}
                                 />
                             </View>
@@ -138,22 +138,24 @@ const styles = StyleSheet.create({
       },
       card: {
         flexGrow: 1,
-        marginVertical: 20,
+        marginVertical: sizes.sideLine,
       },
       headerContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
       },
       headerName: {
-        fontSize: 21,
+        ...fonts.h4,
         fontWeight: 'bold',
+        color: colors.gray1
       },
       subCategory: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignItems: 'center',
-        marginTop: 20,
-        marginHorizontal:20, // delete it later
+        marginTop: sizes.header,
+        
+        // delete it later
         // justifyContent: 'center',
         // justifyContent: 'center',
         // backgroundColor: '#f04',
@@ -168,7 +170,8 @@ const styles = StyleSheet.create({
 
       },
       answerText: {
-        ...fonts.h4
+        ...fonts.h4,
+        color: colors.gray1
       },
       itemContainer: {
         alignItems: 'center',

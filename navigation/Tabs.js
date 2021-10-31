@@ -5,6 +5,21 @@ import { Feather } from '@expo/vector-icons';
 import { HomeStack, PostStack, ProfileStack, WorkbookStack } from '.';
 import { colors } from '../consts';
 
+// const getTabBarVisibility = (route) => {
+//     // const routeName = route.state
+//     //     ? route.name 
+//     //     : ''
+
+//     //     console.log("-------", routeName)
+
+
+//     // if (routeName === 'PostRegister') {
+//     //     return false
+//     // }
+//     // return true
+
+//     console.log("-----", route.state.routes[route.state.index].name)
+// }
 
 const Tabbar = createBottomTabNavigator();
 
@@ -12,6 +27,7 @@ const Tabs = () => {
 
     return (
         <Tabbar.Navigator
+            
             screenOptions={({route}) => ({
                 tabBarIcon: ({focused}) => {
                     let iconName
@@ -39,7 +55,8 @@ const Tabs = () => {
                     fontSize: 12,
                     marginTop: -5
                 },
-                headerShown: false
+                headerShown: false,
+                
             })}            
         >
             <Tabbar.Screen 
@@ -53,11 +70,15 @@ const Tabs = () => {
             <Tabbar.Screen 
                 name={"Post"}
                 component={PostStack}
+                
+                
+
             />
             <Tabbar.Screen 
                 name={"Profile"}
                 component={ProfileStack}
             />
+            
         </Tabbar.Navigator>
     );
 };

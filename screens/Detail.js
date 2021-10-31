@@ -7,7 +7,7 @@ import { Feather } from '@expo/vector-icons';
 import moment from 'moment';
 
 import { colors, sizes, fonts } from '../consts';
-import { API_URL } from '../api/baseApi';
+// import { API_URL } from '../api/baseApi';
 import HLine from '../component/common/HLine';
 
 const {width, height} = Dimensions.get('window');
@@ -64,7 +64,7 @@ const Detail = ({route}) => {
 
     const [detail, setDetail] = useState({});
     const [loading, setLoading] = useState(true);
-    const [text, onChangeText] = useState('내용이 없습니다.');
+    const [text, setText] = useState('');
 
     const getDetail = async (detailId) => {
         try {
@@ -181,9 +181,20 @@ const Detail = ({route}) => {
                     </View>
                     <HLine />
                     <View>
-                        <Text style={styles.CommentTitle}>
-                            질문과 답변
-                        </Text>
+                        <View style={styles.CommentTitleFlex}>
+                            <Text style={styles.CommentTitle}>
+                                질문과 답변
+                            </Text>
+                            <TouchableOpacity 
+                                onPress={() => navigation.navigate("Detail_Comments", {title: "전체보기"})}
+                            >
+                                <Text style={styles.CommentMore}>
+                                    더보기
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        
                         <Text style={styles.CommentDesc}>
                             질문에 대한 답변은 개인 쪽지로 드리거나 영상 콘텐츠로 제작되어 공개됩니다.
                         </Text>
@@ -191,7 +202,8 @@ const Detail = ({route}) => {
                             <TextInput 
                                 style={styles.CommentInput}
                                 value={text}
-                                onChangeText={onChangeText}
+                                placeholder={'내용이 없습니다.'}
+                                onChangeText={(input) => setText(input)}
                             />
                             <TouchableOpacity
                                 style={styles.CommentBtn}
@@ -250,11 +262,23 @@ const styles = StyleSheet.create({
         height: sizes.height*1.7, 
         paddingHorizontal: sizes.body, 
     },
+    CommentTitleFlex: {
+        flexDirection: 'row'
+    },
+    CommentTitleFlex: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
     CommentTitle: {
         marginTop: sizes.bottom,
         ...fonts.subTitle,
         fontWeight: 'bold',
         width: '40%'
+    },
+    CommentMore: {
+        marginTop: sizes.header,
+        ...fonts.h5,
+        marginRight: sizes.body
     },
     CommentDesc: {
         marginTop: sizes.header, 
@@ -303,7 +327,7 @@ const styles = StyleSheet.create({
     },
     info: {
         flexDirection: 'row',
-        marginLeft: sizes.sideLine * 3,
+        marginLeft: sizes.sideLine * 2,
         marginTop: -5
     },
     CommentDate: {
@@ -354,8 +378,8 @@ const styles = StyleSheet.create({
         marginLeft: -sizes.sideLine
     },
     avatar: {
-        width: sizes.sideLine * 3,
-        height: sizes.sideLine * 3,
+        width: sizes.sideLine * 2.5,
+        height: sizes.sideLine * 2.5,
         borderRadius: 62,
         alignItems: 'center'
 

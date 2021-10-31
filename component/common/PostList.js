@@ -12,13 +12,11 @@ const PostList = ({datas}) => {
     const navigation = useNavigation();
 
     return (
-        <View
-            // style={styles.Container}
-        >
+        <>
             {datas.map(data => (
                 <>
                     <TouchableOpacity
-                        key={data._id}
+                        key={`${data._id}`}
                         onPress={() => navigation.navigate("PostDetail", {id: data._id, title: data.title})}
                         style={styles.ListBtn}
                     >
@@ -75,7 +73,7 @@ const PostList = ({datas}) => {
             ))}
             
             
-        </View>
+        </>
     );
 };
 

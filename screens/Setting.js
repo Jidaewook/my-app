@@ -66,7 +66,7 @@ return (
             onPress={() => {
               switch (item.title) {
                 case "서비스문의", "오류신고", "구독문의" :
-                  () => {Linking.openURL("https://m.naver.com")}
+                  () => {Linking.openURL("mailto:dw4157@naver.com")}
                   break
                 case "로그아웃" :
                   Alert.alert("정말 로그아웃 하시겠습니까?", '', [

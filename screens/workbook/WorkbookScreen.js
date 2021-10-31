@@ -111,7 +111,7 @@ export default function App() {
                 snapToInterval={ITEM_SIZE}
                 snapToAlignment='start'
                 onScroll={Animated.event(
-                    [{nativeEvent: {contentOffset: {x: scrollX}}}],
+                    [{nativeEvent: { contentOffset: {x: scrollX} }}],
                     {useNativeDriver: false}
                 )}
                 scrollEventThrottle={16}

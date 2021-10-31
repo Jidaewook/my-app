@@ -1,18 +1,17 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, TextInput, ScrollView, Image} from 'react-native';
-import YoutubePlayer from 'react-native-youtube-iframe';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
 import { Feather } from '@expo/vector-icons';
 import moment from 'moment';
 
-import { colors, sizes, fonts } from '../../consts/';
-import { API_URL } from '../../api/baseApi';
-import HLine from '../../component/common/HLine';
 
-const {width, height} = Dimensions.get('window');
+import { colors, sizes, fonts } from '../consts';
+import { API_URL } from '../api/baseApi';
+import HLine from '../component/common/HLine';
 
-// axios.defaults.baseURL = "http://localhost:8081"
+
+axios.defaults.baseURL = "http://localhost:8081"
 
 const comments = [
     {
@@ -56,21 +55,26 @@ const comments = [
     },
 ]
 
-const Detail = ({route}) => {
+const Detail_Comments = ({route}) => {
 
     const navigation = useNavigation();
     
     const {title} = route.params;
 
-    const [detail, setDetail] = useState({});
     const [loading, setLoading] = useState(true);
-    const [text, onChangeText] = useState('내용이 없습니다.');
+    const [text, setText] = useState('');
+    const [detail, setDetail] = useState({});
 
     const getDetail = async (detailId) => {
         try {
-            const {data} = await axios.get(`/bbs/${detailId}`)
+            const {data} = isNcs    
+                // ? await axios.get(`${API_URL}/ncs/${detailId}`)
+                ? await axios.get(`/ncs/${detailId}`)
+
+                // : await axios.get(`${API_URL}/psat/${detailId}`)
+                : await axios.get(`/psat/${detailId}`)
+
             setDetail(data.results)
-            console.log(data.results)
         } catch (err) {
             console.log(err)
         }
@@ -88,7 +92,7 @@ const Detail = ({route}) => {
 
     const renderComment = ({item}) => {
         return (
-            <View>
+            <View style={{marginLeft: sizes.body / 2}}>
                 {comments.map(item => 
                 <View style={styles.CommentContainer}>
                     <View
@@ -96,7 +100,7 @@ const Detail = ({route}) => {
                     >
                         <View style={styles.avatarContainer}>
                             <Image 
-                                source={require('../../assets/profile/profile_sample.jpeg')}
+                                source={require('../assets/profile/profile_sample.jpeg')}
                                 style={styles.avatar}
                             />
                         </View>
@@ -144,77 +148,48 @@ const Detail = ({route}) => {
 
 
     return (
-        <SafeAreaView style={styles.Container}>
-            <View style={styles.MainView}>
-                <View>
-                    <Text style={styles.MainTitle}>
-                        {detail.title}
-                    </Text>
-                    <View style={{alignItems: 'flex-end', marginRight: 20}}>
-                        <Text style={{marginTop: 15, color: colors.gray4}}>
-                            {moment(detail.createdAt).startOf('hour').fromNow()}
-                        </Text>
-                    </View>
-                    
-                    <Text style={styles.MainDesc}>
-                        {detail.desc}
+        <SafeAreaView style={{backgroundColor: colors.white}}>
+            <ScrollView style={styles.Container}>
+                <View style={styles.CommentTitleFlex}>
+                    <Text style={styles.CommentTitle}>
+                        질문과 답변
                     </Text>
                 </View>
-                <View style={{marginTop: sizes.headerTop}}>
-                    <HLine />
-                </View>
-                <ScrollView style={[styles.Container]} contentContainerStyle={styles.MainScroll}>
-                    <View>
-                        <View style={styles.CommentTitleFlex}>
-                            <Text style={styles.CommentTitle}>
-                                질문과 답변
-                            </Text>
-                            <TouchableOpacity 
-                                onPress={() => navigation.navigate("Detail_Comments", {title: "전체보기"})}
-                            >
-                                <Text style={styles.CommentMore}>
-                                    더보기
-                                </Text>
-                            </TouchableOpacity>
-                            
-                            
-                        </View>
-                        <Text style={styles.CommentDesc}>
-                            질문에 대한 답변은 개인 쪽지로 드리거나 영상 콘텐츠로 제작되어 공개됩니다.
+                <Text style={styles.CommentDesc}>
+                    질문에 대한 답변은 개인 쪽지로 드리거나 영상 콘텐츠로 제작되어 공개됩니다.
+                </Text>
+                <View style={{flexDirection: 'row'}}>
+                    <TextInput 
+                        style={styles.CommentInput}
+                        value={text}
+                        placeholder={'내용이 없습니다.'}
+                        onChangeText={(input) => setText(input)}
+                    />
+                    <TouchableOpacity
+                        style={styles.CommentBtn}
+                        onPress={() => alert("등록하시겠습니까?")}
+                    >
+                        <Text style={styles.RegisterButton}>
+                            등록
                         </Text>
-                    
-                        <View style={{flexDirection: 'row'}}>
-                            <TextInput 
-                                style={styles.CommentInput}
-                                value={text}
-                                onChangeText={onChangeText}
-                            />
-                            <TouchableOpacity
-                                style={styles.CommentBtn}
-                                onPress={() => alert("등록하시겠습니까?")}
-                            >
-                                <Text style={styles.RegisterButton}>
-                                    등록
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                        {renderComment(detail)}
-                    </View>
-                </ScrollView>
-            </View>
+                    </TouchableOpacity>
+                </View>
+                {renderComment(detail)}
 
+            </ScrollView>
         </SafeAreaView>
+        
     );
 };
 
-export default Detail;
+export default Detail_Comments;
 
 const styles = StyleSheet.create({
     
     Container: {
         backgroundColor: colors.white,
-        marginLeft: sizes.zero,
-        marginRight: sizes.zero,
+        marginLeft: sizes.body,
+        marginRight: sizes.body,
         marginHorizontal: sizes.sideLine,        
     },
     MainTitle: {
@@ -241,18 +216,18 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     MainView: {
-        height: height * 1.2
+        height: sizes.height * 1.7
     },
     MainScroll: {
-        height: sizes.height*1.7,
+        height: sizes.height*1.7, 
         paddingHorizontal: sizes.body, 
     },
-    CommentContainer: {
-        marginLeft: 15
-    },  
-    CommentView: {
-        marginTop: 5,
+    CommentTitleFlex: {
         flexDirection: 'row'
+    },
+    CommentTitleFlex: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     CommentTitle: {
         marginTop: sizes.bottom,
@@ -265,15 +240,21 @@ const styles = StyleSheet.create({
         ...fonts.h5,
         marginRight: sizes.body
     },
-    CommentTitleFlex: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
     CommentDesc: {
         marginTop: sizes.header, 
         marginHorizontal: sizes.sideLine, 
         color: colors.gray2
     },
+
+    // Comment Screen
+    CommentContainer: {
+        marginLeft: 15
+    },
+    CommentView: {
+        marginTop: 5,
+        flexDirection: 'row'
+    },
+    
     // CommentCount: {
     //     marginTop: 15,
     //     marginLeft: 5,
@@ -292,7 +273,7 @@ const styles = StyleSheet.create({
         width: sizes.width / 1.4
     },
     CommentName: {
-        marginVertical: sizes.sideLine /2,
+        marginVertical: sizes.sideLine/2,
         marginHorizontal: sizes.body,
         ...fonts.h4,
         fontWeight: 'bold',
@@ -340,15 +321,16 @@ const styles = StyleSheet.create({
         marginLeft: sizes.sideLine,
         marginTop: sizes.header,
     },
+    likeBtn: {
+        marginTop: sizes.body,
+        justifyContent: 'center',
+    },
     likeCount: {
         marginLeft: sizes.body,
         marginTop: sizes.header,
         justifyContent: 'center',
     },
-    likeBtn: {
-        marginTop: sizes.body,
-        justifyContent: 'center',
-    },
+    // profile avatar
     avatarContainer: {
         position: 'relative',
         alignItems: 'center',
@@ -362,6 +344,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
 
     },
+
+    // moment
     momentView: {
         alignItems: 'flex-end', 
         marginRight: 20

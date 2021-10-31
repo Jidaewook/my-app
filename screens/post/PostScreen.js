@@ -1,13 +1,15 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
-import {View, SafeAreaView, StyleSheet, ScrollView, ActivityIndicator} from 'react-native';
+import {View, SafeAreaView, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import ActionButton from 'react-native-action-button';
 
 import PostList from '../../component/common/PostList';
 import TopMenu from '../../component/common/TopMenu';
 import PostModal from '../../component/common/modal/Post';
 import { colors } from '../../consts';
+import { PostRegister } from '..';
 
 
 const PostScreen = () => {
@@ -20,6 +22,7 @@ const PostScreen = () => {
     const [active, setActive] = useState('전체');
     const [bbs, setBbs] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
+    const [postModal, setPostModal] = useState(false);
 
     const getBbsData = async() => {
         axios   
@@ -38,41 +41,21 @@ const PostScreen = () => {
     }, [])
 
     // 포스트 모달
-    useLayoutEffect(() => {
-        navigation.setOptions({
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => setPostModal(true)}
-              style={{marginRight: 10}}>
-            <FontAwesome 
-                size={24}
-                color='black'
-                name='pencil-square-o'
-            />
-            </TouchableOpacity>
-          ),
-        });
-      }, [navigation]);
-
-    // 게시판 탭 설정
-
-    const [postModal, setPostModal] = useState(false);
-
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerRight: () => (
-            <TouchableOpacity
-                onPress={() => setPostModal(true)}
-                style={{marginRight: 10}}>
-            <FontAwesome 
-                size={24}
-                color='black'
-                name='pencil-square-o'
-            />
-            </TouchableOpacity>
-            ),
-        });
-    }, [navigation]);
+    // useLayoutEffect(() => {
+    //     navigation.setOptions({
+    //       headerRight: () => (
+    //         <TouchableOpacity
+    //           onPress={() => setPostModal(true)}
+    //           style={{marginRight: 10}}>
+    //         <FontAwesome 
+    //             size={24}
+    //             color='black'
+    //             name='pencil-square-o'
+    //         />
+    //         </TouchableOpacity>
+    //       ),
+    //     });
+    //   }, [navigation]);
 
     const handleTab = tab => {
         const filtered = bbs.filter(item => 
@@ -93,7 +76,7 @@ const PostScreen = () => {
                             onPress={() => handleTab(tab)}
                             tab={tab}
                             isActive={active === tab}
-                        />
+                        />                        
                     )
                 })}
             </View>
@@ -110,11 +93,27 @@ const PostScreen = () => {
                         {active === '자유게시판' && <PostList datas={filteredData} /> }
                         {active === '질문게시판' && <PostList datas={filteredData} /> }
                         {active === '합격수기' && <PostList datas={filteredData} /> }
-                        {postModal && <PostModal />}
+                        {/* {postModal && <PostModal />} */}
                        
                     </View>
                 )}  
             </ScrollView>
+            <ActionButton buttonColor={colors.main4}>
+                <ActionButton.Item
+                    buttonColor={colors.main4}
+                    title="Notice"
+                    onPress={() => {
+
+                        navigation.push("PostRegister")
+                        
+                    }}
+                >
+                    <Ionicons 
+                        name="back"
+                        style={styles.actionButton}
+                    />
+                </ActionButton.Item>
+            </ActionButton>
         </SafeAreaView>
     );
 };
@@ -143,6 +142,10 @@ const styles = StyleSheet.create({
         paddingVertical: 10, 
         paddingRight: 10
     },
-
+    actionButton: {
+        fontSize: 20,
+        height: 22,
+        color: 'white'
+    }
 
 })

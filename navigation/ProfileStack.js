@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import { ProfileScreen, ProfileEdit, Setting, Detail, Frequency, WebviewScreen } from '../screens';
+import { ProfileScreen, ProfileEdit, Setting, Detail, Alarm, Frequency, WebviewScreen } from '../screens';
 import BackBtn from '../component/common/BackBtn';
 
 const PStack = createStackNavigator();
@@ -52,6 +52,13 @@ export default () => {
             <PStack.Screen 
                 name="Webview" 
                 component={WebviewScreen} 
+                options={{
+                    headerShown: true
+                }}
+            />
+            <PStack.Screen 
+                name="Alarm" 
+                component={Alarm} 
                 options={{
                     headerShown: true
                 }}
