@@ -47,8 +47,8 @@ const ProfileScreen = () => {
 
     const getInfo = async() => {
         try {
-            // const {data} = await axios.get(`${API_URL}/users/userinfo`, config)
-            const {data} = await axios.get('http://localhost:8081/users/userinfo', config)
+            const {data} = await axios.get(`${API_URL}/users/userinfo`, config)
+            // const {data} = await axios.get('http://localhost:8081/users/userinfo', config)
 
             setName(data.name)
             setInstitue(data.institue)
@@ -61,8 +61,8 @@ const ProfileScreen = () => {
 
     const getRecent = async() => {
         try {
-            // const {data} = await axios.get(`${API_URL}/ncs`)
-            const {data} = await axios.get('http://localhost:8081/ncs')
+            const {data} = await axios.get(`${API_URL}/ncs`)
+            // const {data} = await axios.get('http://localhost:8081/ncs')
             setRecent(data.results)
         } catch(err) {
             console.log(err)
@@ -71,8 +71,8 @@ const ProfileScreen = () => {
 
     const getLike = async() => {
         try{
-            // const {data} = await axios.get(`${API_URL}/ncs`)
-            const {data} = await axios.get('http://localhost:8081/ncs')
+            const {data} = await axios.get(`${API_URL}/ncs`)
+            // const {data} = await axios.get('http://localhost:8081/ncs')
             setLike(data.results)
         } catch(err) {
             console.log(err)

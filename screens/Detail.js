@@ -7,12 +7,12 @@ import { Feather } from '@expo/vector-icons';
 import moment from 'moment';
 
 import { colors, sizes, fonts } from '../consts';
-// import { API_URL } from '../api/baseApi';
+import { API_URL } from '../api/baseApi';
 import HLine from '../component/common/HLine';
 
 const {width, height} = Dimensions.get('window');
 
-axios.defaults.baseURL = "http://localhost:8081"
+// axios.defaults.baseURL = "http://localhost:8081"
 
 const comments = [
     {
@@ -61,6 +61,10 @@ const Detail = ({route}) => {
     const navigation = useNavigation();
     
     const {id, isNcs, title} = route.params;
+    console.log(id)
+    console.log(isNcs)
+    console.log(title)
+
 
     const [detail, setDetail] = useState({});
     const [loading, setLoading] = useState(true);
@@ -69,11 +73,11 @@ const Detail = ({route}) => {
     const getDetail = async (detailId) => {
         try {
             const {data} = isNcs    
-                // ? await axios.get(`${API_URL}/ncs/${detailId}`)
-                ? await axios.get(`/ncs/${detailId}`)
+                ? await axios.get(`${API_URL}/ncs/${detailId}`)
+                // ? await axios.get(`/ncs/${detailId}`)
 
-                // : await axios.get(`${API_URL}/psat/${detailId}`)
-                : await axios.get(`/psat/${detailId}`)
+                : await axios.get(`${API_URL}/psat/${detailId}`)
+                // : await axios.get(`/psat/${detailId}`)
 
             setDetail(data.results)
         } catch (err) {

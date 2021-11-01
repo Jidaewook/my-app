@@ -22,8 +22,9 @@ const MainScreen = () => {
 
     const getNcs = async() => {
         try {
-            // const {data} = await axios.get(`${API_URL}/ncs`)
-            const {data} = await axios.get('http://localhost:8081/ncs')
+            const {data} = await axios.get(`${API_URL}/ncs`)
+            console.log(data)
+            // const {data} = await axios.get('http://localhost:8081/ncs')
 
             setNcs(data.results)
             console.log(ncs)
@@ -34,8 +35,8 @@ const MainScreen = () => {
 
     const getPsat = async() => {
         try {
-            // const {data} = await axios.get(`${API_URL}/psat`)
-            const {data} = await axios.get('http://localhost:8081/psat')
+            const {data} = await axios.get(`${API_URL}/psat`)
+            // const {data} = await axios.get('http://localhost:8081/psat')
             setPsat(data.results)
             console.log(psat)
         } catch (err) {

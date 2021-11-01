@@ -5,6 +5,7 @@ import axios from 'axios';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import ActionButton from 'react-native-action-button';
 
+import { API_URL } from '../../api/baseApi';
 import PostList from '../../component/common/PostList';
 import TopMenu from '../../component/common/TopMenu';
 import PostModal from '../../component/common/modal/Post';
@@ -26,8 +27,8 @@ const PostScreen = () => {
 
     const getBbsData = async() => {
         axios   
-            // .get("http://passme-env.eba-fkpnrszj.us-east-2.elasticbeanstalk.com/bbs")
-            .get('http://localhost:8081/bbs')
+            .get(`${API_URL}/bbs`)
+            // .get('http://localhost:8081/bbs')
             .then(bbss => {
                 setBbs(bbss.data.results)
                 setLoading(false)
@@ -92,9 +93,7 @@ const PostScreen = () => {
                         {active === '전체' && <PostList datas={bbs}/>}
                         {active === '자유게시판' && <PostList datas={filteredData} /> }
                         {active === '질문게시판' && <PostList datas={filteredData} /> }
-                        {active === '합격수기' && <PostList datas={filteredData} /> }
-                        {/* {postModal && <PostModal />} */}
-                       
+                        {active === '합격수기' && <PostList datas={filteredData} /> }                       
                     </View>
                 )}  
             </ScrollView>

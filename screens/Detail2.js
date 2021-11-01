@@ -2,12 +2,12 @@ import axios from 'axios';
 import React, {useEffect, useState, useLayoutEffect} from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
 import moment from 'moment';
 
+import { API_URL } from '../api/baseApi';
 import {colors, sizes, fonts} from '../consts';
 
-axios.defaults.baseURL = "http://localhost:8081"
+axios.defaults.baseURL = `${API_URL}`
 
 const Detail2 = ({route}) => {
 

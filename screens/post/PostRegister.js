@@ -5,6 +5,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/core';
 
+import { API_URL } from '../../api/baseApi';
 import { colors, fonts, sizes } from '../../consts';
 import RegisterBtn from '../../component/common/RegisterBtn';
 import HLine from '../../component/common/HLine';
@@ -81,7 +82,7 @@ const PostRegister = ({route}) => {
             return alert("빈 칸이 있으면 등록할 수 없습니다.")
         }
         axios   
-            .post('http://localhost:8081/bbs', userData)
+            .post(`${API_URL}/bbs`, userData)
             .then(() => {
 
             })

@@ -34,26 +34,26 @@ const Setting = () => {
     const [isEnabled, setIsEnabled] = useState(false);
   
     const getUserData = async () => {
-    // const token = await AsyncStorage.getItem('token')
-    // const headers = {
-    //   'Authorization': 'Bearer ' + token
-    // }
+    const token = await AsyncStorage.getItem('token')
+    const headers = {
+      'Authorization': 'Bearer ' + token
+    }
 
-    // try {
-    //   axios 
-    //     .get(`${API_URL}`, {headers: headers})
-    //     .then(data => {
-    //       setUserData(data.data)
-    //     })
-    //     .catch(err => {
-    //       alert(err)
-    //     })
+    try {
+      axios 
+        .get(`${API_URL}`, {headers: headers})
+        .then(data => {
+          setUserData(data.data)
+        })
+        .catch(err => {
+          alert(err)
+        })
 
-    // } catch(e) {
-    //   alert(e)
-    // } finally {
+    } catch(e) {
+      alert(e)
+    } finally {
 
-    // }
+    }
     } 
 
 return (

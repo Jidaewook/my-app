@@ -1,13 +1,11 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, StyleSheet, FlatList, Animated, Image, Platform, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, FlatList, TouchableOpacity, StatusBar, Animated, Image, Platform, Dimensions} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 
 import { colors, fonts, sizes } from '../../consts';
 import { getWorkbook } from '../../api/workbookApi';
-import { StatusBar } from 'expo-status-bar';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const SPACING = 10;
 const {width, height} = Dimensions.get('window');
@@ -157,7 +155,10 @@ export default function App() {
                                 <Text style={styles.body} numberOfLines={3}>
                                     {item.description}
                                 </Text>
-                                <TouchableOpacity onPress={() => navigation.navigate("Detail", {id: item._id, isNcs: true, title: item.title})}>
+                                <TouchableOpacity 
+                                    onPress={() => navigation.navigate("Detail", {id: item.key, isNcs: true, title: item.title})}
+                                    // onPress={() => console.log(item)}
+                                >
                                     <View style={styles.button}>
                                         <Text style={styles.buttonText}>
                                             자세히 보기

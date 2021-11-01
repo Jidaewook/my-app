@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, TextInput, ScrollView, Image} from 'react-native';
-import YoutubePlayer from 'react-native-youtube-iframe';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
 import { Feather } from '@expo/vector-icons';
@@ -12,7 +11,7 @@ import HLine from '../../component/common/HLine';
 
 const {width, height} = Dimensions.get('window');
 
-// axios.defaults.baseURL = "http://localhost:8081"
+axios.defaults.baseURL = `${API_URL}`
 
 const comments = [
     {
@@ -60,7 +59,7 @@ const Detail = ({route}) => {
 
     const navigation = useNavigation();
     
-    const {title} = route.params;
+    const {title, id} = route.params;
 
     const [detail, setDetail] = useState({});
     const [loading, setLoading] = useState(true);

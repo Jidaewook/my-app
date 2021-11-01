@@ -3,9 +3,11 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Image, ScrollVi
 import { useNavigation, useRoute } from '@react-navigation/core';
 import Moment from 'react-moment';
 import axios from 'axios';
+
+import {API_URL} from '../../api/baseApi';
 import { colors, sizes, fonts } from '../../consts';
 
-axios.defaults.baseURL = "http://localhost:8081"
+axios.defaults.baseURL = `${API_URL}`
 
 const moreScreen = () => {
 
@@ -36,7 +38,6 @@ const moreScreen = () => {
 
         const {data} = isNcs 
         ? 
-        // await axios.get(`http://passme-env.eba-fkpnrszj.us-east-2.elasticbeanstalk.com/ncs`)
         await axios.get(`/ncs/`)
                     .then(res => {
                         setData(res.data.results)

@@ -21,29 +21,24 @@ const Notification = () => {
     const navigation = useNavigation();
 
     const getNotice = async () => {
-        // const {data} = await axios.get(`${API_URL}/notice`)
-        const {data} = await axios.get('http://localhost:8081/notice')
+        const {data} = await axios.get(`${API_URL}/notice`)
+        // const {data} = await axios.get('http://localhost:8081/notice')
 
         setNotice(data.results)
         console.log('+++++++++', data.results.length)
     }
 
     const getAlarm = async () => {
-        // const {data} = await axios.get(`${API_URL}/alarm`)
-        const {data} = await axios.get('http://localhost:8081/alarm')
+        const {data} = await axios.get(`${API_URL}/alarm`)
+        // const {data} = await axios.get('http://localhost:8081/alarm')
 
         setAlarm(data.results)
-        // console.log()
     }
 
     useEffect(() => {
         getNotice(),
         getAlarm()
     }, [])
-
-    // const momentDate = (date) => {
-    //     moment(date).format('L')
-    // };
 
     const renderTab = (tab) => {
         const isActive = active === tab;

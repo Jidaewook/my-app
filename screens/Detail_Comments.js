@@ -59,7 +59,7 @@ const Detail_Comments = ({route}) => {
 
     const navigation = useNavigation();
     
-    const {title} = route.params;
+    const {title, id} = route.params;
 
     const [loading, setLoading] = useState(true);
     const [text, setText] = useState('');
@@ -68,11 +68,11 @@ const Detail_Comments = ({route}) => {
     const getDetail = async (detailId) => {
         try {
             const {data} = isNcs    
-                // ? await axios.get(`${API_URL}/ncs/${detailId}`)
-                ? await axios.get(`/ncs/${detailId}`)
+                ? await axios.get(`${API_URL}/ncs/${detailId}`)
+                // ? await axios.get(`/ncs/${detailId}`)
 
-                // : await axios.get(`${API_URL}/psat/${detailId}`)
-                : await axios.get(`/psat/${detailId}`)
+                : await axios.get(`${API_URL}/psat/${detailId}`)
+                // : await axios.get(`/psat/${detailId}`)
 
             setDetail(data.results)
         } catch (err) {

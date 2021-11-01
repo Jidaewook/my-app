@@ -26,8 +26,8 @@ const ProfileEdit = () => {
 
     const getInfo = async() => {
         try {
-            // const {data} = await axios.get(`${API_URL}/users/userinfo`, config)
-            const {data} = await axios.get('http://localhost:8081/users/userinfo', config)
+            const {data} = await axios.get(`${API_URL}/users/userinfo`, config)
+            // const {data} = await axios.get('http://localhost:8081/users/userinfo', config)
 
             setName(data.name)
             setInstitue(data.institue)
