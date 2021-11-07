@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import { MainScreen, Notification, Detail, Detail2, MoreScreen, Detail_Comments } from '../screens';
+import { MainScreen, Notification, Detail, Detail2, MoreScreen, Detail_Comments, SearchResults } from '../screens';
 import BackBtn from '../component/common/BackBtn';
 
 const HStack = createStackNavigator();
@@ -53,6 +53,13 @@ export default () => {
             <HStack.Screen 
                 name="More" 
                 component={MoreScreen}
+                options={{
+                    headerShown: true
+                }} 
+            />
+            <HStack.Screen 
+                name="SearchResults" 
+                component={SearchResults}
                 options={{
                     headerShown: true
                 }} 

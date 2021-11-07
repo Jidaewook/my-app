@@ -157,7 +157,7 @@ export default function App() {
                                 </Text>
                                 <TouchableOpacity 
                                     onPress={() => navigation.navigate("Detail", {id: item.key, isNcs: true, title: item.title})}
-                                    onPress={() => console.log('item', item)}
+                                    // onPress={() => console.log('item', item)}
                                 >
                                     <View style={styles.button}>
                                         <Text style={styles.buttonText}>

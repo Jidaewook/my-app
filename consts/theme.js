@@ -85,10 +85,10 @@ const sizes = {
       fontSize: sizes.subTitle, 
     },
     settingSectionAnd: {
-      fontFamily: "Avenir"    
+      // fontFamily: "Avenir"    
     }, 
     settingSectionAnd: {
-      fontFamily: "Roboto"    
+      // fontFamily: "Roboto"    
     }, 
     
   };

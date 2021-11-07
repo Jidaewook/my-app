@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {VAsyncStorage, TouchableOpacity, SectionList, SafeAreaView, View, Alert, Text, StyleSheet, Linking} from 'react-native';
+import {VAsyncStorage, TouchableOpacity, ActivityIndicator, SectionList, SafeAreaView, View, Alert, Text, StyleSheet, Linking} from 'react-native';
 // import * as Linking from 'expo-linking';
 import SettingSection from '../component/common/SettingSection';
 import { AntDesign } from '@expo/vector-icons';
@@ -19,6 +19,9 @@ const Setting = () => {
         navigation.navigate(a)
     };
 
+    const [userData, setUserData] = useState({});
+    const [isEnabled, setIsEnabled] = useState(false);
+
     const dispatch = useDispatch();
 
     const {token} = useSelector(state => state.usersReducer);
@@ -30,103 +33,100 @@ const Setting = () => {
     const openOnPressMail = () => {
     }
 
-    const [userData, setUserData] = useState({});
-    const [isEnabled, setIsEnabled] = useState(false);
-  
     const getUserData = async () => {
-    const token = await AsyncStorage.getItem('token')
-    const headers = {
-      'Authorization': 'Bearer ' + token
-    }
+      const token = await AsyncStorage.getItem('token')
+      const headers = {
+        'Authorization': 'Bearer ' + token
+      }
 
-    try {
-      axios 
-        .get(`${API_URL}`, {headers: headers})
-        .then(data => {
-          setUserData(data.data)
-        })
-        .catch(err => {
-          alert(err)
-        })
+      try {
+        axios 
+          .get(`${API_URL}`, {headers: headers})
+          .then(data => {
+            setUserData(data.data)
+          })
+          .catch(err => {
+            alert(err)
+          })
 
-    } catch(e) {
-      alert(e)
-    } finally {
+        } catch(e) {
+          alert(e)
+        } finally {
 
-    }
+        }
     } 
 
 return (
     <SafeAreaView style={styles.safeAreaView}>
       <SectionList
-        sections={menuItem}
-        renderItem={({item}) => (
-          <TouchableOpacity 
-            style={styles.itemBox}
-            onPress={() => {
-              switch (item.title) {
-                case "서비스문의", "오류신고", "구독문의" :
-                  () => {Linking.openURL("mailto:dw4157@naver.com")}
-                  break
-                case "로그아웃" :
-                  Alert.alert("정말 로그아웃 하시겠습니까?", '', [
-                    {text: '확인', onPress: () => logOutHandler()},
-                    {text: '취소'}
-                  ])
-                  break
-                case "탈퇴문의" : 
-                Alert.alert("정말 서비스 이용을 중단하시겠습니까?", '', [
-                  {text: '확인', onPress: () => alert("탈퇴되었습니다.")},
-                  {text: '취소'}
-                ])                  
+      sections={menuItem}
+      renderItem={({item}) => (
+        <TouchableOpacity 
+          style={styles.itemBox}
+          onPress={() => {
+            switch (item.title) {
+              case "서비스문의", "오류신고", "구독문의" :
+                () => {Linking.openURL("mailto:dw4157@naver.com")}
                 break
-                case "버전정보" : 
-                  break
-                case "서비스이용약관" : 
-                  navigation.navigate('Webview', {uri: "agreeterms", title: "서비스이용약관"})
-                  break
-                case "개인정보정책" : 
-                  navigation.navigate('Webview', {uri: "privacy", title: "개인정보정책"})
-                  break
-                case "FAQ" : 
-                  navigation.navigate('Frequency', {title: "FAQ"})
-                  break
-                default :
-                  movieScreen(item.screen)
-                  break
-              }
-            }}
-          >
-            <View style={styles.icon}>
-              <AntDesign name={item.icon} size={14} />
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.item}> 
-                {item.title}
-              </Text>
-            </View>
-            <View style={styles.right}>
-              {
-                item.title === '버전정보' ? (
-                  <Text style={styles.settingText}>1.0.0</Text>
+              case "로그아웃" :
+                Alert.alert("정말 로그아웃 하시겠습니까?", '', [
+                  {text: '확인', onPress: () => logOutHandler()},
+                  {text: '취소'}
+                ])
+                break
+              case "탈퇴문의" : 
+              Alert.alert("정말 서비스 이용을 중단하시겠습니까?", '', [
+                {text: '확인', onPress: () => alert("탈퇴되었습니다.")},
+                {text: '취소'}
+              ])                  
+              break
+              case "버전정보" : 
+                break
+              case "서비스이용약관" : 
+                navigation.navigate('Webview', {uri: "agreeterms", title: "서비스이용약관"})
+                break
+              case "개인정보정책" : 
+                navigation.navigate('Webview', {uri: "privacy", title: "개인정보정책"})
+                break
+              case "FAQ" : 
+                navigation.navigate('Frequency', {title: "FAQ"})
+                break
+              default :
+                movieScreen(item.screen)
+                break
+            }
+          }}
+        >
+          <View style={styles.icon}>
+            <AntDesign name={item.icon} size={14} />
+          </View>
+          <View style={styles.item}>
+            <Text style={styles.item}> 
+              {item.title}
+            </Text>
+          </View>
+          <View style={styles.right}>
+            {
+              item.title === '버전정보' ? (
+                <Text style={styles.settingText}>1.0.0</Text>
+              ) : (
+                item.title === '      ' ? (
+                  <Text></Text>
                 ) : (
-                  item.title === '      ' ? (
-                    <Text></Text>
-                  ) : (
-                  <AntDesign name="right" size={14} color="gray" />
-                ))
-              }
-              
-            </View>
-          </TouchableOpacity> 
-        )}
-        renderSectionHeader={({section}) => (
-          <SettingSection
-            title={section.title}
-          />
-        )}
-        keyExtractor={(item, index) => index}
-      />
+                <AntDesign name="right" size={14} color="gray" />
+              ))
+            }
+            
+          </View>
+        </TouchableOpacity> 
+      )}
+      renderSectionHeader={({section}) => (
+        <SettingSection
+          title={section.title}
+        />
+      )}
+      keyExtractor={(item, index) => index}
+    />      
     </SafeAreaView>
     
   );

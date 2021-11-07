@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, Text, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator} from 'react-native';
 import PropTypes from 'prop-types';
 
 import {colors, sizes, fonts} from '../../consts';
 
-const Section = ({title, horizontal=true, children, show=true, onPress, isNcs=true}) => {
+const Section = ({title, indicator, horizontal=true, children, show=true, onPress, isNcs=true}) => {
 
     return (
         <View style={styles.container}>
@@ -18,16 +18,26 @@ const Section = ({title, horizontal=true, children, show=true, onPress, isNcs=tr
                         {show === true ? ("더보기") : (null)}
                     </Text>
                 </TouchableOpacity> 
- 
+
             </View>
-            
-            <ScrollView
-                horizontal={horizontal}
-                showsHorizontalScrollIndicator={false}
-            >
-                {children}
-            </ScrollView>
-        
+            {indicator
+                ? (
+                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                        <ActivityIndicator 
+                            color={colors.main4}
+                            size={'large'}
+                        />
+                    </View>
+                    
+                ) 
+                : (
+                    <ScrollView
+                        horizontal={horizontal}
+                        showsHorizontalScrollIndicator={false}
+                    >
+                        {children}
+                    </ScrollView>
+                )}
         </View>
     );
 };

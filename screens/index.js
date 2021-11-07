@@ -11,6 +11,7 @@ import MoreScreen from './main/MoreScreen';
 import PostScreen from "./post/PostScreen";
 import PostDetail from './post/PostDetail';
 import PostRegister from './post/PostRegister';
+import SearchResults from './post/SearchResults';
 
 import WorkbookScreen from "./workbook/WorkbookScreen";
 
@@ -25,4 +26,4 @@ import Setting from "./Setting";
 import Frequency from './profile/Frequency';
 import WebviewScreen from './WebviewScreen';
 
-export {LoginScreen, RegisterScreen, AddInfoScreen, ForgotPwScreen, Welcome, MainScreen, Notification, MoreScreen, PostScreen, PostDetail, PostRegister, WorkbookScreen, ProfileScreen, ProfileEdit, Alarm, Detail, Detail2, Detail_Comments, Setting, Frequency, WebviewScreen}
+export {LoginScreen, RegisterScreen, AddInfoScreen, ForgotPwScreen, Welcome, MainScreen, Notification, MoreScreen, PostScreen, PostDetail, PostRegister, SearchResults, WorkbookScreen, ProfileScreen, ProfileEdit, Alarm, Detail, Detail2, Detail_Comments, Setting, Frequency, WebviewScreen}

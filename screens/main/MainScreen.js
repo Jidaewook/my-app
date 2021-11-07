@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Button, Alert, StyleSheet, TouchableOpacity, ScrollView, TextInput, Modal, Dimensions} from 'react-native';
+import {View, Text, Button, Alert, StyleSheet, TouchableOpacity, ScrollView, TextInput, Modal, Dimensions, ActivityIndicator} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
 
 import {colors, sizes, fonts} from '../../consts'
@@ -12,24 +12,104 @@ import Card from '../../component/common/Card';
 
 const {width, height} = Dimensions.get("screen")
 
+const searchCategory = [
+    "NCS", "PSAT", "학습지", "게시판"
+]
+
+const data = [
+    {
+        "__v": 0,
+        "_id": "60a9bc914517db0e7de2dad1",
+        "comment": [],
+        "desc": "문제해결능력 상황구성문제 중 위치추론 파트에 대한 기초 접근법입니다. ",
+        "genres_ids": [
+          "문제해결",
+          "전체",
+          "접근법",
+          "상황구성",
+          "위치추론",
+        ],
+        "like": [],
+        "poster": "http://www.w3bai.com/w3css/img_lights.jpg",
+        "title": "문제해결능력 상황구성_위치추론 기본강의",
+        "url": "h03HjVWloQU",
+      },
+      {
+        "__v": 0,
+        "_id": "60a9bc914517db0e7de2dad1",
+        "comment": [],
+        "desc": "문제해결능력 상황구성문제 중 위치추론 파트에 대한 기초 접근법입니다. ",
+        "genres_ids": [
+          "문제해결",
+          "전체",
+          "접근법",
+          "상황구성",
+          "위치추론",
+        ],
+        "like": [],
+        "poster": "http://www.w3bai.com/w3css/img_lights.jpg",
+        "title": "문제해결능력 상황구성_위치추론 기본강의",
+        "url": "h03HjVWloQU",
+      },
+      {
+        "__v": 0,
+        "_id": "60a9bc914517db0e7de2dad1",
+        "comment": [],
+        "desc": "문제해결능력 상황구성문제 중 위치추론 파트에 대한 기초 접근법입니다. ",
+        "genres_ids": [
+          "문제해결",
+          "전체",
+          "접근법",
+          "상황구성",
+          "위치추론",
+        ],
+        "like": [],
+        "poster": "http://www.w3bai.com/w3css/img_lights.jpg",
+        "title": "문제해결능력 상황구성_위치추론 기본강의",
+        "url": "h03HjVWloQU",
+      },
+      {
+        "__v": 0,
+        "_id": "60a9bc914517db0e7de2dad1",
+        "comment": [],
+        "desc": "문제해결능력 상황구성문제 중 위치추론 파트에 대한 기초 접근법입니다. ",
+        "genres_ids": [
+          "문제해결",
+          "전체",
+          "접근법",
+          "상황구성",
+          "위치추론",
+        ],
+        "like": [],
+        "poster": "http://www.w3bai.com/w3css/img_lights.jpg",
+        "title": "문제해결능력 상황구성_위치추론 기본강의",
+        "url": "h03HjVWloQU",
+      },
+]
+
+
 const MainScreen = () => {
 
     const navigation = useNavigation();
     const [searchModal, setSearchModal] = useState(false);
     const [ncs, setNcs] = useState([]);
     const [psat, setPsat] = useState([]);
-    const [text, onChangeText] = useState('내용이 없습니다.');
+    const [text, setText] = useState('');
+    const [on, setOn] = useState('false');
+    const [ncsLoading, setNcsLoading] = useState(true);
+    const [psatLoading, setPsatLoading] = useState(true);
 
     const getNcs = async() => {
         try {
             const {data} = await axios.get(`${API_URL}/ncs`)
             // console.log(data)
             // const {data} = await axios.get('http://localhost:8081/ncs')
-
             setNcs(data.results)
+            setNcsLoading(false)
             console.log(ncs)
         } catch (err) {
             console.log(err)
+            setNcsLoading(false)
         }
     }
 
@@ -38,9 +118,10 @@ const MainScreen = () => {
             const {data} = await axios.get(`${API_URL}/psat`)
             // const {data} = await axios.get('http://localhost:8081/psat')
             setPsat(data.results)
-            // console.log(psat)
+            setPsatLoading(false)
         } catch (err) {
             console.log(err)
+            setPsatLoading(false)
         }
     }
 
@@ -84,34 +165,92 @@ const MainScreen = () => {
                     >
                         <View style={styles.centerModal}>
                             <View style={styles.modalView}>
-                                <Text style={styles.ModalTitle}>
-                                    Search Contents
-                                </Text>
-                                <TextInput
-                                    value={text}
-                                    onChangeText={onChangeText}
-                                    style={styles.SearchText}
-                                >
-
-                                </TextInput>
-                                <View style={{flexDirection: 'row', width: 300, justifyContent: 'flex-start'}}>
-                                <TouchableOpacity
-                                    style={[styles.ModalBtn]}
-                                    onPress={() => setSearchModal(!searchModal)}
-                                >
-                                    <Text style={styles.ModalBtnText}>
-                                        검색하기
+                                <View style={{flexDirection: 'row', justifyContent: 'center', width: sizes.width, marginTop: sizes.header}}>
+                                    <Text style={styles.ModalTitle}>
+                                        Search Contents
                                     </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={[styles.ModalCloseBtn]}
-                                    onPress={() => setSearchModal(!searchModal)}
-                                >
-                                    <Text style={styles.ModalBtnText}>
-                                        닫기
-                                    </Text>
-                                </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => setSearchModal(!searchModal)}
+                                        style={{marginLeft: 130}}
+                                    >
+                                        <MaterialIcons name="close" size={24} color="black"/>
+                                    </TouchableOpacity>
                                 </View>
+                                <View style={styles.inputView}>
+                                    <TextInput
+                                        style={styles.modalInput}
+                                        value={text}
+                                        placeholder={'검색어를 입력해주세요.'}
+                                        onChangeText={(input) => setText(input)}
+                                    />
+                                    <TouchableOpacity
+                                        style={[styles.ModalBtn]}
+                                        onPress={() => alert("검색하기")}
+                                    >
+                                        <Text style={styles.ModalBtnText}>
+                                            검색
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View>
+                                    <Text style={styles.targetTitle}>
+                                        검색 카테고리
+                                    </Text>
+                                    <View style={styles.searchView}>
+                                        {searchCategory.map(i => (
+                                            <TouchableOpacity
+                                                style={styles.targetBtn}
+                                                // onPress={() => {!setOn}}
+                                            >
+                                                <Text
+                                                    style={styles.target}
+                                                >
+                                                    {i}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        ))}
+                                    </View>
+                                    <View style={{height: sizes.height*2}}>
+                                        <Text style={styles.searchResultTitle}>
+                                            검색 결과
+                                        </Text>
+                                        <Text style={styles.searchCount}>
+                                            총 {data.length} 개
+                                        </Text>
+                                        <ScrollView>
+                                            {data.map(i => (
+                                                <>
+                                                    <View style={styles.searchResultView}>
+                                                        <View style={styles.searchResultInner}>
+                                                            <View style={styles.searchTop}>
+                                                                <View style={styles.searchGenres}>
+                                                                    <Text style={styles.genresTitle}>
+                                                                        {i.genres_ids[0]}
+                                                                    </Text>
+                                                                </View>
+                                                                <View style={styles.likeBox}>
+                                                                    <AntDesign name="heart" size={18} color="red" />
+                                                                    <Text style={styles.likeCount}>
+                                                                        {i.like.length}
+                                                                    </Text>
+                                                                </View>
+                                                            </View>
+                                                            <View style={styles.searchResultContents}>
+                                                                <Text style={styles.searchTitle}>
+                                                                    {i.title}
+                                                                </Text>
+                                                                <Text style={styles.searchDesc}>
+                                                                    {i.desc.slice(0, 100)}
+                                                                </Text>
+                                                            </View>
+                                                        </View>
+                                                    </View>
+                                                </>
+                                            ))}
+                                        </ScrollView>
+                                    </View>
+                                </View>
+                            
                             </View>
                         </View>
                     </Modal>
@@ -120,10 +259,7 @@ const MainScreen = () => {
                         onPress={() => setSearchModal(true)}
                     >
                         <MaterialIcons name="search" size={28} />
-                        <TextInput 
-                            placeholder="Search Contents"
-                            style={{color: 'gray'}}
-                        />
+                        <Text style={{color: 'gray'}}>Search Contents </Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -134,7 +270,6 @@ const MainScreen = () => {
                         <Section 
                             title={"주목! NCS"} 
                             onPress={() => navigation.navigate("More", {title: "NCS 리스트", isNcs: true})} 
-                            // onPress={() => console.log()}
                         >
                             {ncs.map(i => (
                                 <Card 
@@ -143,7 +278,8 @@ const MainScreen = () => {
                                     full
                                     style={styles.cardView}
                                     goTo={() => navigation.navigate("Detail", {id: i._id, isNcs: true, title: i.title})}
-                                />    
+                                    indicator={ncsLoading}
+                                /> 
                             ))}
                         </Section>
                     </View>
@@ -160,7 +296,8 @@ const MainScreen = () => {
                                     full
                                     style={styles.cardView}
                                     goTo={() => navigation.navigate("Detail", {id: i._id, isNcs: false, title: i.title})}
-                                />    
+                                    indicator={psatLoading}
+                                />  
                             ))}
                         </Section>
                     </View>
@@ -200,7 +337,7 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
       height: sizes.Input,
-      width: '113%',
+      width: sizes.width*0.9,
       backgroundColor: 'white',
       borderRadius: 10,
       position: 'absolute',
@@ -215,23 +352,9 @@ const styles = StyleSheet.create({
     ModalTitle: {
         ...fonts.h1,
         justifyContent: 'flex-start',
-        textAlign: 'left'
-    },
-    ModalBtn: {
-        marginTop: sizes.headerTop,
-    },
-    ModalCloseBtn: {
-        marginTop: sizes.headerTop,
-        marginLeft: sizes.fullImage
-    },
-    ModalBtnText: {
-        ...fonts.h4,
-    },
-    
-    group: {
-      paddingTop: sizes.base,
-      paddingHorizontal: sizes.sideLine,
-      marginTop: sizes.headerTop
+        textAlign: 'left',
+        // marginTop: sizes.headerTop,
+        // marginLeft: sizes.sideLine
     },
     centerModal: {
       flex: 1,
@@ -239,21 +362,54 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     modalView: {
-      width: width/6 * 5,
-      height: height/15 * 4,
-      backgroundColor: colors.white,
-      borderRadius: 20,
-      padding: sizes.headerTop,
-      justifyContent: 'flex-start',
-      alignItems: 'flex-start',
-      shadowColor: colors.black,
-      shadowOffset: {
-        width: 0,
-        height: 2
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5
+        width: sizes.width,
+        height: height - 25,
+        bottom: -100,
+        backgroundColor: colors.white,
+        borderRadius: 20,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        shadowColor: colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+        },
+    inputView: {
+        width: sizes.width,
+        height: 50,
+        flexDirection: 'row',
+        marginTop: sizes.sideLine,
+        justifyContent: 'center'
+    },
+    modalInput: {
+        width: sizes.width*0.7,
+        height: sizes.buttonHeight*1.5,
+        backgroundColor: colors.gray6,
+        borderRadius: 5,
+        paddingLeft: 20
+    },
+    ModalBtn: {
+        marginLeft: sizes.sideLine,
+        backgroundColor: colors.main4,
+        width: 50,
+        height: sizes.buttonHeight*1.5,
+        justifyContent: 'center',
+        borderRadius: 5
+    },
+    ModalBtnText: {
+        ...fonts.h3,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        color: colors.white
+    },
+    group: {
+        paddingTop: sizes.base,
+        paddingHorizontal: sizes.sideLine,
+        marginTop: sizes.headerTop
     },
     cardView: {
         marginRight: sizes.sideLine,
@@ -264,5 +420,103 @@ const styles = StyleSheet.create({
         height: sizes.buttonHeight,
         marginTop: sizes.headerTop,
         backgroundColor: colors.gray6,
+    },
+    targetTitle: {
+        ...fonts.h2, 
+        fontWeight: 'bold', 
+        marginLeft: sizes.sideLine, 
+        marginTop: sizes.sideLine
+    },
+    searchView: {
+        flexDirection: 'row', 
+        marginTop: sizes.header, 
+        marginLeft: sizes.sideLine
+    },
+    targetBtn: {
+        borderRadius: 20, 
+        borderWidth: 1,
+        borderColor: colors.gray4,
+        marginLeft: 8,
+        height: 40,
+        width: 80,
+        justifyContent: 'center',
+        borderRadius: 20,
+    },
+    target: {
+        color: colors.main4,
+        ...fonts.h5,
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
+    searchResultTitle: {
+        ...fonts.h2, 
+        fontWeight: 'bold', 
+        marginLeft: sizes.sideLine, 
+        marginTop: sizes.sideLine
+    },
+    searchCount: {
+        ...fonts.h5, 
+        marginLeft: sizes.sideLine*2, 
+        marginTop: sizes.header
+    },
+    searchResultView: {
+        paddingHorizontal: 20, 
+        marginTop: 10
+    },
+    searchResultInner: {
+        width: sizes.width*0.9, 
+        borderWidth: 1, 
+        borderColor: colors.gray5, 
+        paddingHorizontal: 10
+    },
+    searchTop: {
+        flexDirection: 'row', 
+        marginTop: 20, 
+        marginLeft: 10
+    },
+    searchGenres: {
+        width: sizes.width*0.25, 
+        height: 40, 
+        justifyContent: 'center', 
+        borderRadius: 20, 
+        borderWidth: 1, 
+        borderColor: colors.gray4
+    },
+    genresTitle: {
+        ...fonts.h5, 
+        fontWeight: 'bold', 
+        textAlign: 'center', 
+        color: colors.main4
+    },
+    likeBox: {
+        width: sizes.width*0.5, 
+        flexDirection: 'row', 
+        justifyContent: 'flex-end'
+    },
+    likeCount: {
+        ...fonts.h5, 
+        fontWeight: '700', 
+        marginLeft: 10
+    },
+    searchResultContents: {
+        marginTop: 20, 
+        marginLeft: 10
+    },
+    searchTitle: {
+        ...fonts.h4, 
+        fontWeight: '600', 
+        color: colors.gray1
+    },
+    searchDesc: {
+        ...fonts.h5, 
+        marginTop: 20, 
+        color: colors.gray2, 
+        marginBottom: 20
+    },
+    scrollContainer: {
+        flex: 1,
+        height: sizes.height*2,
+        marginBottom: 200
     }
+
 })

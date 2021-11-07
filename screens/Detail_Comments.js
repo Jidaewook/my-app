@@ -92,7 +92,7 @@ const Detail_Comments = ({route}) => {
 
     const renderComment = ({item}) => {
         return (
-            <View style={{marginLeft: sizes.body / 2}}>
+            <View style={{marginLeft: sizes.body / 2, marginTop: sizes.header}}>
                 {comments.map(item => 
                 <View style={styles.CommentContainer}>
                     <View
@@ -150,11 +150,6 @@ const Detail_Comments = ({route}) => {
     return (
         <SafeAreaView style={{backgroundColor: colors.white}}>
             <ScrollView style={styles.Container}>
-                <View style={styles.CommentTitleFlex}>
-                    <Text style={styles.CommentTitle}>
-                        질문과 답변
-                    </Text>
-                </View>
                 <Text style={styles.CommentDesc}>
                     질문에 대한 답변은 개인 쪽지로 드리거나 영상 콘텐츠로 제작되어 공개됩니다.
                 </Text>
@@ -241,13 +236,14 @@ const styles = StyleSheet.create({
         marginRight: sizes.body
     },
     CommentDesc: {
-        marginTop: sizes.header, 
+        marginTop: sizes.header*2, 
         marginHorizontal: sizes.sideLine, 
         color: colors.gray2
     },
 
     // Comment Screen
     CommentContainer: {
+        marginTop: sizes.header,
         marginLeft: 15
     },
     CommentView: {

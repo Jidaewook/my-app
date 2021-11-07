@@ -87,7 +87,7 @@ const Detail = ({route}) => {
 
     const renderComment = ({item}) => {
         return (
-            <View>
+            <View style={{marginTop: sizes.header}}>
                 {comments.map(item => 
                 <View style={styles.CommentContainer}>
                     <View
@@ -112,14 +112,6 @@ const Detail = ({route}) => {
                         <Text style={styles.moment}>
                             {moment(detail.createdAt).startOf('hour').fromNow()}
                         </Text>
-                        <TouchableOpacity
-                            onPress={() => alert('삭제하시겠습니까')}
-                            style={styles.CommentAlert}
-                        >
-                            <Text style={styles.delete}>
-                                삭제
-                            </Text>
-                        </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => alert('좋아요')}
                             style={styles.likeBtn}
@@ -169,14 +161,12 @@ const Detail = ({route}) => {
                                 질문과 답변
                             </Text>
                             <TouchableOpacity 
-                                onPress={() => navigation.navigate("Detail_Comments", {title: "전체보기"})}
+                                onPress={() => navigation.navigate("Detail_Comments", {title: "질문과 답변 전체보기"})}
                             >
                                 <Text style={styles.CommentMore}>
                                     더보기
                                 </Text>
                             </TouchableOpacity>
-                            
-                            
                         </View>
                         <Text style={styles.CommentDesc}>
                             질문에 대한 답변은 개인 쪽지로 드리거나 영상 콘텐츠로 제작되어 공개됩니다.
@@ -247,6 +237,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: sizes.body, 
     },
     CommentContainer: {
+        marginTop: sizes.header,
         marginLeft: 15
     },  
     CommentView: {
@@ -306,7 +297,8 @@ const styles = StyleSheet.create({
     info: {
         flexDirection: 'row',
         marginLeft: sizes.sideLine * 2.5,
-        marginTop: -5
+        marginTop: -5,
+        justifyContent: 'center',
     },
     CommentDate: {
         marginLeft: sizes.sideLine,
@@ -346,6 +338,7 @@ const styles = StyleSheet.create({
     },
     likeBtn: {
         marginTop: sizes.body,
+        marginLeft: 160,
         justifyContent: 'center',
     },
     avatarContainer: {

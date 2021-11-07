@@ -1,5 +1,5 @@
-import React, {useLayoutEffect} from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import React, {useLayoutEffect, useState, useEffect} from 'react';
+import {SafeAreaView, StyleSheet, ActivityIndicator, View} from 'react-native';
 import {WebView} from 'react-native-webview';
 import {useNavigation} from '@react-navigation/native';
 
@@ -13,6 +13,7 @@ const WebviewScreen = ({route}) => {
     const defaultUrl = "https://master.df476lzbmz9nc.amplifyapp.com/"
 
     useLayoutEffect(() => {
+
         navigation.setOptions({
             headerTitle: title,
 
@@ -23,7 +24,16 @@ const WebviewScreen = ({route}) => {
         <SafeAreaView style={styles.Container} >
             <WebView 
                 source={{uri: defaultUrl + uri}}
+                startInLoadingState={true}
+                renderLoading={() => (
+                    <View style={{alignItems: 'center', justifyContent: 'center', flex: 1, marginBottom: 200}}>
+                        <ActivityIndicator color={colors.main4} size={'large'} />
+
+                    </View>
+                )}
             />
+
+            
         </SafeAreaView>
     );
 };

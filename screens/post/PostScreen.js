@@ -27,8 +27,8 @@ const PostScreen = () => {
 
     const getBbsData = async() => {
         axios   
-            .get(`${API_URL}/bbs`)
-            // .get('http://localhost:8081/bbs')
+            // .get(`${API_URL}/bbs`)
+            .get('http://localhost:8081/bbs')
             .then(bbss => {
                 setBbs(bbss.data.results)
                 setLoading(false)
@@ -100,15 +100,13 @@ const PostScreen = () => {
             <ActionButton buttonColor={colors.main4}>
                 <ActionButton.Item
                     buttonColor={colors.main4}
-                    title="Notice"
+                    title="Post"
                     onPress={() => {
-
                         navigation.push("PostRegister")
-                        
                     }}
                 >
                     <Ionicons 
-                        name="back"
+                        name="md-create"
                         style={styles.actionButton}
                     />
                 </ActionButton.Item>

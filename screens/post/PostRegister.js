@@ -1,5 +1,5 @@
 import React, {useState, useRef, useLayoutEffect} from 'react';
-import {View, Text, ScrollView, TouchableWithoutFeedback, StyleSheet, TextInput, TouchableOpacity, SafeAreaView} from 'react-native';
+import {View, Text, ScrollView, TouchableWithoutFeedback, StyleSheet, TextInput, TouchableOpacity, SafeAreaView, Alert} from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -10,6 +10,7 @@ import { colors, fonts, sizes } from '../../consts';
 import RegisterBtn from '../../component/common/RegisterBtn';
 import HLine from '../../component/common/HLine';
 import axios from 'axios';
+import { PostScreen } from '..';
 
 
 
@@ -84,10 +85,22 @@ const PostRegister = ({route}) => {
         axios   
             .post(`${API_URL}/bbs`, userData)
             .then(() => {
-
+                Alert.alert(
+                    "작성 글 등록",
+                    "작성한 글을 등록하겠습니까?",
+                    [
+                        {
+                            text: "취소",
+                            style: "cancel"
+                        },
+                        {
+                            text: "확인",
+                            onPress: () => navigation.pop()
+                        },
+                    ],
+                )
             })
-            .catch(err => console.log(err))
-        alert("게시물 등록")
+            .catch(err => console.log(err))        
     }
 
     return (
@@ -214,7 +227,7 @@ const PostRegister = ({route}) => {
                         </View>
                         <TouchableOpacity
                             style={styles.uploadBtn}
-                            onPress={() => alert('파일 업로드')}
+                            onPress={() => RegisterBtn()}
                         >
                             <Text 
                                 style={styles.uploadTxt}
