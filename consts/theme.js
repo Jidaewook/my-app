@@ -40,6 +40,8 @@ const sizes = {
     footerHeight: 150,
     fullImage: 160,
     cardView: 200,
+    itemWidth: 95,
+    itemHeight: 95
     
 
 

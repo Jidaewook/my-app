@@ -23,7 +23,7 @@ const MainScreen = () => {
     const getNcs = async() => {
         try {
             const {data} = await axios.get(`${API_URL}/ncs`)
-            console.log(data)
+            // console.log(data)
             // const {data} = await axios.get('http://localhost:8081/ncs')
 
             setNcs(data.results)
@@ -38,7 +38,7 @@ const MainScreen = () => {
             const {data} = await axios.get(`${API_URL}/psat`)
             // const {data} = await axios.get('http://localhost:8081/psat')
             setPsat(data.results)
-            console.log(psat)
+            // console.log(psat)
         } catch (err) {
             console.log(err)
         }
@@ -131,7 +131,11 @@ const MainScreen = () => {
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.group}>
                     <View style={{display: 'flex'}}>
-                        <Section title={"주목! NCS"} onPress={() => navigation.navigate("More", {title: "NCS 리스트", isNcs: true})} >
+                        <Section 
+                            title={"주목! NCS"} 
+                            onPress={() => navigation.navigate("More", {title: "NCS 리스트", isNcs: true})} 
+                            // onPress={() => console.log()}
+                        >
                             {ncs.map(i => (
                                 <Card 
                                     key={`${i._id}`}

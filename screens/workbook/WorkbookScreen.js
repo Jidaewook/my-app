@@ -13,13 +13,13 @@ const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
 const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 const BACKDROP_HEIGHT = height * 0.65;
 
-const Loading = () => (
-    <View
-        style={styles.loadingContainer}
-    >
-        <Text style={styles.paragraph}>Loading...</Text>
-    </View>
-)
+// const Loading = () => (
+//     <View
+//         style={styles.loadingContainer}
+//     >
+//         <Text style={styles.paragraph}>Loading...</Text>
+//     </View>
+// )
 
 const Backdrop = ({workbooks, scrollX}) => {
     return (
@@ -157,7 +157,7 @@ export default function App() {
                                 </Text>
                                 <TouchableOpacity 
                                     onPress={() => navigation.navigate("Detail", {id: item.key, isNcs: true, title: item.title})}
-                                    // onPress={() => console.log(item)}
+                                    onPress={() => console.log('item', item)}
                                 >
                                     <View style={styles.button}>
                                         <Text style={styles.buttonText}>

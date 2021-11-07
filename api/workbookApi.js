@@ -1,8 +1,8 @@
 import { API_URL } from "./baseApi";
 
 export const getWorkbook = async () => {
-// const { results } = await fetch(`${API_URL}/ncs`).then((x) => x.json());
-const { results } = await fetch('http://localhost:8081/ncs').then((x) => x.json());
+const { results } = await fetch(`${API_URL}/ncs`).then((x) => x.json());
+// const { results } = await fetch('http://localhost:8081/ncs').then((x) => x.json());
 
 const workbooks = results.map(
     ({

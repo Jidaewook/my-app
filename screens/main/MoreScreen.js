@@ -42,6 +42,7 @@ const moreScreen = () => {
                     .then(res => {
                         setData(res.data.results)
                         setLoading(false)
+                        console.log("data", res.data)
                     })
                     .catch(err => {
                         console.log(err)
@@ -84,14 +85,14 @@ const moreScreen = () => {
     }
 
     return (
-        <SafeAreaView style={{backgroundColor: colors.light, height: '100%'}}>
+        <SafeAreaView style={styles.safeView}>
             <View style={styles.categories}>
                 {isNcs ? (NcsCate.map(category => renderCategory(category))) : 
                 (PsatCate.map(category => renderCategory(category)))
                 }
                 
             </View>
-            <View style={{backgroundColor: colors.light}}>
+            <View style={styles.viewContainer}>
                 <FlatList 
                     showsVerticalScrollIndicator={false}
                     numColumns={2}
@@ -115,8 +116,8 @@ const moreScreen = () => {
                     renderItem={({item}) => (
                         <View style={styles.cardView}>
                             <Image
-                                source={require('../../assets/dummy/15.png')}
-                                style={{width: '80%', height: '50%'}}
+                                source={{uri: item.poster}}
+                                style={styles.circleImage}
                             />
                             <Text style={styles.cardContent}>
                                 {item.title.slice(0,10)}
@@ -133,31 +134,6 @@ const moreScreen = () => {
                                 </Text>
                             </TouchableOpacity>
                         </View>
-
-                        // <View style={styles.cardView}>
-                        //     <Image source={require('../../assets/favicon.png')} style={styles.bgImage} />
-                        //     <View style={styles.itemView}>
-                        //         <Text style={styles.cardContent}>
-                        //             {item.title.slice(0,5)}
-                        //         </Text>
-                        //         <Text style={styles.cardDesc}>
-                        //             {item.desc.slice(0,10)}
-                        //         </Text>
-                        //     </View>
-                        //     <View style={styles.footer}>
-                        //         <TouchableOpacity
-                        //             onPress={() => navigation.navigate('Detail', {id: item._id})}
-                        //         >
-
-                        //             <Text
-                        //                 style={{fontSize: 14, fontWeight: 'bold'}}
-                        //             >
-                        //                 바로가기
-                        //             </Text>
-                        //         </TouchableOpacity>
-                        //     </View>
-                            
-                        // </View>
                     )}
                 />
             </View>
@@ -170,15 +146,19 @@ export default moreScreen;
 
 const styles = StyleSheet.create({
     category: {
-        marginRight: 20,
-        paddingVertical: 15
+        marginRight: sizes.sideLine,
+        paddingVertical: sizes.body
     },
     active: {
         borderBottomColor: colors.black,
         borderBottomWidth: 3
     },
     safeView: {
-
+        backgroundColor: colors.light, 
+        height: sizes.height
+    },
+    viewContainer: {
+        backgroundColor: colors.light
     },
     categories: {
         borderBottomColor: colors.gray2,
@@ -195,36 +175,18 @@ const styles = StyleSheet.create({
         paddingRight: 10
 
     }, 
-    // titleStyle: {
-    //     fontSize: theme.sizes.h4,
-    //     letterSpacing: -.72,
-    //     fontWeight: '500',
-    //     color: COLORS.black,
-    //     paddingVertical: 10,
-    //     marginHorizontal: 15
-    // },
-    badgePill: {
-        fontSize: sizes.h5,
-        letterSpacing: -0.6,
-        color: colors.black,
-        opacity: .5
-    },
-    bgImage: {
-        flex: 1, 
-        width: '100%', 
-        height: '100%', 
-        resizeMode: 'stretch', 
-        marginTop: sizes.header, 
-        justifyContent: 'center', 
-        alignItems: 'center',
-        opacity: 0.5
+    circleImage: {
+        width: sizes.itemWidth,
+        height: sizes.itemHeight,
+        borderWidth: 1,
+        borderRadius: 20,
+        borderColor: colors.gray4
     },
     cardView: {
         height: sizes.cardView, 
         width: sizes.cardView, 
         justifyContent: 'center', 
         alignItems: 'center', 
-        backgroundColor: colors.gray4, 
         borderRightWidth: 1, 
         borderBottomWidth: 1, 
         borderRightColor: colors.gray6, 
@@ -243,13 +205,15 @@ const styles = StyleSheet.create({
     },  
     Btn: {
         marginTop: sizes.radius, 
-        width: '60%'
+        width: '60%',
+        backgroundColor: colors.gray4, 
+        borderRadius: 10
     },
     footer: {
-        backgroundColor: colors.sub3, 
-        color: colors.white, 
+        color: colors.black, 
         textAlign: 'center', 
         height: sizes.sideLine, 
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 5
     }
 })

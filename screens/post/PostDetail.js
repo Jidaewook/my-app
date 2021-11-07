@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
         marginTop: sizes.header,
         marginBottom: sizes.bottom,
         ...fonts.body,
-        color: colors.gray2,
+        color: colors.black,
     }, 
     slogan: {
         ...fonts.title,
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
     },
     info: {
         flexDirection: 'row',
-        marginLeft: sizes.sideLine * 2,
+        marginLeft: sizes.sideLine * 2.5,
         marginTop: -5
     },
     CommentDate: {
