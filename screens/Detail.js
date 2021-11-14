@@ -249,6 +249,7 @@ const styles = StyleSheet.create({
         marginBottom: sizes.bottom,
         ...fonts.body,
         color: colors.gray2,
+        
     }, 
     slogan: {
         ...fonts.title,

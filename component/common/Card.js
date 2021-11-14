@@ -20,11 +20,28 @@ class Card extends React.Component {
             styles.shadow
         ];
 
+        // const imgSource = (() => {
+        //     switch (item.poster) {
+        //         case '' : return {uri: 'https://bit.ly/3bSbSzu'}
+        //         default : return {uri: item.poster}
+        //     }
+        // })()
+
+        
+        
         return (
             <Block row={horizontal} card flex style={cardContainer}>
                 <TouchableOpacity onPress={goTo}>
                     <Block flex style={imgContainer}>
-                        <Image source={{uri: item.poster}} style={imageStyles} />
+                        <Image 
+                            
+                            source={
+                                item.poster
+                                ? ({uri: item.poster}) 
+                                : ({uri: 'https://bit.ly/3bSbSzu'})
+                            }
+                            style={imageStyles} 
+                        />
                     </Block>
                     <Block flex space="between" style={styles.cardDescription}>
                         <Text size={16} style={styles.cardTitle}>{item.title}</Text>
