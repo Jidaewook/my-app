@@ -97,79 +97,96 @@ export default function App() {
         <View style={styles.container}>
             <Backdrop workbooks={workbooks} scrollX={scrollX} />
             <StatusBar hidden />
-            <Animated.FlatList 
-                showsHorizontalScrollIndicator={false}
-                data={workbooks}
-                keyExtractor={(item) => item.key}
-                horizontal
-                bounces={false}
-                decelerationRate={Platform.OS === 'ios' ? 0 : 0.98}
-                renderToHardwareTextureAndroid
-                contentContainerStyle={styles.containerList}
-                snapToInterval={ITEM_SIZE}
-                snapToAlignment='start'
-                onScroll={Animated.event(
-                    [{nativeEvent: { contentOffset: {x: scrollX} }}],
-                    {useNativeDriver: false}
-                )}
-                scrollEventThrottle={16}
-                renderItem={({item, index}) => {
-                    if (!item.poster) {
-                        return <View style={styles.unItemView} />
-                    }
+            {workbooks.length === 0 
+                ? (
+                    <View style={styles.emptyMedia}>
+                        <Text
+                            style={styles.emptyMediaText}
+                        >
+                            등록된 영상 없음
+                        </Text>
+                    </View>
+                ) 
+                : (
+                <>
+                    <Animated.FlatList 
+                        showsHorizontalScrollIndicator={false}
+                        data={workbooks}
+                        keyExtractor={(item) => item.key}
+                        horizontal
+                        bounces={false}
+                        decelerationRate={Platform.OS === 'ios' ? 0 : 0.98}
+                        renderToHardwareTextureAndroid
+                        contentContainerStyle={styles.containerList}
+                        snapToInterval={ITEM_SIZE}
+                        snapToAlignment='start'
+                        onScroll={Animated.event(
+                            [{nativeEvent: { contentOffset: {x: scrollX} }}],
+                            {useNativeDriver: false}
+                        )}
+                        scrollEventThrottle={16}
+                        renderItem={({item, index}) => {
+                            if (!item.poster) {
+                                return <View style={styles.unItemView} />
+                            }
 
-                    const inputRange = [
-                        (index - 2) * ITEM_SIZE,
-                        (index - 1) * ITEM_SIZE,
-                        index * ITEM_SIZE
-                    ];
+                            const inputRange = [
+                                (index - 2) * ITEM_SIZE,
+                                (index - 1) * ITEM_SIZE,
+                                index * ITEM_SIZE
+                            ];
 
-                    const translateY = scrollX.interpolate({
-                        inputRange,
-                        outputRange: [100, 50, 100],
-                        extrapolate: 'clamp'
-                    });
+                            const translateY = scrollX.interpolate({
+                                inputRange,
+                                outputRange: [100, 50, 100],
+                                extrapolate: 'clamp'
+                            });
 
-                    return (
-                        <View style={styles.itemView}>
-                            <Animated.View 
-                                style={{
-                                    marginHorizontal: SPACING,
-                                    padding: SPACING * 2, 
-                                    alignItems: 'center',
-                                    transform: [{translateY}],
-                                    backgroundColor: colors.white,
-                                    borderRadius: 34,
-                                    // width: 300,
-                                    // height: 550
-                                }}
-                            >
-                                <Image 
-                                    source={{uri: item.poster}}
-                                    style={styles.posterImage}
-                                />
-                                <Text style={styles.title} numberOfLines={1}>
-                                    {item.title}
-                                </Text>
-                                {/* <Genres /> */}
-                                <Text style={styles.body} numberOfLines={3}>
-                                    {item.description}
-                                </Text>
-                                <TouchableOpacity 
-                                    onPress={() => navigation.navigate("Detail", {id: item.key, isNcs: true, title: item.title})}
-                                    // onPress={() => console.log('item', item)}
-                                >
-                                    <View style={styles.button}>
-                                        <Text style={styles.buttonText}>
-                                            자세히 보기
+                            return (
+                                <View style={styles.itemView}>
+                                    <Animated.View 
+                                        style={{
+                                            marginHorizontal: SPACING,
+                                            padding: SPACING * 2, 
+                                            alignItems: 'center',
+                                            transform: [{translateY}],
+                                            backgroundColor: colors.white,
+                                            borderRadius: 34,
+                                            // width: 300,
+                                            // height: 550
+                                        }}
+                                    >
+                                        <Image 
+                                            source={{uri: item.poster}}
+                                            style={styles.posterImage}
+                                        />
+                                        <Text style={styles.title} numberOfLines={1}>
+                                            {item.title}
                                         </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </Animated.View>
-                        </View>
-                    );
-                }}
-            />
+                                        {/* <Genres /> */}
+                                        <Text style={styles.body} numberOfLines={3}>
+                                            {item.description}
+                                        </Text>
+                                        <TouchableOpacity 
+                                            onPress={() => navigation.navigate("Detail", {id: item.key, isNcs: true, title: item.title})}
+                                            // onPress={() => console.log('item', item)}
+                                        >
+                                            <View style={styles.button}>
+                                                <Text style={styles.buttonText}>
+                                                    자세히 보기
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </Animated.View>
+                                </View>
+                            );
+                        }}
+                    />
+                </>
+                )
+            }            
+            
+            
         </View>
 )}
 
@@ -237,6 +254,17 @@ const styles = StyleSheet.create({
         color: colors.gray1,
         marginHorizontal: sizes.sideLine / 2
 
+    },
+    emptyMedia: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: sizes.width,
+    },  
+    emptyMediaText: {
+        flex: 1,
+        textAlign: 'center',
+        ...fonts.h3,
+        marginTop: sizes.headerTop
     }
 });
   

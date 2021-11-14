@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, Button, Alert, StyleSheet, TouchableOpacity, ScrollView, TextInput, Modal, Dimensions, ActivityIndicator} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {View, Text, RefreshControl, Button, Alert, StyleSheet, TouchableOpacity, ScrollView, TextInput, Modal, Dimensions, ActivityIndicator} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
@@ -15,6 +15,10 @@ const {width, height} = Dimensions.get("screen")
 const searchCategory = [
     "NCS", "PSAT", "학습지", "게시판"
 ]
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout))
+}
 
 const data = [
     {
@@ -98,6 +102,17 @@ const MainScreen = () => {
     const [on, setOn] = useState('false');
     const [ncsLoading, setNcsLoading] = useState(true);
     const [psatLoading, setPsatLoading] = useState(true);
+
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        wait(2000).then(() => 
+            getNcs(),
+            getPsat(),
+            setRefreshing(false)
+
+        );
+    }, []);
 
     const getNcs = async() => {
         try {
@@ -217,7 +232,14 @@ const MainScreen = () => {
                                         <Text style={styles.searchCount}>
                                             총 {data.length} 개
                                         </Text>
-                                        <ScrollView>
+                                        <ScrollView
+                                            refreshControl={
+                                                <RefreshControl 
+                                                    refreshing={refreshing}
+                                                    onRefresh={onRefresh}
+                                                />
+                                            }
+                                        >
                                             {data.map(i => (
                                                 <>
                                                     <View style={styles.searchResultView}>
@@ -264,23 +286,46 @@ const MainScreen = () => {
                 </View>
             </View>
             <View style={{height: 30}} />
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView 
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl 
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+            >
                 <View style={styles.group}>
                     <View style={{display: 'flex'}}>
                         <Section 
                             title={"주목! NCS"} 
                             onPress={() => navigation.navigate("More", {title: "NCS 리스트", isNcs: true})} 
                         >
-                            {ncs.map(i => (
-                                <Card 
-                                    key={`${i._id}`}
-                                    item={i}
-                                    full
-                                    style={styles.cardView}
-                                    goTo={() => navigation.navigate("Detail", {id: i._id, isNcs: true, title: i.title})}
-                                    indicator={ncsLoading}
-                                /> 
-                            ))}
+                            {ncs.length === 0 
+                                ? (
+                                    <View style={styles.emptyMedia}>
+                                        <Text
+                                            style={styles.emptyMediaText}
+                                        >
+                                            등록된 영상 없음
+                                        </Text>
+                                    </View>
+                                ) 
+                                : (
+                                    <>
+                                        {ncs.map(i => (
+                                            <Card 
+                                                key={`${i._id}`}
+                                                item={i}
+                                                full
+                                                style={styles.cardView}
+                                                goTo={() => navigation.navigate("Detail", {id: i._id, isNcs: true, title: i.title})}
+                                                indicator={ncsLoading}
+                                            /> 
+                                        ))}
+                                    </>
+                                )
+                            }
                         </Section>
                     </View>
                     <View>
@@ -289,16 +334,31 @@ const MainScreen = () => {
                             onPress={() => navigation.navigate("More", {title: "PSAT 리스트", isNcs: false})}
                             isNcs={false}
                         >
-                            {psat.map(i => (
-                                <Card 
-                                    key={`${i._id}`}
-                                    item={i}
-                                    full
-                                    style={styles.cardView}
-                                    goTo={() => navigation.navigate("Detail", {id: i._id, isNcs: false, title: i.title})}
-                                    indicator={psatLoading}
-                                />  
-                            ))}
+                            {psat.length === 0 
+                                ? (
+                                    <View style={styles.emptyMedia}>
+                                        <Text
+                                            style={styles.emptyMediaText}
+                                        >
+                                            등록된 영상 없음
+                                        </Text>
+                                    </View>
+                                ) 
+                                : (
+                                    <>
+                                        {psat.map(i => (
+                                            <Card 
+                                                key={`${i._id}`}
+                                                item={i}
+                                                full
+                                                style={styles.cardView}
+                                                goTo={() => navigation.navigate("Detail", {id: i._id, isNcs: false, title: i.title})}
+                                                indicator={psatLoading}
+                                            />  
+                                        ))}
+                                    </>
+                                )
+                            }
                         </Section>
                     </View>
                 </View>
@@ -517,6 +577,17 @@ const styles = StyleSheet.create({
         flex: 1,
         height: sizes.height*2,
         marginBottom: 200
+    },
+    emptyMedia: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: sizes.width,
+    },  
+    emptyMediaText: {
+        flex: 1,
+        textAlign: 'center',
+        ...fonts.h3,
+        marginTop: sizes.headerTop
     }
 
 })

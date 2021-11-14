@@ -1,6 +1,6 @@
 import axios from 'axios';
-import React, {useEffect, useState, useLayoutEffect} from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, Image} from 'react-native';
+import React, {useEffect, useState, useLayoutEffect, useCallback} from 'react';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, RefreshControl, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
@@ -8,6 +8,10 @@ import { API_URL } from '../api/baseApi';
 import {colors, sizes, fonts} from '../consts';
 
 axios.defaults.baseURL = `${API_URL}`
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 const Detail2 = ({route}) => {
 
@@ -18,6 +22,15 @@ const Detail2 = ({route}) => {
     const [detail, setDetail] = useState({});
     const [loading, setLoading] = useState(true);
     const [text, onChangeText] = useState('내용이 없습니다.');
+
+    const [refreshing, setRefreshing] = useState(false)
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        wait(1000).then(() => 
+            getDetail(),
+            setRefreshing(false)
+        )
+    })
 
     const getDetail = async (detailId) => {
         try {
@@ -42,7 +55,16 @@ const Detail2 = ({route}) => {
 
     return (
         <SafeAreaView style={styles.Container}>
-            <ScrollView style={[styles.Container]} contentContainerStyle={styles.MainScroll}>
+            <ScrollView 
+                style={[styles.Container]} 
+                contentContainerStyle={styles.MainScroll}
+                refreshControl={
+                    <RefreshControl 
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+            >
                 <Image 
                     source={{uri: detail.poster}}
                     style={styles.Image}

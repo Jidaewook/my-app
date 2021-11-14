@@ -12,68 +12,82 @@ const PostList = ({datas}) => {
     const navigation = useNavigation();
 
     return (
-        <>
-            {datas.map(data => (
-                <>
-                    <TouchableOpacity
-                        key={`${data._id}`}
-                        onPress={() => navigation.navigate("PostDetail", {id: data._id, title: data.title})}
-                        style={styles.ListBtn}
-                    >
-                        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 15}}>
-                            <View style={{width: '70%'}}>
-                                <View>
-                                    <Text style={{fontSize: 14, color: colors.gray3}}>
-                                        {`[${data.tag[0]}] PASSME`}
-                                    </Text>
-                                </View>
-                                <View style={{marginTop: 5}}>
-                                    <Text style={{...fonts.h4, fontWeight: '600'}}>
-                                        {data.title}
-                                    </Text>
-                                </View>
-                            </View>
-                            <View style={{alignItems: 'flex-end', width: '30%'}}>
-                                <View>
-                                    <Text style={{color: colors.gray3}}>
-                                        {moment(data.createdAt).startOf('hour').fromNow()}
-                                    </Text>
-                                </View>
-                                <View>
-                                    <View 
-                                        style={{flexDirection: 'row', marginTop: 5}}
-                                    >
-                                        <View 
-                                            style={{flexDirection: 'row', paddingHorizontal: 10}}
-                                        >
-                                            <AntDesign name="like2" size={16} color={colors.gray2} />
-                                            <Text 
-                                                style={{marginLeft: 5, ...fonts.h5, color: colors.gray2}}
-                                            >
-                                                50
-                                            </Text>
+        <View>
+            {datas.length === 0
+                ? (
+                    <View style={styles.emptyMedia}>
+                        <Text
+                            style={styles.emptyMediaText}
+                        >
+                            등록된 영상 없음
+                        </Text>
+                    </View>
+                ) 
+                : (
+                    <>
+                        {datas.map(data => (
+                            <>
+                                <TouchableOpacity
+                                    key={`${data._id}`}
+                                    onPress={() => navigation.navigate("PostDetail", {id: data._id, title: data.title})}
+                                    style={styles.ListBtn}
+                                >
+                                    <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 15}}>
+                                        <View style={{width: '70%'}}>
+                                            <View>
+                                                <Text style={{fontSize: 14, color: colors.gray3}}>
+                                                    {`[${data.tag[0]}] PASSME`}
+                                                </Text>
+                                            </View>
+                                            <View style={{marginTop: 5}}>
+                                                <Text style={{...fonts.h4, fontWeight: '600'}}>
+                                                    {data.title}
+                                                </Text>
+                                            </View>
                                         </View>
-                                        <View 
-                                            style={{flexDirection: 'row'}}
-                                        >
-                                            <MaterialCommunityIcons name="message-reply-text" size={16} color={colors.gray2} />
-                                            <Text 
-                                                style={{marginLeft: 5, ...fonts.h5, color: colors.gray2}}                                        
-                                            >
-                                                10
-                                            </Text>
+                                        <View style={{alignItems: 'flex-end', width: '30%'}}>
+                                            <View>
+                                                <Text style={{color: colors.gray3}}>
+                                                    {moment(data.createdAt).startOf('hour').fromNow()}
+                                                </Text>
+                                            </View>
+                                            <View>
+                                                <View 
+                                                    style={{flexDirection: 'row', marginTop: 5}}
+                                                >
+                                                    <View 
+                                                        style={{flexDirection: 'row', paddingHorizontal: 10}}
+                                                    >
+                                                        <AntDesign name="like2" size={16} color={colors.gray2} />
+                                                        <Text 
+                                                            style={{marginLeft: 5, ...fonts.h5, color: colors.gray2}}
+                                                        >
+                                                            50
+                                                        </Text>
+                                                    </View>
+                                                    <View 
+                                                        style={{flexDirection: 'row'}}
+                                                    >
+                                                        <MaterialCommunityIcons name="message-reply-text" size={16} color={colors.gray2} />
+                                                        <Text 
+                                                            style={{marginLeft: 5, ...fonts.h5, color: colors.gray2}}                                        
+                                                        >
+                                                            10
+                                                        </Text>
+                                                    </View>
+                                                </View>
+                                            </View>
                                         </View>
                                     </View>
-                                </View>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                    <HLine />
-                </>
-            ))}
-            
-            
-        </>
+                                </TouchableOpacity>
+                                <HLine />
+                            </>
+                        ))}
+                    </>
+                )
+            }
+        </View>
+        
     );
 };
 

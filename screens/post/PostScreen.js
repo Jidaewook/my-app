@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useLayoutEffect} from 'react';
-import {View, SafeAreaView, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect, useLayoutEffect, useCallback} from 'react';
+import {View, SafeAreaView, RefreshControl, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
@@ -13,6 +13,10 @@ import { colors } from '../../consts';
 import { PostRegister } from '..';
 
 
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
 const PostScreen = () => {
 
     const navigation = useNavigation();
@@ -25,10 +29,20 @@ const PostScreen = () => {
     const [filteredData, setFilteredData] = useState([]);
     const [postModal, setPostModal] = useState(false);
 
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        wait(1000).then(() => 
+            getBbsData(),
+            setRefreshing(false)
+
+        )
+    })
+
     const getBbsData = async() => {
         axios   
-            // .get(`${API_URL}/bbs`)
-            .get('http://localhost:8081/bbs')
+            .get(`${API_URL}/bbs`)
+            // .get('http://localhost:8081/bbs')
             .then(bbss => {
                 setBbs(bbss.data.results)
                 setLoading(false)
@@ -83,6 +97,12 @@ const PostScreen = () => {
             </View>
             <ScrollView
                 showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl 
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
             >
                 {loading ? (
                     <View style={{marginTop: 200, justifyContent: 'center'}}>

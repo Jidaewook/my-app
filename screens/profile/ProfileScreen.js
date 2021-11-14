@@ -71,8 +71,8 @@ const ProfileScreen = () => {
 
     const getLike = async() => {
         try{
-            const {data} = await axios.get(`${API_URL}/ncs`)
-            // const {data} = await axios.get('http://localhost:8081/ncs')
+            // const {data} = await axios.get(`${API_URL}/ncs`)
+            const {data} = await axios.get('http://localhost:8081/ncs')
             setLike(data.results)
         } catch(err) {
             console.log(err)
@@ -168,20 +168,33 @@ const ProfileScreen = () => {
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
-                                <ScrollView horizontal={true} style={styles.listScroll} showsHorizontalScrollIndicator={false}>
-                                    {recent.map(item => (
-                                        <TouchableOpacity
-                                            key={`${item._id}`}
-                                            onPress={() => navigation.navigate("Detail", {id: item._id, isNcs: true, title: item.title})} 
-                                        >
-                                            <Image 
-                                                style={styles.listImage}
-                                                source={{uri: item.poster}}
-                                            >
-                                            </Image>    
-                                        </TouchableOpacity>
-                                    ))} 
-                                </ScrollView>
+                                    {recent.length === 0 
+                                        ? (
+                                            <View style={styles.emptyMedia}>
+                                                <Text
+                                                    style={styles.emptyMediaText}
+                                                >
+                                                    등록된 영상 없음
+                                                </Text>
+                                            </View>
+                                        ) 
+                                        : (
+                                            <ScrollView horizontal={true} style={styles.listScroll} showsHorizontalScrollIndicator={false}>
+                                                {recent.map(item => (
+                                                    <TouchableOpacity
+                                                        key={`${item._id}`}
+                                                        onPress={() => navigation.navigate("Detail", {id: item._id, isNcs: true, title: item.title})} 
+                                                    >
+                                                        <Image 
+                                                            style={styles.listImage}
+                                                            source={{uri: item.poster}}
+                                                        >
+                                                        </Image>    
+                                                    </TouchableOpacity>
+                                                ))} 
+                                            </ScrollView>
+                                        )
+                                    }  
                                 <View style={[styles.divider, {marginTop: sizes.header}]} />
                                 <View style={styles.listView}>
                                     <Text style={styles.listTitle}>
@@ -193,20 +206,33 @@ const ProfileScreen = () => {
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
-                                <ScrollView horizontal={true} style={styles.listScroll} showsHorizontalScrollIndicator={false}>
-                                    {like.map(item => (
-                                        <TouchableOpacity 
-                                            key={`${item._id}`}
-                                            onPress={() => navigation.navigate("Detail", {id: item._id, isNcs: true, title: item.title})} 
-                                        > 
-                                            <Image 
-                                                style={styles.listImage}
-                                                source={{uri: item.poster}}
+                                    {like.length === 0 
+                                        ? (
+                                            <View style={styles.emptyMedia}>
+                                                <Text
+                                                    style={styles.emptyMediaText}
                                                 >
-                                            </Image>   
-                                        </TouchableOpacity>
-                                    ))} 
-                                </ScrollView>
+                                                    등록된 영상 없음
+                                                </Text>
+                                            </View>
+                                        ) 
+                                        : (
+                                            <ScrollView horizontal={true} style={styles.listScroll} showsHorizontalScrollIndicator={false}>
+                                                {like.map(item => (
+                                                    <TouchableOpacity 
+                                                        key={`${item._id}`}
+                                                        onPress={() => navigation.navigate("Detail", {id: item._id, isNcs: true, title: item.title})} 
+                                                    > 
+                                                        <Image 
+                                                            style={styles.listImage}
+                                                            source={{uri: item.poster}}
+                                                            >
+                                                        </Image>   
+                                                    </TouchableOpacity>
+                                                ))} 
+                                            </ScrollView>
+                                        )
+                                    }
                             </View>
                         </View>
                     </ScrollView>
@@ -340,7 +366,7 @@ const styles = StyleSheet.create({
         
     },
     listScroll: {
-        marginTop: sizes.header
+        marginTop: sizes.header,
     },
     listImage: {
         width: sizes.profileCir, 
@@ -348,5 +374,15 @@ const styles = StyleSheet.create({
         borderRadius: 10, 
         marginRight: sizes.sideLine, 
         marginTop: sizes.header
+    },
+    emptyMedia: {
+        justifyContent: 'center',
+        alignItems: 'center',        
+    },  
+    emptyMediaText: {
+        flex: 1,
+        textAlign: 'center',
+        ...fonts.h3,
+        marginTop: sizes.headerTop
     }
 });

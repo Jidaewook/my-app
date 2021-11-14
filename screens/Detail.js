@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useLayoutEffect} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, TextInput, ScrollView, Image} from 'react-native';
+import React, {useState, useEffect, useLayoutEffect, useCallback} from 'react';
+import {View, Text, StyleSheet, RefreshControl, TouchableOpacity, Dimensions, SafeAreaView, TextInput, ScrollView, Image} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
@@ -11,6 +11,10 @@ import { API_URL } from '../api/baseApi';
 import HLine from '../component/common/HLine';
 
 const {width, height} = Dimensions.get('window');
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 // axios.defaults.baseURL = "http://localhost:8081"
 
@@ -58,6 +62,8 @@ const comments = [
 
 const Detail = ({route}) => {
 
+
+
     const navigation = useNavigation();
     
     const {id, isNcs, title} = route.params;
@@ -69,6 +75,8 @@ const Detail = ({route}) => {
     const [detail, setDetail] = useState({});
     const [loading, setLoading] = useState(true);
     const [text, setText] = useState('');
+
+    const [refreshing, setRefreshing] = useState(false);
 
     const getDetail = async (detailId) => {
         try {
@@ -84,6 +92,14 @@ const Detail = ({route}) => {
             console.log(err)
         }
     }
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        wait(2000).then(() => 
+            getDetail(),
+            setRefreshing(false)
+        );
+    }, []);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -160,7 +176,16 @@ const Detail = ({route}) => {
                     videoId={detail.url}
                 />
             </View>
-            <ScrollView style={[styles.Container]} contentContainerStyle={styles.MainScroll}>
+            <ScrollView 
+                style={[styles.Container]} 
+                contentContainerStyle={styles.MainScroll}
+                refreshControl={
+                    <RefreshControl 
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+            >
                 <View style={styles.MainView}>
                     <View>
                         <Text style={styles.MainTitle}>
