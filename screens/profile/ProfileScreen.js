@@ -119,7 +119,7 @@ const ProfileScreen = () => {
                                             {institue}
                                         </Text>
                                         <Text style={styles.infoDetail}>
-                                            희망 기관
+                                            선호 기관
                                         </Text>
                                     </View>
                                     <View style={styles.statusView}>
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
     },
     infoDetail: {
         ...fonts.h6, 
-        color: colors.gray5
+        color: colors.gray2
     },
     status: {
         marginTop: sizes.header, 
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
     },  
     activeInfo: {
         ...fonts.h3,
-        color: colors.gray3, 
+        color: colors.gray2, 
         fontWeight: 'bold', 
         marginVertical: sizes.header, 
     },

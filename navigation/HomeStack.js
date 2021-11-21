@@ -1,12 +1,23 @@
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import { MainScreen, Notification, Detail, Detail2, MoreScreen, Detail_Comments, SearchResults } from '../screens';
 import BackBtn from '../component/common/BackBtn';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 const HStack = createStackNavigator();
 
-export default () => {
+export default ({navigation, route}) => {
+
+    useLayoutEffect(() => {
+        const routeName = getFocusedRouteNameFromRoute(route);
+        if (routeName === "Detail" || routeName === "Notification" || routeName === "More") {
+            navigation.setOptions({tabBarStyle: {display: 'none'}})
+        } else {
+            navigation.setOptions({tabBarStyle: {display: 'flex'}})
+        }
+    }, [navigation, route])
+
     return (
         <HStack.Navigator
             screenOptions={{
@@ -33,7 +44,7 @@ export default () => {
                 name="Detail" 
                 component={Detail}
                 options={{
-                    headerShown: true
+                    headerShown: true,
                 }} 
             />
             <HStack.Screen 

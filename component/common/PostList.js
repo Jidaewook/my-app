@@ -19,7 +19,7 @@ const PostList = ({datas}) => {
                         <Text
                             style={styles.emptyMediaText}
                         >
-                            등록된 영상 없음
+                            등록된 게시물 없음
                         </Text>
                     </View>
                 ) 
@@ -58,7 +58,7 @@ const PostList = ({datas}) => {
                                                     <View 
                                                         style={{flexDirection: 'row', paddingHorizontal: 10}}
                                                     >
-                                                        <AntDesign name="like2" size={16} color={colors.gray2} />
+                                                        <AntDesign name="heart" size={16} color={colors.gray2} />
                                                         <Text 
                                                             style={{marginLeft: 5, ...fonts.h5, color: colors.gray2}}
                                                         >

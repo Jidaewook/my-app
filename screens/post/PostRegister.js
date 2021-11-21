@@ -23,7 +23,7 @@ const PostRegister = ({route}) => {
     const [tag, setTag] = useState('');
 
     const [inquire, setInquire] = useState('게시판');
-    const [list, setList] = useState('게시판');
+    const [list, setList] = useState('게시판 선택');
 
     const postCategory = ['자유게시판', '질문게시판', '합격수기'];
 

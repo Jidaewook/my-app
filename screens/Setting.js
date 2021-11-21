@@ -98,7 +98,7 @@ return (
           }}
         >
           <View style={styles.icon}>
-            <AntDesign name={item.icon} size={14} />
+            <AntDesign name={item.icon} size={20} color={colors.gray1} />
           </View>
           <View style={styles.item}>
             <Text style={styles.item}> 
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     },
     itemBox: {
       paddingLeft: sizes.sideLine,
-      height: sizes.headerTop,
+      height: sizes.header*3.5,
       ...fonts.h3,
       backgroundColor: colors.white,
       justifyContent: 'center',
@@ -166,8 +166,10 @@ const styles = StyleSheet.create({
     },
     item: {
       width: '75%',
+      marginLeft: sizes.body/2,
       alignItems: 'flex-start',
-      ...fonts.h5,
+      ...fonts.h4,
+      color: colors.gray1,
       justifyContent: 'center'
     },
     icon: {
@@ -183,6 +185,9 @@ const styles = StyleSheet.create({
       justifyContent: 'center'
     },
     settingText: {
-        marginLeft: -sizes.sideLine
+        marginLeft: -sizes.sideLine,
+        ...fonts.h4,
+        color: colors.gray2,
+        fontWeight: '700'
     }
 });

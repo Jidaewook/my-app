@@ -9,22 +9,14 @@ const PStack = createStackNavigator();
 
 export default ({navigation, route}) => {
 
-    // useEffect(() => {
-    //     navigation.dangerouslyGetParent().setOptions({
-    //         tabBarOptions: {
-    //             tabBarVisible: false
-    //         }
-    //     })
-    // })
-
     useLayoutEffect(() => {
         const routeName = getFocusedRouteNameFromRoute(route);
         console.log("+++++", (routeName === 'PostRegister'))
-        if(routeName === 'PostRegister') {
-            navigation.setOptions({tabBarVisible: false});
+        if(routeName === 'PostRegister' || routeName === 'PostDetail') {
+            navigation.setOptions({tabBarStyle: {display: 'none'}})
             console.log('-----')
         } else {
-            navigation.setOptions({tabBarVisible: true});
+            navigation.setOptions({tabBarStyle: {display: 'flex'}})
             console.log('~~~~~')
         }
     }, [navigation, route])

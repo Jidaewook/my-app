@@ -2,7 +2,7 @@ import React, {useState, useEffect, useLayoutEffect, useCallback} from 'react';
 import {Alert, View, Text, StyleSheet, Modal, RefreshControl, KeyboardAwareScrollView, TouchableOpacity, Dimensions,  SafeAreaView, TextInput, ScrollView, Image} from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
-import { Feather, Entypo } from '@expo/vector-icons';
+import { Feather, Entypo, AntDesign } from '@expo/vector-icons';
 import moment from 'moment';
 
 import { colors, sizes, fonts } from '../../consts/';
@@ -59,35 +59,16 @@ const comments = [
     },
 ]
 
-const onButtonPress = () => {
+const onDeletePress = () => {
     
     Alert.alert(
-        "Alert Title",
-        "My Alert Msg",
+        "삭제하시겠습니까?",
+        "삭제시 영구히 복구할 수 없습니다.",
         [
-            { text: "수정", onPress: () => {
-                Alert.prompt(
-                    "Enter password",
-                    "Enter your password to claim your $1.5B in lottery winnings",
-                    [
-                    {
-                        text: "Cancel",
-                        onPress: () => console.log("Cancel Pressed"),
-                        style: "cancel"
-                    },
-                    {
-                        text: "OK",
-                        onPress: password => console.log("OK Pressed, password: " + password)
-                    },
-                    ],
-
-                    "secure-text"
-                );
-            }},
             { text: "삭제", onPress: () => {
                 Alert.alert(
-                    "정말 삭제?",
-                    "Enter your password to claim your $1.5B in lottery winnings",
+                    "정말 삭제하시겠습니까?",
+                    "",
                     [
                     {
                         text: "취소",
@@ -104,42 +85,26 @@ const onButtonPress = () => {
             { text: "취소", onPress: () => console.log("OK Pressed"), style: "cancel"}
         ]
       );
-    // Alert.prompt(
-    //     "Enter password",
-    //     "Enter your password to claim your $1.5B in lottery winnings",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => console.log("Cancel Pressed"),
-    //         style: "cancel"
-    //       },
-    //       {
-    //         text: "OK",
-    //         onPress: password => console.log("OK Pressed, password: " + password)
-    //       }
-    //     ],
-    //     "secure-text"
-    // );
 };    
 
-// const onButtonPress = () => {
-//     Alert.prompt(
-//       [
-//           "댓글을 수정하려면 수정할 내용을 입력해주세요.",
-//         {
-//           text: "삭제",
-//           onPress: () => console.log("삭제했습니다."),
-//         //   style: "cancel"
-//         },
-//         {
-//           text: "수정",
-//           onPress: editedComment => console.log("수정된 댓글: " + editedComment)
-//         }
-//       ],
-//       "secure-text"
-//     );
-// };    
-
+const onEditPress = () => {
+    Alert.prompt(
+        "수정하시겠습니까?",
+        "",
+        [
+            {
+                text: "수정",
+                onPress: editContent => console.log("Edit: ", editContent)
+            },
+            {
+                text: "취소",
+                onPress: () => console.log("취소되었습니다."),
+                style: "cancel"
+            }
+        ],
+        "secure-text"
+    );
+}
 
 const Detail = ({route}) => {
 
@@ -154,6 +119,7 @@ const Detail = ({route}) => {
 
     const [reply, setReply] = useState(comments);
     const [modal, setModal] = useState(false)
+    const [like, setLike] = useState(false);
 
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = useCallback(() => {
@@ -224,28 +190,37 @@ const Detail = ({route}) => {
                                                         {moment(detail.createdAt).startOf('hour').fromNow()}
                                                     </Text>
                                                 </View>
-                                                <TouchableOpacity 
-                                                    style={styles.dots}
-                                                    onPress={() => onButtonPress()}
-                                                >
-                                                    <Entypo name="dots-three-horizontal" size={18} color={colors.gray2} />
-                                                </TouchableOpacity>
+                                                <View style={{flexDirection: 'row'}}>
+                                                    <TouchableOpacity 
+                                                        style={styles.dots}
+                                                        onPress={() => onDeletePress()}
+                                                    >
+                                                        <Feather name="trash" size={18} color={colors.gray2} />
+                                                    </TouchableOpacity>
+                                                    <TouchableOpacity 
+                                                        style={styles.dots}
+                                                        onPress={() => onEditPress()}
+                                                    >
+                                                        <Feather name="edit" size={18} color={colors.gray2} />
+                                                    </TouchableOpacity>
+                                                </View>
+                                                
                                             </View>
                                         </View>
                                         <View>
-                                            <Text style={styles.CommetDetail}>
+                                            <Text style={styles.CommentDetail}>
                                                 {item.comment}
                                             </Text>
                                         </View>
                                         <View style={styles.info}>
                                             
                                             <TouchableOpacity
-                                                onPress={() => alert('좋아요')}
+                                                onPress={() => setLike(!like)}
                                                 style={styles.likeBtn}
                                             >
-                                                <Feather 
-                                                    name="thumbs-up"
-                                                    size={20}
+                                                <AntDesign 
+                                                    name={like ? "heart" : "hearto"}
+                                                    size={18}
                                                     color={colors.gray1}
                                                 />
                                             </TouchableOpacity>
@@ -439,9 +414,9 @@ const styles = StyleSheet.create({
         color: colors.gray2
     },
     dots: {
-        
+        marginLeft: 15
     },
-    CommetDetail: {
+    CommentDetail: {
         marginTop: sizes.body/2,
         marginLeft: 50,
         ...fonts.h5,

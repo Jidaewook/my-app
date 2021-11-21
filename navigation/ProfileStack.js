@@ -1,12 +1,24 @@
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import { ProfileScreen, ProfileEdit, Setting, Detail, Alarm, Frequency, WebviewScreen } from '../screens';
 import BackBtn from '../component/common/BackBtn';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+
 
 const PStack = createStackNavigator();
 
-export default () => {
+export default ({navigation, route}) => {
+
+    useLayoutEffect(() => {
+        const routeName = getFocusedRouteNameFromRoute(route);
+        if (routeName === "Detail" || routeName === "Setting" || routeName === "ProfileEdit") {
+            navigation.setOptions({tabBarStyle: {display: 'none'}})
+        } else {
+            navigation.setOptions({tabBarStyle: {display: 'flex'}})
+        }
+    }, [navigation, route])
+
     return (
         <PStack.Navigator
             screenOptions={{
