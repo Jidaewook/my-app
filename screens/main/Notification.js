@@ -165,6 +165,7 @@ const styles = StyleSheet.create({
     },
     safeView: {
         backgroundColor: colors.white,
+        flex: 1
     },
     tabs: {
         borderBottomColor: colors.gray4,

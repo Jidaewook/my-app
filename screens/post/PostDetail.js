@@ -115,7 +115,7 @@ const Detail = ({route}) => {
     const [detail, setDetail] = useState({});
     const [loading, setLoading] = useState(true);
     const [replyLoading, setReplyLoading] = useState(true);
-    const [text, onChangeText] = useState('등록할 댓글을 입력해주세요');
+    const [text, setText] = useState('');
 
     const [reply, setReply] = useState(comments);
     const [modal, setModal] = useState(false)
@@ -282,7 +282,7 @@ const Detail = ({route}) => {
                         <TextInput 
                             style={styles.CommentInput}
                             value={text}
-                            placeholder={text}
+                            placeholder={'내용이 없습니다.'}
                             onChangeText={(input) => setText(input)}
                         />
                         <TouchableOpacity
@@ -367,7 +367,8 @@ const styles = StyleSheet.create({
         marginLeft: sizes.sideLine,
         marginTop: sizes.header,
         backgroundColor: colors.gray6,
-        color: colors.gray2
+        color: colors.gray2,
+        paddingLeft: 10
     },
     CommentBtn: {
         backgroundColor: colors.main4,

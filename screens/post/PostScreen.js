@@ -9,7 +9,7 @@ import { API_URL } from '../../api/baseApi';
 import PostList from '../../component/common/PostList';
 import TopMenu from '../../component/common/TopMenu';
 import PostModal from '../../component/common/modal/Post';
-import { colors } from '../../consts';
+import { colors, sizes, fonts } from '../../consts';
 import { PostRegister } from '..';
 
 
@@ -105,11 +105,11 @@ const PostScreen = () => {
                 }
             >
                 {loading ? (
-                    <View style={{marginTop: 200, justifyContent: 'center'}}>
+                    <View style={styles.loading}>
                         <ActivityIndicator color={colors.black} size={'large'} />
                     </View> 
                 ) : (
-                    <View style={{paddingHorizontal: 15}}> 
+                    <View style={{marginHorizontal: 16}}> 
                         {active === '전체' && <PostList datas={bbs}/>}
                         {active === '자유게시판' && <PostList datas={filteredData} /> }
                         {active === '질문게시판' && <PostList datas={filteredData} /> }
@@ -141,17 +141,18 @@ const styles = StyleSheet.create({
     safeView: {
         flex: 1,
         backgroundColor: colors.gray6,
-        paddingHorizontal: 10
     },
     tabs: {
-
         borderBottomColor: colors.gray5,
         borderBottomWidth: StyleSheet.hairlineWidth,
-        marginVertical: 10,
-        marginHorizontal: 15,
-        flexDirection: 'row'
+        marginVertical: sizes.header,
+        marginHorizontal: sizes.sideLine,
+        flexDirection: 'row',
     },
-
+    loading: {
+        marginTop: 200, 
+        justifyContent: 'center'
+    },
     postList: {
         flexDirection: 'row', 
         alignItems: 'center', 

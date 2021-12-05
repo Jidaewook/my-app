@@ -1,9 +1,12 @@
 import React from 'react';
 import { withNavigation } from '@react-navigation/compat';
 import PropTypes from 'prop-types';
-import { StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, View } from 'react-native';
 import { Block, Text } from 'galio-framework';
 import {colors, sizes, fonts} from '../../consts';
+import { EvilIcons, AntDesign } from '@expo/vector-icons';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+
 
 class Card extends React.Component {
     render() {
@@ -46,6 +49,26 @@ class Card extends React.Component {
                     <Block flex space="between" style={styles.cardDescription}>
                         <Text size={16} style={styles.cardTitle}>{item.title}</Text>
                         <Text size={12} muted={!ctaColor} color={ctaColor} bold>{item.cta}</Text>
+                        <View style={styles.footer}>
+                            <View style={styles.footer}>
+                                <EvilIcons 
+                                    name="comment" 
+                                    size={24} 
+                                    color="black" 
+                                    style={{marginRight: 5}}
+                                />    
+                                <Text>{item.comment.length}</Text>
+                            </View>
+                            <View style={styles.heart}>
+                                <AntDesign 
+                                    name={item.like ? "hearto" : "heart"}
+                                    size={17} 
+                                    color={colors.main4}
+                                    style={{marginRight: 5}}    
+                                />
+                                <Text>{item.like.length}</Text>
+                            </View>
+                        </View>
                     </Block>
                 </TouchableOpacity>
             </Block>
@@ -103,6 +126,17 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         elevation: 2,
     },
+    footer: {
+        flexDirection: 'row', 
+        justifyContent: 'flex-end',
+        marginLeft: sizes.body
+    },
+    heart: {
+        flexDirection: 'row', 
+        justifyContent: 'flex-end',
+        marginLeft: sizes.body,
+        marginTop: 1
+    }
 });
   
 export default withNavigation(Card);

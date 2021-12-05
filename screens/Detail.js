@@ -5,8 +5,10 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 
 import { colors, sizes, fonts } from '../consts';
+import Like from '../component/common/like';
 import { API_URL } from '../api/baseApi';
 import HLine from '../component/common/HLine';
 
@@ -17,76 +19,6 @@ const wait = (timeout) => {
 }
 
 // axios.defaults.baseURL = "http://localhost:8081"
-
-const comments = [
-    {
-        comment: '1등',
-        name: '유저네임',
-        date: '2021-01-21'
-    },
-    {
-        comment: '안녕하세요 댓글이벤트 당첨자입니다. 당첨된 댓글은 이메일을 보내주세요',
-        name: '관리자',
-        date: '2021-01-21'
-
-    },
-    {
-        comment: '위에꺼 거짓말임',
-        name: '나도 관리자는 아님',
-        date: '2021-01-21'
-
-    },
-    {
-        comment: '1등',
-        name: '유저네임',
-        date: '2021-01-21'
-    },
-    {
-        comment: '안녕하세요 댓글이벤트 당첨자입니다. 당첨된 댓글은 이메일을 보내주세요',
-        name: '관리자',
-        date: '2021-01-21'
-
-    },
-    {
-        comment: '1등',
-        name: '유저네임',
-        date: '2021-01-21'
-    },
-    {
-        comment: '안녕하세요 댓글이벤트 당첨자입니다. 당첨된 댓글은 이메일을 보내주세요',
-        name: '관리자',
-        date: '2021-01-21'
-
-    },
-]
-
-const onDeletePress = () => {
-    
-    Alert.alert(
-        "삭제하시겠습니까?",
-        "삭제시 영구히 복구할 수 없습니다.",
-        [
-            { text: "삭제", onPress: () => {
-                Alert.alert(
-                    "정말 삭제하시겠습니까?",
-                    "",
-                    [
-                    {
-                        text: "취소",
-                        onPress: () => console.log("Cancel Pressed"),
-                        style: "cancel"
-                    },
-                    {
-                        text: "삭제하기",
-                        onPress: () => console.log("삭제되었습니다.")
-                    },
-                    ],
-                );
-            }},
-            { text: "취소", onPress: () => console.log("OK Pressed"), style: "cancel"}
-        ]
-      );
-};    
 
 const onEditPress = () => {
     Alert.prompt(
@@ -109,49 +41,123 @@ const onEditPress = () => {
 
 const Detail = ({route}) => {
 
-
-
     const navigation = useNavigation();
     
     const {id, isNcs, title} = route.params;
-    console.log(id)
-    console.log(isNcs)
-    console.log(title)
-
 
     const [detail, setDetail] = useState({});
     const [loading, setLoading] = useState(true);
     const [text, setText] = useState('');
+    const [comments, setComments] = useState([]);
+    const [like, setLike] = useState(false);
+    const [likes, setLikes] = useState([]);
+
+    // userInfo
+    const [userId, setUserId] = useState('');
 
     const [refreshing, setRefreshing] = useState(false);
 
-    const [like, setLike] = useState(false);
+    const { token } = useSelector(state => state.usersReducer);
+
+    const config = {
+        headers : {
+            Authorization : "Bearer " + token 
+        }
+    }
+
+
 
     const getDetail = async (detailId) => {
+       
         try {
             const {data} = isNcs    
-                ? await axios.get(`${API_URL}/ncs/${detailId}`)
-                // ? await axios.get(`/ncs/${detailId}`)
-
-                : await axios.get(`${API_URL}/psat/${detailId}`)
-                // : await axios.get(`/psat/${detailId}`)
+                // ? await axios.get(`${API_URL}/ncs/${detailId}`)
+                ? await axios.get(`/ncs/${detailId}`)
+                // : await axios.get(`${API_URL}/psat/${detailId}`)
+                : await axios.get(`/psat/${detailId}`)
 
             setDetail(data.results)
+            setComments(data.results.comment)
+            setLikes(data.results.likes)
+            
         } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const getLike = async () => {
+        // if (likes.filter(l => l.user.toString() === userId).length > 0) {
+        //     setLike(true)
+        // } else {
+        //     setLike(false)
+        // }
+        await likes.filter(l => l.user.toString() === userId).length > 0 
+            ? (setLike(true)) 
+            : (setLike(false))
+    }
+
+    const getUser = async() => {
+
+        console.log(",,,......")
+        try {
+            // const data  = await axios.get(`${API_URL}/users/userinfo`, config)
+            const {data} = await axios.get('http://localhost:8081/users/userinfo', config)
+            
+            // console.log('data----', data)
+            setUserId(data._id)
+            
+
+        } catch(err) {
             console.log(err)
         }
     }
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        wait(2000).then(() => 
+        wait(1000).then(() => 
             getDetail(),
             setRefreshing(false)
         );
     }, []);
 
-    const registerBtnTab = async (id) => {
+    const registerBtnTab = async (text) => {
         
+        const newComment = {
+            text: text
+        }
+        const {data} = isNcs 
+            ? (await axios.post(`ncs/comment/${id}`, newComment, config)) 
+            : (await axios.post(`psat/comment/${id}`, newComment, config))
+        
+        setText('')
+        setComments(data.comment)
+        onRefresh()
+    }
+
+    const likeBtnTab = async (like) => {
+        console.log('before action', like)
+        // like 
+        //     ? await axios.post(`ncs/unlike/${id}`, userId)
+        //     : await axios.post(`ncs/like/${id}`, userId)
+
+        setLike(like => !like)
+        console.log('after action', like)
+
+        // setLikes(data.Likes)    
+        // onRefresh() 
+    }
+
+    const onDeletePress = async (commentId) => {
+        if (data.status !== 200) {
+            alert("에러발생")
+            return 
+        } 
+        const {data} = isNcs
+            ? (await axios.delete(`ncs/comment/${id}/${commentId}`, config))
+            : (await axios.delete(`psat/comment/${id}/${commentId}`, config))
+        
+        setComments(data.comment)
+        onRefresh()
     }
 
     useLayoutEffect(() => {
@@ -162,19 +168,26 @@ const Detail = ({route}) => {
 
     useEffect(() => {
         getDetail(id);
-    }, {})
+        getUser()
+        setLike(
+            likes.filter(l => l.user.toString() === userId).length > 0 
+                ? true
+                : false
+        )
+        onRefresh()
+    }, [])
 
-    const renderComment = ({item}) => {
+    const renderComment = (item) => {
         return (
             <View>
                 {comments.map(item => 
                     <View style={styles.CommentContainer}>
-                        <View
-                            style={styles.CommentView}
-                        >
+                         <View
+                             style={styles.CommentView}
+                         >
                             <View style={styles.avatarContainer}>
                                 <Image 
-                                    source={require('../assets/profile/profile_sample.jpeg')}
+                                    source={{uri: item.avatar}}
                                     style={styles.avatar}
                                 />
                             </View>
@@ -184,13 +197,29 @@ const Detail = ({route}) => {
                                         {item.name.slice(0,5)}
                                     </Text>
                                     <Text style={styles.moment}>
-                                        {moment(detail.createdAt).startOf('hour').fromNow()}
+                                        {moment(item.date).startOf('hour').fromNow()}
                                     </Text>
                                 </View>
                                 <View style={{flexDirection: 'row'}}>
                                     <TouchableOpacity 
                                         style={styles.dots}
-                                        onPress={() => onDeletePress()}
+                                        onPress={() => 
+                                            Alert.alert(
+                                                "삭제하시겠습니까?",
+                                                "",
+                                                [
+                                                    {
+                                                        text: '삭제하기', onPress: () => {
+                                                            onDeletePress(item._id)
+                                                        }
+                                                    },
+                                                    {
+                                                        text: '취소', onPress: () => console.log("Cancel"),
+                                                        style: "cancel"
+                                                    }
+                                                ]
+                                            )
+                                        }
                                     >
                                         <Feather name="trash" size={18} color={colors.gray2} />
                                     </TouchableOpacity>
@@ -206,13 +235,12 @@ const Detail = ({route}) => {
                         </View>
                         <View>
                             <Text style={styles.CommentDetail}>
-                                {item.comment}
+                                {item.text}
                             </Text>
                         </View>
-                        <View style={styles.info}>
-                            
+                        {/* <View style={styles.info}>
                             <TouchableOpacity
-                                onPress={() => setLike(!like)}
+                                // onPress={() => likeBtnTab()}
                                 style={styles.likeBtn}
                             >
                                 <AntDesign 
@@ -222,14 +250,14 @@ const Detail = ({route}) => {
                                 />
                             </TouchableOpacity>
                             <Text style={styles.likeCount}>
-                                    110
+                                    {item.like.length}
                             </Text>
-                        </View>  
+                        </View>   */}
                         <View
                             style={{marginTop: sizes.body}}
                         >
                         <HLine />
-                        </View> 
+                         </View> 
                     </View>
                 )}       
             </View>
@@ -264,6 +292,21 @@ const Detail = ({route}) => {
                             <Text style={styles.moment}>
                                 {moment(detail.createdAt).startOf('hour').fromNow()}
                             </Text>
+                            <TouchableOpacity
+                                // onPress={() => setLike((like) => !like)}
+                                onPress={() => likeBtnTab(like)}
+                                style={{flexDirection: 'row'}}
+                            >
+                                <AntDesign 
+                                    name={like ? "heart" : "hearto"}
+                                    size={16}
+                                    color={colors.gray1}
+                                />
+                                <Text>
+                                    {likes.length}
+                                    {/* 123 */}
+                                </Text>
+                            </TouchableOpacity>
                         </View>
                         <Text style={styles.MainDesc}>
                             {detail.desc}
@@ -305,7 +348,7 @@ const Detail = ({route}) => {
                             />
                             <TouchableOpacity
                                 style={styles.CommentBtn}
-                                onPress={() => registerBtnTab(id)}
+                                onPress={() => registerBtnTab(text)}
                             >
                                 <Text style={styles.RegisterButton}>
                                     등록
@@ -313,7 +356,8 @@ const Detail = ({route}) => {
                             </TouchableOpacity>
                         </View>
                         <HLine />
-                        {renderComment(detail)}
+                        {renderComment(comments)}
+                        
                     </View>
                 </View>
             </ScrollView>
@@ -438,12 +482,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     momentView: {
-        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
         marginRight: sizes.body,
-        marginTop: sizes.header
+        marginTop: sizes.header,
+        flexDirection: 'row'
     },
     moment: {
-        color: colors.gray2
+        color: colors.gray2,
+        marginRight: sizes.body
     },
     dots: {
         marginLeft: 15

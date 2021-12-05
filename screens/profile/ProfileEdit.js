@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {Text,TouchableOpacity, View, TextInput, Image, StyleSheet, ScrollView} from 'react-native';
+import {Text,TouchableOpacity, View, TextInput, Image, StyleSheet, ScrollView, Alert} from 'react-native';
 import axios from 'axios';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'; 
 import { useNavigation } from '@react-navigation/core';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { colors, fonts, sizes } from '../../consts';
 import { API_URL } from '../../api/baseApi';
@@ -53,7 +53,8 @@ const ProfileEdit = () => {
         }
         console.log(newData)
         await axios
-            .put(`http://localhost:8081/users/${id}`, newData, config)
+            .put(`${API_URL}/users/${id}`, newData, config)
+            // .put(`http://localhost:8081/users/${id}`, newData, config)
             .then(() => navigation.goBack())        
             .catch(err => {
                 console.log(err)
@@ -135,6 +136,7 @@ const ProfileEdit = () => {
                             <View style={styles.inputView}>
                                 <TextInput 
                                     style={styles.ContentContainer}
+                                    editable
                                     value={area}
                                     placeholder={'거주지역'}
                                     onChangeText={(input) => setArea(input)}
@@ -166,7 +168,23 @@ const ProfileEdit = () => {
                     <View style={styles.regView}>
                         <TouchableOpacity
                             style={styles.CommentBtn}
-                            onPress={(input) => saveBtnTab(input)}
+                            onPress={(input) => 
+                                Alert.alert(
+                                    "수정하시겠습니까?",
+                                    "",
+                                    [
+                                        {
+                                            text: '확인', onPress: () => {
+                                                saveBtnTab(input)
+                                            }
+                                        },
+                                        {
+                                            text: '취소', onPress: () => console.log("Cancel"),
+                                            style: "cancel"
+                                        }
+                                    ]
+                                )
+                            }
                         >
                             <Text style={styles.RegisterButton}>
                                 등록
@@ -248,15 +266,18 @@ const styles = StyleSheet.create({
         color: colors.gray1
     },
     ContentContainer: {
-        width: '100%',
+        width: sizes.width*0.93,
+        height: sizes.sideLine * 2.5,
+        borderWidth: 1,
+        borderColor: colors.gray5,
+        borderRadius: 5,
         justifyContent: 'center',
         marginTop: sizes.header,
-        ...fonts.h4,
-        color: colors.gray2,
-        backgroundColor: colors.gray6,
-        // backgroundColor: 'red',
-        height: sizes.sideLine * 2,
-        paddingLeft: sizes.body
+        ...fonts.h5,
+        color: colors.black,
+        // backgroundColor: colors.gray6,
+        paddingVertical: sizes.header,
+        paddingHorizontal: sizes.body/2,
     },
     
     avatar: {
@@ -276,14 +297,17 @@ const styles = StyleSheet.create({
         height: 130,
     },
     introduce: {
-        width: '100%',
-        height: 130,
+        width: sizes.width*0.93,
+        height: sizes.sideLine * 5,
         marginTop: sizes.header,
-        backgroundColor: colors.gray6,
-        paddingHorizontal: sizes.body,
-        paddingTop: sizes.header,
-        color: colors.gray2,
-        ...fonts.h4
+        backgroundColor: colors.white,
+        paddingHorizontal: sizes.body/2,
+        paddingVertical: sizes.header,
+        color: colors.black,
+        borderWidth: 1,
+        borderColor: colors.gray5,
+        borderRadius: 5,
+        ...fonts.h5
     },
     divider: {
         width: '95%',
@@ -303,20 +327,26 @@ const styles = StyleSheet.create({
         marginLeft: -sizes.body
     },
     regView: {
-        marginTop: sizes.headerTop,
-        justifyContent: 'center',
-        alignItems: 'center',
+        // backgroundColor: colors.gray5,
+        borderColor: colors.black,
+        borderRadius: 10,
+        // width: sizes.width*0.95,
     },
     CommentBtn: {
-        width: '100%',
+        width: sizes.width*0.93,
         height: sizes.sideLine*2.5,
-        backgroundColor: colors.main4,
+        // backgroundColor: colors.main4,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: colors.gray5,
+        borderColor: colors.black,
+        borderRadius: 10,
+        borderWidth: 1,
+        marginLeft: -sizes.body*0.5,
+        marginTop: sizes.body
     },
     RegisterButton: {
-        color: colors.white,
+        color: colors.black,
         ...fonts.h5,
-        fontWeight: '700'
     }
 })

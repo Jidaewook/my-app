@@ -21,7 +21,7 @@ const Detail2 = ({route}) => {
 
     const [detail, setDetail] = useState({});
     const [loading, setLoading] = useState(true);
-    const [text, onChangeText] = useState('내용이 없습니다.');
+    const [text, setText] = useState('');
 
     const [refreshing, setRefreshing] = useState(false)
     const onRefresh = useCallback(() => {
@@ -34,9 +34,10 @@ const Detail2 = ({route}) => {
 
     const getDetail = async (detailId) => {
         try {
+            // switch 구문으로 isNot 종류에 따라 api를 다르게 받아올 수 있지 않을까
             const {data} = isNot 
             ? await axios.get(`/notice/${detailId}`)
-            : await axios.get(`/bbs/${detailId}`)
+            : await axios.get(`/alarm/${detailId}`)
             setDetail(data.results)
         } catch (err) {
             console.log(err)

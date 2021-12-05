@@ -154,11 +154,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: 3
     },
     safeView: {
-        backgroundColor: colors.light, 
-        height: sizes.height
+        backgroundColor: colors.white, 
+        flex: 1.5
     },
     viewContainer: {
-        backgroundColor: colors.light
+        backgroundColor: colors.white
     },
     categories: {
         borderBottomColor: colors.gray2,
@@ -187,10 +187,10 @@ const styles = StyleSheet.create({
         width: sizes.cardView, 
         justifyContent: 'center', 
         alignItems: 'center', 
-        borderRightWidth: 1, 
-        borderBottomWidth: 1, 
-        borderRightColor: colors.gray6, 
-        borderBottomColor: colors.gray6
+        // borderRightWidth: 1, 
+        // borderBottomWidth: 1, 
+        // borderRightColor: colors.gray6, 
+        // borderBottomColor: colors.gray6
     }, 
     cardContent: {
         ...fonts.h3, 
@@ -206,14 +206,15 @@ const styles = StyleSheet.create({
     Btn: {
         marginTop: sizes.radius, 
         width: '60%',
-        backgroundColor: colors.gray4, 
+        backgroundColor: colors.main4, 
         borderRadius: 10
     },
     footer: {
-        color: colors.black, 
+        color: colors.white, 
         textAlign: 'center', 
         height: sizes.sideLine, 
         alignItems: 'center',
-        marginTop: 5
+        marginTop: 5,
+        fontWeight: '500'
     }
 })

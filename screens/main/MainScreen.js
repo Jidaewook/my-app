@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white
     },
     header: {
-      paddingVertical: sizes.d1,
+      paddingVertical: sizes.header,
       paddingTop: sizes.headerTop,
       paddingHorizontal: sizes.sideLine,
       flexDirection: 'row',

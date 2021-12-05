@@ -2,7 +2,7 @@ import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, TextInput, ScrollView, Image} from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
-import { Feather } from '@expo/vector-icons';
+import { Feather, AntDesign } from '@expo/vector-icons';
 import moment from 'moment';
 
 
@@ -64,6 +64,8 @@ const Detail_Comments = ({route}) => {
     const [loading, setLoading] = useState(true);
     const [text, setText] = useState('');
     const [detail, setDetail] = useState({});
+    const [like, setLike] = useState(false);
+
 
     const getDetail = async (detailId) => {
         try {
@@ -86,61 +88,81 @@ const Detail_Comments = ({route}) => {
         })
     })
 
+    const registerBtnTab = async (id) => {
+        
+    }
+
     useEffect(() => {
         getDetail(id);
     }, {})
 
     const renderComment = ({item}) => {
         return (
-            <View style={{marginLeft: sizes.body / 2, marginTop: sizes.header}}>
+            <View style={{marginLeft: sizes.body, marginTop: sizes.header}}>
                 {comments.map(item => 
                 <View style={styles.CommentContainer}>
-                    <View
-                        style={styles.CommentView}
-                    >
-                        <View style={styles.avatarContainer}>
-                            <Image 
-                                source={require('../assets/profile/profile_sample.jpeg')}
-                                style={styles.avatar}
-                            />
-                        </View>
-                        <View>
+                <View
+                    style={styles.CommentView}
+                >
+                    <View style={styles.avatarContainer}>
+                        <Image 
+                            source={require('../assets/profile/profile_sample.jpeg')}
+                            style={styles.avatar}
+                        />
+                    </View>
+                    <View style={styles.nameContainer}>
+                        <View style={styles.nameView}>
                             <Text style={styles.CommentName}>
                                 {item.name.slice(0,5)}
                             </Text>
-                            <Text style={styles.CommentFirst}>
-                                {item.comment}
+                            <Text style={styles.moment}>
+                                {moment(detail.createdAt).startOf('hour').fromNow()}
                             </Text>
                         </View>
+                        <View style={{flexDirection: 'row'}}>
+                            <TouchableOpacity 
+                                style={styles.dots}
+                                onPress={() => onDeletePress()}
+                            >
+                                <Feather name="trash" size={18} color={colors.gray2} />
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                                style={styles.dots}
+                                onPress={() => onEditPress()}
+                            >
+                                <Feather name="edit" size={18} color={colors.gray2} />
+                            </TouchableOpacity>
+                        </View>
+                        
                     </View>
-                    <View style={styles.info}>
-                        <Text style={styles.moment}>
-                            {moment(detail.createdAt).startOf('hour').fromNow()}
-                        </Text>
-                        <TouchableOpacity
-                            onPress={() => alert('삭제하시겠습니까')}
-                            style={styles.CommentAlert}
-                        >
-                            <Text style={styles.delete}>
-                                삭제
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => alert('좋아요')}
-                            style={styles.likeBtn}
-                        >
-                            <Feather 
-                                name="thumbs-up"
-                                size={20}
-                                color={colors.black}
-                            />
-                        </TouchableOpacity>
-                        <Text style={styles.likeCount}>
-                                110
-                        </Text>
-                    </View>   
-                    <HLine />
                 </View>
+                <View>
+                    <Text style={styles.CommentDetail}>
+                        {item.comment}
+                    </Text>
+                </View>
+                <View style={styles.info}>
+                    
+                    <TouchableOpacity
+                        onPress={() => setLike(!like)}
+                        style={styles.likeBtn}
+                    >
+                        <AntDesign 
+                            name={like ? "heart" : "hearto"}
+                            size={16}
+                            color={colors.gray1}
+                        />
+                    </TouchableOpacity>
+                    <Text style={styles.likeCount}>
+                            110
+                    </Text>
+                </View>  
+                <View
+                    style={{marginTop: sizes.body}}
+                >
+                <HLine />
+                </View> 
+            </View>
                 )}       
             </View>
            )
@@ -162,7 +184,7 @@ const Detail_Comments = ({route}) => {
                     />
                     <TouchableOpacity
                         style={styles.CommentBtn}
-                        onPress={() => alert("등록하시겠습니까?")}
+                        onPress={() => registerBtnTab(id)}
                     >
                         <Text style={styles.RegisterButton}>
                             등록
@@ -187,158 +209,96 @@ const styles = StyleSheet.create({
         marginRight: sizes.body,
         marginHorizontal: sizes.sideLine,        
     },
-    MainTitle: {
-        marginLeft: sizes.sideLine,
-        marginTop: sizes.header,
-        ...fonts.title,
-        color: colors.black,
-    },
-    MainDesc: {
-        marginLeft: sizes.sideLine,
-        marginRight: sizes.sideLine,
-        marginTop: sizes.header,
-        marginBottom: sizes.bottom,
-        ...fonts.body,
-        color: colors.gray2,
-    }, 
-    slogan: {
-        ...fonts.title,
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: colors.gray5,
-        marginHorizontal: sizes.sideLine,
-        marginVertical: sizes.bottom, 
-        textAlign: 'center'
-    },
-    MainView: {
-        height: sizes.height * 1.7
-    },
-    MainScroll: {
-        height: sizes.height*1.7, 
-        paddingHorizontal: sizes.body, 
-    },
-    CommentTitleFlex: {
-        flexDirection: 'row'
-    },
-    CommentTitleFlex: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    CommentTitle: {
-        marginTop: sizes.bottom,
-        ...fonts.subTitle,
-        fontWeight: 'bold',
-        width: '40%'
-    },
-    CommentMore: {
-        marginTop: sizes.header,
-        ...fonts.h5,
-        marginRight: sizes.body
-    },
     CommentDesc: {
         marginTop: sizes.header*2, 
-        marginHorizontal: sizes.sideLine, 
+        marginHorizontal: sizes.body, 
         color: colors.gray2
     },
-
-    // Comment Screen
     CommentContainer: {
         marginTop: sizes.header,
-        marginLeft: 15
     },
     CommentView: {
         marginTop: 5,
         flexDirection: 'row'
     },
-    
-    // CommentCount: {
-    //     marginTop: 15,
-    //     marginLeft: 5,
-    //     fontSize: 16,
-    //     width: '68%'
-    // },
-    // CommentMore: {
-    //     marginTop: 15,
-    //     marginLeft: 5,
-    //     fontSize: 16,
-    //     color: themes.colors.gray
-    // },
-    CommentFirst: {
-        marginHorizontal: sizes.sideLine,
-        ...fonts.h4,
-        width: sizes.width / 1.4
-    },
+   
+    nameContainer: {
+        flexDirection: 'row',
+        width: '85%',
+        justifyContent: 'space-between'
+    },  
+    nameView: {
+        marginLeft: sizes.body,
+        justifyContent: 'space-between',
+    },  
     CommentName: {
-        marginVertical: sizes.sideLine/2,
-        marginHorizontal: sizes.body,
         ...fonts.h4,
         fontWeight: 'bold',
     },
+
+//    TextInput
     CommentInput: {
         width: '75%',
-        height: sizes.buttonHeight,
-        marginLeft: sizes.sideLine,
+        height: 40,
+        marginLeft: sizes.body,
         marginTop: sizes.header,
-        backgroundColor: colors.gray6
+        paddingLeft: sizes.body,
+        backgroundColor: colors.gray6,
+        color: colors.gray2
     },
-    info: {
-        flexDirection: 'row',
-        marginLeft: sizes.sideLine * 2,
-        marginTop: -5
-    },
-    CommentDate: {
-        marginLeft: sizes.sideLine,
-        marginTop: sizes.header, 
-        justifyContent: 'center',
-        width: '25%'
-    }, 
-    CommentAlert: {
-        marginLeft: sizes.sideLine,
+    CommentBtn: {
+        backgroundColor: colors.main4,
+        width: '15%',
+        height: 40, 
+        marginLeft: sizes.body,
         marginTop: sizes.header,
+        borderRadius: 5,
         justifyContent: 'center',
-        width: '40%'
-    },  
-    delete: {
-        color: colors.gray3
+        alignItems: 'center',
     },
     RegisterButton: {
         height: sizes.header,
-        marginTop: sizes.bottom,
         textAlign: 'center',
-        alignItems: 'center',
-        justifyContent: 'center'
+        color: colors.white,
+        fontWeight: 'bold',
     },
-    CommentBtn: {
-        borderWidth: 1,
-        borderColor: colors.gray2,
-        backgroundColor: colors.gray5,
-        width: '10%',
-        height: '70%', 
-        marginLeft: sizes.sideLine,
-        marginTop: sizes.header,
+    
+    info: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end'
     },
+    dots: {
+        marginLeft: 15
+    },
+
     likeBtn: {
-        marginTop: sizes.body,
         justifyContent: 'center',
     },
     likeCount: {
-        marginLeft: sizes.body,
-        marginTop: sizes.header,
+        marginLeft: sizes.body/2,
+        marginRight: sizes.body/2,
+        marginTop: sizes.body/3.5,
         justifyContent: 'center',
+        color: colors.gray1,
+        ...fonts.h4
     },
+
+    CommentDetail: {
+        marginTop: sizes.body,
+        ...fonts.h5,
+        color: colors.gray1
+    },
+
+
     // profile avatar
     avatarContainer: {
         position: 'relative',
         alignItems: 'center',
-        marginTop: sizes.header,
-        marginLeft: -sizes.sideLine
     },
     avatar: {
-        width: sizes.sideLine * 2.5,
-        height: sizes.sideLine * 2.5,
-        borderRadius: 62,
-        alignItems: 'center'
-
+        width: sizes.sideLine * 2,
+        height: sizes.sideLine * 2,
+        borderRadius: 50,
     },
 
     // moment

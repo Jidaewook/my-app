@@ -41,8 +41,19 @@ const sizes = {
     fullImage: 160,
     cardView: 200,
     itemWidth: 95,
-    itemHeight: 95
-    
+    itemHeight: 95,
+    height1: 10,
+    height2: 20,
+    height3: 30,
+    height4: 40,
+    height5: 50,
+    height6: 60,
+    width1: 10,
+    width2: 20,
+    width3: 30,
+    width4: 40,
+    width5: 50,
+    width6: 60
 
 
   };

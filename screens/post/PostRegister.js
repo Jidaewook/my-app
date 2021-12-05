@@ -146,7 +146,7 @@ const PostRegister = ({route}) => {
                             container: {
                                 borderTopLeftRadius: 5,
                                 borderTopRightRadius: 5,
-                                paddingHorizontal: 10,
+                                paddingHorizontal: sizes.body,
                                 backgroundColor: colors.gray5
                             }
                         }}
@@ -186,12 +186,11 @@ const PostRegister = ({route}) => {
                             style={styles.titleContainer}
                         >
                             <TextInput 
-                                editable
+                                // editable
                                 maxLength={100}
-                                placeholder={'제목을 입력해주세요'}
-                                placeholderText={styles.titleStyle}
+                                placeholder={' 제목을 입력해주세요'}
                                 value={title}
-                                style={{paddingHorizontal: 12}}
+                                style={styles.textInput}
                                 onChangeText={text => (
                                     setTitle(text)
                                 )}
@@ -202,9 +201,8 @@ const PostRegister = ({route}) => {
                         >
                             <UselessTextInput 
                                 placeholder={'내용을 입력해주세요'}
-                                placeholderText={{fontSize: 10}}
                                 value={desc}
-                                style={styles.descText}
+                                style={styles.textInput}
                                 onChangeText={text => (
                                     setDesc(text)
                                 )}
@@ -216,8 +214,8 @@ const PostRegister = ({route}) => {
                             <TextInput 
                                 editable
                                 maxLength={100}
-                                placeholder={'태그는 4글자 이내, 2개까지 입력 가능합니다.'}
-                                placeholderText={{fontSize: 10}}
+                                placeholder={' 태그는 4글자 이내, 2개까지 입력 가능합니다.'}
+                                style={styles.textInput}
                                 value={tag}
                                 onChangeText={text => (
                                     setTag(text)
@@ -268,7 +266,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     scrollView: {
-        marginHorizontal: sizes.body,
+        marginHorizontal: sizes.header,
         height: sizes.height*0.73,
     },  
     container: {
@@ -284,7 +282,8 @@ const styles = StyleSheet.create({
     },  
     listMenu: {
         color: colors.black,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        paddingLeft: sizes.width1
     },
     downButton: {
         opacity: 0.3
@@ -317,11 +316,14 @@ const styles = StyleSheet.create({
         paddingVertical: sizes.header,
         paddingHorizontal: sizes.body/2,
         color: colors.black
-
     },
     titleStyle: {
         ...fonts.h6,
         color: colors.black
+    },
+    textInput: {
+        paddingHorizontal: 12, 
+        ...fonts.h5
     },
     descContainer: {
         width: sizes.width*0.93,
@@ -333,16 +335,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: sizes.body,
         borderRadius: 5,
     },
-    descText: {
-        paddingVertical: sizes.sideLine,
-        paddingHorizontal: sizes.sideLine/2
-    },
     uploadBtn: {
         marginVertical: sizes.header,
         paddingHorizontal: sizes.body,
         paddingVertical: sizes.body,
         borderWidth: 1,
         borderColor: colors.gray5,
+        borderRadius: 5,
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: sizes.width*0.93
@@ -350,7 +349,8 @@ const styles = StyleSheet.create({
     uploadTxt: {
         alignItems: 'center',
         justifyContent: 'center',
-        color: colors.gray4
+        color: colors.gray4,
+        paddingLeft: sizes.width1
     },  
     footer: {
         alignItems: 'center',
