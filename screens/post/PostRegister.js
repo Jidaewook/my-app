@@ -349,8 +349,13 @@ const styles = StyleSheet.create({
     uploadTxt: {
         alignItems: 'center',
         justifyContent: 'center',
+<<<<<<< HEAD
         color: colors.gray4,
         paddingLeft: sizes.width1
+=======
+        color: colors.black,
+        ...fonts.h1
+>>>>>>> master
     },  
     footer: {
         alignItems: 'center',
