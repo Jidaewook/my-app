@@ -8,7 +8,6 @@ import moment from 'moment';
 import { useSelector } from 'react-redux';
 
 import { colors, sizes, fonts } from '../consts';
-import Like from '../component/common/like';
 import { API_URL } from '../api/baseApi';
 import HLine from '../component/common/HLine';
 
@@ -302,9 +301,8 @@ const Detail = ({route}) => {
                                     size={16}
                                     color={colors.gray1}
                                 />
-                                <Text>
+                                <Text style={styles.likesStyle}>
                                     {likes.length}
-                                    {/* 123 */}
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -491,6 +489,9 @@ const styles = StyleSheet.create({
         color: colors.gray2,
         marginRight: sizes.body
     },
+    likesStyle: {
+        marginLeft: sizes.body/3
+    },  
     dots: {
         marginLeft: 15
     },

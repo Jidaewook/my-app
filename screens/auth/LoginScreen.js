@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, TextInput, Button, StyleSheet, TouchableOpacity} from 'react-native';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {userLogin} from '../../redux/userSlice';
@@ -43,7 +44,13 @@ const LoginScreen = () => {
             title="PASSME LOGIN"
             subTitle="패스미 서비스를 이용하기 위해 로그인 하세요."
         >
-            <View style={styles.formContainer}>
+            <KeyboardAwareScrollView 
+                showsVerticalScrollIndicator={false}
+                keyboardDismissMode="on-drag"
+                contentContainerStyle={
+                    styles.formContainer
+                }
+            >
                 <FormInput 
                     label={'E-mail'}
                     value={email}
@@ -125,7 +132,7 @@ const LoginScreen = () => {
                         </Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </KeyboardAwareScrollView>
             {/* Footer */}
             <View>
                 <TextIconButton 
@@ -133,7 +140,7 @@ const LoginScreen = () => {
                     icon={facebookIcon}
                     iconPosition={"LEFT"}
                     iconStyle={{tintColor: colors.white}}
-                    labelStyle={styles.oathView}
+                    labelStyle={styles.faceOathView}
                     containerStyle={styles.faceView}
                     onPress={() => alert("페이스북 로그인")}
                 />
@@ -141,8 +148,8 @@ const LoginScreen = () => {
                     label={"Continue with Google"}
                     icon={require('../../assets/auth/google_icon.png')}
                     iconPosition={"LEFT"}
-                    iconStyle={{tintColor: colors.white}}
-                    labelStyle={styles.oathView}
+                    iconStyle={{tintColor: colors.black}}
+                    labelStyle={styles.googleOathView}
                     containerStyle={styles.googleView}
                     onPress={() => alert("구글 로그인")}
                 />
@@ -200,7 +207,11 @@ const styles = StyleSheet.create({
         color: colors.black,
         textAlign: 'center'
     },
-    oathView: {
+    googleOathView: {
+        marginLeft: sizes.sideLine, 
+        color: colors.black
+    },
+    faceOathView: {
         marginLeft: sizes.sideLine, 
         color: colors.white
     },
@@ -214,7 +225,9 @@ const styles = StyleSheet.create({
         height: sizes.bigBtnHeight, 
         alignItems: 'center', 
         borderRadius: 20, 
+        borderWidth: 1,
+        borderColor: colors.gray3,
         marginTop: sizes.header, 
-        backgroundColor: colors.gray1
+        backgroundColor: colors.white
     }
 })

@@ -3,6 +3,7 @@ import {View, Text, TextInput, Button, StyleSheet, TouchableOpacity} from 'react
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {userLogin} from '../../redux/userSlice';
@@ -56,8 +57,11 @@ return (
         title="PASSME"
         subTitle="회원가입 하세요"
     >
-            <View>
-            <FormInput 
+            <KeyboardAwareScrollView
+                showsVerticalScrollIndicator={false}
+                keyboardDismissMode="on-drag"
+            >
+                <FormInput 
                     label={"NAME"}
                     value={name}
                     placeholder={'Insert Your Name'}
@@ -155,7 +159,7 @@ return (
                         </Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </KeyboardAwareScrollView>
         </AuthLayout>
     );
 };

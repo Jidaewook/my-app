@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, Image} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'; 
 import {colors, fonts, sizes} from '../../consts';
 
@@ -8,7 +8,7 @@ const AuthLayout = ({titleContainerStyle, title, subTitle, children}) => {
         <View
             style={styles.container}
         >
-            <KeyboardAwareScrollView
+            <ScrollView
                 keyboardDismissMode="on-drag"
                 contentContainerStyle={{
                     flex: 1,
@@ -43,7 +43,7 @@ const AuthLayout = ({titleContainerStyle, title, subTitle, children}) => {
                     </Text>
                 </View>
                 {children}
-            </KeyboardAwareScrollView>
+            </ScrollView>
             
         </View>
     );

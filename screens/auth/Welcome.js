@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
         marginVertical: sizes.headerTop
     },
     NextBtn: {
-        height: sizes.buttonHeight,
+        height: sizes.height5,
         width: sizes.footerHeight,
         borderRadius: 20,
     }, 

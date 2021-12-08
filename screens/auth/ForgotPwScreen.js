@@ -2,12 +2,13 @@ import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {AntDesign} from '@expo/vector-icons';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import AuthLayout from '../../component/common/AuthLayout';
 import FormInput from '../../component/common/FormInput';
 import TextButton from '../../component/common/TextButton';
 import utils from '../../utils/Utils';
-import { colors } from '../../consts'; 
+import { colors, fonts } from '../../consts'; 
 
 const ForgotPwScreen = () => {
     const [email, setEmail] = useState('');
@@ -26,7 +27,9 @@ const ForgotPwScreen = () => {
             title={"PASSME FORGOT PASSWORD"}
             subTitle={"잊어버린 비밀번호를 찾기 위해,                                    가입한 이메일을 입력해주세요"}
         >
-            <View style={styles.formContainer}>
+            <View 
+                style={styles.formContainer}
+            >
             <FormInput 
                     label={'E-mail'}
                     value={email}
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
         height: 100,
     },
     loginLabelStyle: {
-        fontSize: 16,
+        ...fonts.h4
 
     },
 })
