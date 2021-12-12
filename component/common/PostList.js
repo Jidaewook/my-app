@@ -36,6 +36,7 @@ const PostList = ({datas}) => {
                                         <View style={{width: '70%'}}>
                                             <View>
                                                 <Text style={{fontSize: 14, color: colors.gray3}}>
+                                                    
                                                     {`[${data.tag[0]}] PASSME`}
                                                 </Text>
                                             </View>

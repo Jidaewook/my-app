@@ -61,12 +61,12 @@ class Card extends React.Component {
                             </View>
                             <View style={styles.heart}>
                                 <AntDesign 
-                                    name={item.like ? "hearto" : "heart"}
+                                    name={item.likes.length ? "hearto" : "heart"}
                                     size={17} 
                                     color={colors.main4}
                                     style={{marginRight: 5}}    
                                 />
-                                <Text>{item.like.length}</Text>
+                                <Text>{item.likes.length}</Text>
                             </View>
                         </View>
                     </Block>

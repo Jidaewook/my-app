@@ -1,5 +1,5 @@
-import React, {useState, useRef, useLayoutEffect} from 'react';
-import {View, Text, ScrollView, TouchableWithoutFeedback, StyleSheet, TextInput, TouchableOpacity, SafeAreaView, Alert} from 'react-native';
+import React, {useState, useRef, useLayoutEffect, useCallback} from 'react';
+import {View, Text, RefreshControl, ScrollView, TouchableWithoutFeedback, StyleSheet, TextInput, TouchableOpacity, SafeAreaView, Alert} from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -10,8 +10,6 @@ import { colors, fonts, sizes } from '../../consts';
 import RegisterBtn from '../../component/common/RegisterBtn';
 import HLine from '../../component/common/HLine';
 import axios from 'axios';
-import { PostScreen } from '..';
-
 
 
 const PostRegister = ({route}) => {
@@ -24,8 +22,13 @@ const PostRegister = ({route}) => {
 
     const [inquire, setInquire] = useState('게시판');
     const [list, setList] = useState('게시판 선택');
+    // const [refreshing, setRefreshing] = useState(false);
 
     const postCategory = ['자유게시판', '질문게시판', '합격수기'];
+
+    // const wait = (timeout) => {
+    //     return new Promise(resolve => setTimeout(resolve, timeout))
+    // }
 
     // const route = useParams()
 
@@ -72,9 +75,21 @@ const PostRegister = ({route}) => {
         )
     }
 
+    // const onRefresh = useCallback(() => {
+    //     setRefreshing(true);
+    //     wait(1000).then(() => 
+    //         goToPostScreen(),
+    //         setRefreshing(false)
+    //     )
+    // })
+
+    // const goToPostScreen = () => {
+    //     navigation.navigate('PostScreen')
+    // }
+
     const registerPost = () => {
         const userData = {
-            category: list,
+            category: [list, "전체"],
             title: title,
             desc: desc,
             tag: tag
@@ -82,6 +97,7 @@ const PostRegister = ({route}) => {
         if(inquire === '게시판' || title === "" || desc === "") {
             return alert("빈 칸이 있으면 등록할 수 없습니다.")
         }
+        console.log('userData', userData)
         axios   
             .post(`${API_URL}/bbs`, userData)
             .then(() => {
@@ -95,7 +111,9 @@ const PostRegister = ({route}) => {
                         },
                         {
                             text: "확인",
-                            onPress: () => navigation.pop()
+                            onPress: () => {
+                                navigation.pop()
+                            }
                         },
                     ],
                 )
@@ -103,9 +121,17 @@ const PostRegister = ({route}) => {
             .catch(err => console.log(err))        
     }
 
+
+
     return (
         <SafeAreaView
             style={styles.screen}
+            // refreshControl={
+            //     <RefreshControl 
+            //         refreshing={refreshing}
+            //         onRefresh={onRefresh}
+            //     />
+            // }
         >
             <KeyboardAwareScrollView
                 showsVerticalScrollIndicator={false}
@@ -351,7 +377,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         color: colors.gray4,
         paddingLeft: sizes.width1,
-        ...fonts.h1
+        ...fonts.h5
     },  
     footer: {
         alignItems: 'center',

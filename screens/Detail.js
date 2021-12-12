@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useLayoutEffect, useCallback} from 'react';
-import {View, Text, Alert, StyleSheet, RefreshControl, TouchableOpacity, Dimensions, SafeAreaView, TextInput, ScrollView, Image} from 'react-native';
+import {View, Text, Alert, StyleSheet, RefreshControl, TouchableOpacity, Dimensions, SafeAreaView, TextInput, ScrollView, ActivityIndicator ,Image} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
@@ -34,7 +34,7 @@ const onEditPress = () => {
                 style: "cancel"
             }
         ],
-        "secure-text"
+        "plain-text"
     );
 }
 
@@ -45,7 +45,7 @@ const Detail = ({route}) => {
     const {id, isNcs, title} = route.params;
 
     const [detail, setDetail] = useState({});
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [text, setText] = useState('');
     const [comments, setComments] = useState([]);
     const [like, setLike] = useState(false);
@@ -97,14 +97,13 @@ const Detail = ({route}) => {
 
     const getUser = async() => {
 
-        console.log(",,,......")
         try {
             // const data  = await axios.get(`${API_URL}/users/userinfo`, config)
             const {data} = await axios.get('http://localhost:8081/users/userinfo', config)
             
-            // console.log('data----', data)
             setUserId(data._id)
-            
+            console.log('data----', data._id)
+
 
         } catch(err) {
             console.log(err)
@@ -120,7 +119,7 @@ const Detail = ({route}) => {
     }, []);
 
     const registerBtnTab = async (text) => {
-        
+        setLoading(true)
         const newComment = {
             text: text
         }
@@ -131,15 +130,22 @@ const Detail = ({route}) => {
         setText('')
         setComments(data.comment)
         onRefresh()
+        setLoading(false)
     }
 
     const likeBtnTab = async (like) => {
         console.log('before action', like)
-        // like 
-        //     ? await axios.post(`ncs/unlike/${id}`, userId)
-        //     : await axios.post(`ncs/like/${id}`, userId)
+        if(isNcs===true) {like 
+            ? await axios.post(`ncs/unlike/${id}`, userId)
+            : await axios.post(`ncs/like/${id}`, userId) 
+        } else {
+            like 
+            ? await axios.post(`psat/unlike/${id}`, userId)
+            : await axios.post(`psat/like/${id}`, userId) 
+        }
 
         setLike(like => !like)
+        // onRefresh()
         console.log('after action', like)
 
         // setLikes(data.Likes)    
@@ -147,16 +153,17 @@ const Detail = ({route}) => {
     }
 
     const onDeletePress = async (commentId) => {
-        if (data.status !== 200) {
-            alert("에러발생")
-            return 
-        } 
+        setLoading(true)
+
         const {data} = isNcs
             ? (await axios.delete(`ncs/comment/${id}/${commentId}`, config))
             : (await axios.delete(`psat/comment/${id}/${commentId}`, config))
         
+        console.log('data.status', data)
+
         setComments(data.comment)
         onRefresh()
+        setLoading(false)
     }
 
     useLayoutEffect(() => {
@@ -169,6 +176,7 @@ const Detail = ({route}) => {
         getDetail(id);
         getUser()
         setLike(
+            console.log('like', like),
             likes.filter(l => l.user.toString() === userId).length > 0 
                 ? true
                 : false
@@ -319,6 +327,7 @@ const Detail = ({route}) => {
                         </Text>
                     </View>
                     <HLine />
+                
                     <View>
                         <View style={styles.CommentTitleFlex}>
                             <Text style={styles.CommentTitle}>
@@ -333,30 +342,46 @@ const Detail = ({route}) => {
                             </TouchableOpacity>
                         </View>
 
-                        
-                        <Text style={styles.CommentDesc}>
-                            질문에 대한 답변은 개인 쪽지로 드리거나 영상 콘텐츠로 제작되어 공개됩니다.
-                        </Text>
-                        <View style={{flexDirection: 'row', marginBottom: sizes.body}}>
-                            <TextInput 
-                                style={styles.CommentInput}
-                                value={text}
-                                placeholder={'내용이 없습니다.'}
-                                onChangeText={(input) => setText(input)}
-                            />
-                            <TouchableOpacity
-                                style={styles.CommentBtn}
-                                onPress={() => registerBtnTab(text)}
-                            >
-                                <Text style={styles.RegisterButton}>
-                                    등록
+                    {loading 
+                        ? (
+                            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 100}}>
+                                <ActivityIndicator 
+                                    color={colors.main4}
+                                    size={'large'}
+                                />
+                            </View>
+                        ) 
+                        : (
+                            <>
+                                 <Text style={styles.CommentDesc}>
+                                    질문에 대한 답변은 개인 쪽지로 드리거나 영상 콘텐츠로 제작되어 공개됩니다.
                                 </Text>
-                            </TouchableOpacity>
-                        </View>
-                        <HLine />
-                        {renderComment(comments)}
-                        
-                    </View>
+                                <View style={{flexDirection: 'row', marginBottom: sizes.body}}>
+                                    <TextInput 
+                                        style={styles.CommentInput}
+                                        value={text}
+                                        placeholder={'내용이 없습니다.'}
+                                        onChangeText={(input) => setText(input)}
+                                    />
+                                    <TouchableOpacity
+                                        style={styles.CommentBtn}
+                                        onPress={() => registerBtnTab(text)}
+                                    >
+                                        <Text style={styles.RegisterButton}>
+                                            등록
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <HLine />
+                                {renderComment(comments)}
+                                
+                            </>
+                        )
+                    }
+                </View>
+
+                   
+                    
                 </View>
             </ScrollView>
         </SafeAreaView>

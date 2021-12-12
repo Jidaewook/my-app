@@ -8,9 +8,9 @@ import ActionButton from 'react-native-action-button';
 import { API_URL } from '../../api/baseApi';
 import PostList from '../../component/common/PostList';
 import TopMenu from '../../component/common/TopMenu';
-import PostModal from '../../component/common/modal/Post';
+// import PostModal from '../../component/common/modal/Post';
 import { colors, sizes, fonts } from '../../consts';
-import { PostRegister } from '..';
+// import { PostRegister } from '..';
 
 
 const wait = (timeout) => {
@@ -27,7 +27,7 @@ const PostScreen = () => {
     const [active, setActive] = useState('전체');
     const [bbs, setBbs] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
-    const [postModal, setPostModal] = useState(false);
+    // const [postModal, setPostModal] = useState(false);
 
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = useCallback(() => {
@@ -53,7 +53,13 @@ const PostScreen = () => {
     useEffect(() => {
         getBbsData();
         setFilteredData();
-    }, [])
+        onRefresh();
+        navigation.addListener("focus", () => {
+            setLoading(true);
+            onRefresh();
+            setLoading(false);
+        })
+    }, [navigation])
 
     // 포스트 모달
     // useLayoutEffect(() => {
@@ -74,7 +80,7 @@ const PostScreen = () => {
 
     const handleTab = tab => {
         const filtered = bbs.filter(item => 
-            item.tag.includes(tab.toLowerCase())    
+            item.category.includes(tab.toLowerCase())    
         );
         setActive(tab)
         setFilteredData(filtered)
